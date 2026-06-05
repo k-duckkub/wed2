@@ -48,9 +48,9 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
       </p>
 
       {/* Features + Hamster row */}
-      <div className="flex items-end gap-4 mb-5 flex-1">
+      <div className="flex items-end gap-4 mb-5 flex-1 -mt-2">
         {/* Feature list */}
-        <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 mb-6">
           {features.map((f, i) => (
             <div key={i} className="flex items-center gap-3">
               <div
