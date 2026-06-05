@@ -8,8 +8,14 @@ export default function RegisterPage() {
   const hamsterRef = useRef<HamsterMascotHandle>(null);
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 md:p-8" style={{ background: "var(--page-bg)" }}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+    <main
+      className="min-h-screen flex items-center justify-center"
+      style={{ background: "var(--page-bg)", padding: "32px 40px" }}
+    >
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 w-full"
+        style={{ gap: 24, maxWidth: 1100 }}
+      >
         <HeroCard hamsterRef={hamsterRef} />
         <RegisterWizard hamsterRef={hamsterRef} />
       </div>

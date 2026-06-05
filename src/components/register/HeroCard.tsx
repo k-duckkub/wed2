@@ -41,14 +41,14 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
       </div>
 
       {/* Subtitle */}
-      <p className="text-base mb-6 leading-relaxed" style={{ color: "var(--text-slate)" }}>
+      <p className="text-base mb-4 leading-relaxed" style={{ color: "var(--text-slate)" }}>
         ตัวจริง เรียนรู้ ลงมือทำ<br />
         สร้างโปรเจกต์จบใน{" "}
         <span style={{ color: "var(--primary)", fontWeight: 700 }}>5 วัน</span>
       </p>
 
       {/* Features + Hamster row */}
-      <div className="flex items-end gap-4 mb-6">
+      <div className="flex items-end gap-4 mb-5 flex-1">
         {/* Feature list */}
         <div className="flex flex-col gap-4 flex-1">
           {features.map((f, i) => (

@@ -156,8 +156,12 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
   return (
     <div
-      className="flex flex-col justify-center rounded-[30px] p-8 md:p-10"
-      style={{ background: "var(--card-bg)", boxShadow: "0 20px 50px rgba(20,40,90,0.08)" }}
+      className="flex flex-col justify-center rounded-[30px]"
+      style={{
+        background: "var(--card-bg)",
+        boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
+        padding: "48px 44px",
+      }}
     >
       {/* Static header */}
       <div className="text-center mb-8">
