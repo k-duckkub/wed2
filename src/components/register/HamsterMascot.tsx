@@ -38,14 +38,14 @@ const HamsterMascot = forwardRef<HamsterMascotHandle>((_, ref) => {
     <div className="relative flex justify-center items-end select-none pointer-events-none">
       {/* blob behind */}
       <div
-        className="animate-blob absolute bottom-0 left-1/2 -translate-x-1/2 w-44 h-44 rounded-[60%_40%_70%_30%/50%_50%_60%_40%] opacity-70"
+        className="animate-blob absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-56 rounded-[60%_40%_70%_30%/50%_50%_60%_40%] opacity-70"
         style={{ background: "var(--blob)", zIndex: 0 }}
       />
       <img
         ref={imgRef}
         src="/Untitled_design_12.png"
         alt="Hamster mascot"
-        className={`relative z-10 w-44 h-auto object-contain ${!isNodding ? "animate-float" : ""}`}
+        className={`relative z-10 w-56 h-auto object-contain ${!isNodding ? "animate-float" : ""}`}
         style={idleStyle}
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = "none";

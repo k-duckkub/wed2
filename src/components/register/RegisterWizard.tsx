@@ -156,12 +156,12 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
   return (
     <div
-      className="flex flex-col rounded-[30px] p-8"
+      className="flex flex-col justify-center rounded-[30px] p-8 md:p-10"
       style={{ background: "var(--card-bg)", boxShadow: "0 20px 50px rgba(20,40,90,0.08)" }}
     >
       {/* Static header */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--ink)" }}>ลงทะเบียนเข้าร่วม</h2>
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold mb-2" style={{ color: "var(--ink)" }}>ลงทะเบียนเข้าร่วม</h2>
         <p className="text-sm" style={{ color: "var(--text-muted)" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
         <div className="flex justify-center gap-2 mt-3">
@@ -181,7 +181,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
       {/* Animated content */}
       <div
-        className="flex flex-col gap-4 transition-all duration-200"
+        className="flex flex-col gap-5 transition-all duration-200"
         style={{
           opacity: animating ? 0 : 1,
           transform: animating
@@ -191,7 +191,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       >
         {/* Info bubble */}
         <div
-          className="flex items-center gap-3 rounded-2xl px-4 py-3"
+          className="flex items-center gap-4 rounded-2xl px-5 py-4"
           style={{ background: "var(--info-bg)" }}
         >
           <div
@@ -201,10 +201,10 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
             <PawSVG />
           </div>
           <div>
-            <p className="font-semibold text-sm leading-snug" style={{ color: "var(--ink)" }}>
+            <p className="font-bold text-base leading-snug" style={{ color: "var(--ink)" }}>
               {current.infoTitle}
             </p>
-            <p className="text-xs leading-snug" style={{ color: "var(--text-muted)" }}>
+            <p className="text-sm leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>
               {current.infoSub}
             </p>
           </div>
@@ -212,11 +212,11 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
         {/* Input */}
         <div
-          className="flex items-center gap-3 rounded-2xl px-4 transition-all duration-200"
+          className="flex items-center gap-3 rounded-2xl px-5 transition-all duration-200"
           style={{
             background: "var(--white)",
             border: "1.5px solid var(--border)",
-            height: 64,
+            height: 68,
           }}
           onFocus={(e) => {
             (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 4px rgba(4,104,250,0.12)";
@@ -247,9 +247,10 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
           <div className="flex gap-3">
             <button
               onClick={goSkip}
-              className="flex-1 rounded-2xl text-base font-semibold transition-all duration-150 active:scale-95"
+              className="flex-1 text-base font-semibold transition-all duration-150 active:scale-95"
               style={{
-                height: 64,
+                borderRadius: 9999,
+                height: 68,
                 border: "2px solid var(--border)",
                 color: "var(--text-slate)",
                 background: "transparent",
@@ -276,9 +277,10 @@ function NextButton({ onClick, label = "ถัดไป" }: { onClick: () => voi
       onMouseLeave={() => { setHovered(false); setPressed(false); }}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
-      className="flex items-center justify-center gap-2 rounded-2xl text-base font-semibold text-white transition-all duration-150 relative"
+      className="flex items-center justify-center gap-2 text-lg font-semibold text-white transition-all duration-150 relative"
       style={{
-        height: 64,
+        borderRadius: 9999,
+        height: 68,
         background: `linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)`,
         boxShadow: hovered
           ? "0 16px 32px rgba(4,104,250,0.45)"

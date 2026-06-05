@@ -68,7 +68,7 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
         </div>
 
         {/* Hamster */}
-        <div className="flex-shrink-0 w-44">
+        <div className="flex-shrink-0 w-56">
           <HamsterMascot ref={hamsterRef} />
         </div>
       </div>
