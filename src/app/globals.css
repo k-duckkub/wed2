@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ─── */
+:root {
+  --page-bg: #E6EDFA;
+  --card-bg: #FCFCFA;
+  --primary: #0468FA;
+  --primary-dark: #0052E6;
+  --ink: #001D59;
+  --paw-blue: #4693F7;
+  --info-bg: #F2F6FC;
+  --blob: #DCE6F8;
+  --text-slate: #565E72;
+  --text-muted: #747A86;
+  --placeholder: #A3A6AB;
+  --border: #E8ECF5;
+  --white: #FFFFFF;
+}
+
+@theme inline {
+  --color-page-bg: var(--page-bg);
+  --color-card-bg: var(--card-bg);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-ink: var(--ink);
+  --color-paw-blue: var(--paw-blue);
+  --color-info-bg: var(--info-bg);
+  --color-blob: var(--blob);
+  --color-text-slate: var(--text-slate);
+  --color-text-muted: var(--text-muted);
+  --color-placeholder: var(--placeholder);
+  --color-border: var(--border);
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
+}
+@keyframes blob-drift {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.03); }
+}
+@keyframes icon-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-float { animation: float-y 3s ease-in-out infinite; }
+.animate-blob { animation: blob-drift 5s ease-in-out infinite; }
+.animate-icon-float { animation: icon-float 4s ease-in-out infinite; }
+.animate-icon-float-1 { animation: icon-float 4.5s ease-in-out 0.6s infinite; }
+.animate-icon-float-2 { animation: icon-float 4s ease-in-out 1.2s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-blob,
+  .animate-icon-float,
+  .animate-icon-float-1,
+  .animate-icon-float-2 { animation: none; }
+}
+
+input::placeholder { color: var(--placeholder); }
