@@ -160,15 +160,15 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       style={{
         background: "var(--card-bg)",
         boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
-        padding: "44px 40px",
+        padding: "36px 32px",
       }}
     >
       {/* Static header */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2" style={{ color: "var(--ink)" }}>ลงทะเบียนเข้าร่วม</h2>
-        <p className="text-sm" style={{ color: "var(--text-muted)" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+      <div className="text-center" style={{ marginBottom: 24 }}>
+        <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 26, marginBottom: 6 }}>ลงทะเบียนเข้าร่วม</h2>
+        <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0 }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
-        <div className="flex justify-center gap-2 mt-3">
+        <div className="flex justify-center" style={{ gap: 6, marginTop: 12 }}>
           {STEPS.map((_, i) => (
             <div
               key={i}
@@ -185,8 +185,9 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
       {/* Animated content */}
       <div
-        className="flex flex-col gap-5 transition-all duration-200"
+        className="flex flex-col transition-all duration-200"
         style={{
+          gap: 14,
           opacity: animating ? 0 : 1,
           transform: animating
             ? slideDir === "out" ? "translateY(-12px)" : "translateY(12px)"
@@ -195,20 +196,20 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       >
         {/* Info bubble */}
         <div
-          className="flex items-center gap-4 rounded-2xl px-5 py-4"
-          style={{ background: "var(--info-bg)" }}
+          className="flex items-center rounded-2xl"
+          style={{ background: "var(--info-bg)", padding: "14px 16px", gap: 14 }}
         >
           <div
-            className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center animate-icon-float"
-            style={{ background: "var(--paw-blue)" }}
+            className="rounded-full flex-shrink-0 flex items-center justify-center animate-icon-float"
+            style={{ width: 48, height: 48, background: "var(--paw-blue)" }}
           >
             <PawSVG />
           </div>
           <div>
-            <p className="font-bold text-base leading-snug" style={{ color: "var(--ink)" }}>
+            <p style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)", margin: 0, lineHeight: 1.3 }}>
               {current.infoTitle}
             </p>
-            <p className="text-sm leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", margin: "3px 0 0", lineHeight: 1.3 }}>
               {current.infoSub}
             </p>
           </div>
@@ -216,11 +217,13 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
         {/* Input */}
         <div
-          className="flex items-center gap-3 rounded-2xl px-5 transition-all duration-200"
+          className="flex items-center rounded-2xl transition-all duration-200"
           style={{
             background: "var(--white)",
             border: "1.5px solid var(--border)",
-            height: 68,
+            height: 60,
+            padding: "0 16px",
+            gap: 12,
           }}
           onFocus={(e) => {
             (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 4px rgba(4,104,250,0.12)";
@@ -231,8 +234,8 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         >
           <current.InputIcon size={20} style={{ color: "var(--placeholder)", flexShrink: 0 }} />
           <input
-            className="flex-1 text-base outline-none bg-transparent"
-            style={{ color: "var(--ink)" }}
+            className="flex-1 outline-none bg-transparent"
+            style={{ color: "var(--ink)", fontSize: 15 }}
             type={current.type}
             placeholder={current.placeholder}
             value={formData[current.field]}
@@ -248,16 +251,17 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         {step < 4 ? (
           <NextButton onClick={goNext} />
         ) : (
-          <div className="flex gap-3">
+          <div className="flex" style={{ gap: 10 }}>
             <button
               onClick={goSkip}
-              className="flex-1 text-base font-semibold transition-all duration-150 active:scale-95"
+              className="flex-1 font-semibold transition-all duration-150 active:scale-95"
               style={{
                 borderRadius: 9999,
-                height: 68,
+                height: 60,
                 border: "2px solid var(--border)",
                 color: "var(--text-slate)",
                 background: "transparent",
+                fontSize: 15,
               }}
             >
               ข้าม
@@ -281,10 +285,11 @@ function NextButton({ onClick, label = "ถัดไป" }: { onClick: () => voi
       onMouseLeave={() => { setHovered(false); setPressed(false); }}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
-      className="flex items-center justify-center gap-2 text-lg font-semibold text-white transition-all duration-150 relative"
+      className="flex items-center justify-center gap-2 font-semibold text-white transition-all duration-150 relative"
       style={{
         borderRadius: 9999,
-        height: 68,
+        height: 60,
+        fontSize: 16,
         background: `linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)`,
         boxShadow: hovered
           ? "0 16px 32px rgba(4,104,250,0.45)"
