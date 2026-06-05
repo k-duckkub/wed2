@@ -10,11 +10,11 @@ export default function RegisterPage() {
   return (
     <main
       className="min-h-screen flex items-center justify-center"
-      style={{ background: "var(--page-bg)", padding: "32px 40px" }}
+      style={{ background: "var(--page-bg)", padding: "40px" }}
     >
       <div
-        className="grid grid-cols-1 md:grid-cols-2 w-full"
-        style={{ gap: 24, maxWidth: 1100 }}
+        className="grid grid-cols-1 md:grid-cols-2 items-start w-full"
+        style={{ gap: 24, maxWidth: 1000 }}
       >
         <HeroCard hamsterRef={hamsterRef} />
         <RegisterWizard hamsterRef={hamsterRef} />
