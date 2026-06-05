@@ -43,7 +43,7 @@ const HamsterMascot = forwardRef<HamsterMascotHandle>((_, ref) => {
       />
       <img
         ref={imgRef}
-        src="/hamster.png"
+        src="/Untitled_design_12.png"
         alt="Hamster mascot"
         className={`relative z-10 w-44 h-auto object-contain ${!isNodding ? "animate-float" : ""}`}
         style={idleStyle}
