@@ -14,67 +14,37 @@ const features = [
 
 export default function HeroCard({ hamsterRef }: HeroCardProps) {
   return (
-    <div
-      style={{
-        background: "var(--card-bg)",
-        boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
-        borderRadius: 30,
-        padding: "36px 32px",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-      }}
-    >
+    <div style={{
+      background: "var(--card-bg)",
+      boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
+      borderRadius: 30,
+      aspectRatio: "0.69",
+      minHeight: 600,
+      display: "flex",
+      flexDirection: "column",
+      padding: "36px 32px",
+      boxSizing: "border-box",
+    }}>
       {/* Title */}
-      <div style={{ marginBottom: 10 }}>
-        <h1 style={{
-          fontFamily: "var(--font-poppins), Poppins, sans-serif",
-          fontWeight: 900,
-          color: "var(--ink)",
-          fontSize: 52,
-          lineHeight: 1.1,
-          margin: 0,
-        }}>Hamster</h1>
-        <h1 style={{
-          fontFamily: "var(--font-poppins), Poppins, sans-serif",
-          fontWeight: 900,
-          color: "var(--primary)",
-          fontSize: 52,
-          lineHeight: 1.1,
-          margin: 0,
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
-        }}>
+      <div style={{ marginBottom: 12 }}>
+        <h1 style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif", fontWeight: 900, color: "var(--ink)", fontSize: 52, lineHeight: 1.1, margin: 0 }}>Hamster</h1>
+        <h1 style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif", fontWeight: 900, color: "var(--primary)", fontSize: 52, lineHeight: 1.1, margin: 0, display: "flex", alignItems: "center", gap: 4 }}>
           <span>P</span><PawIcon /><span>p Camp</span>
         </h1>
       </div>
 
       {/* Subtitle */}
-      <p style={{ color: "var(--text-slate)", fontSize: 17, lineHeight: 1.6, marginBottom: 20 }}>
+      <p style={{ color: "var(--text-slate)", fontSize: 17, lineHeight: 1.6, margin: "0 0 20px" }}>
         ตัวจริง เรียนรู้ ลงมือทำ<br />
-        สร้างโปรเจกต์จบใน{" "}
-        <span style={{ color: "var(--primary)", fontWeight: 700 }}>5 วัน</span>
+        สร้างโปรเจกต์จบใน <span style={{ color: "var(--primary)", fontWeight: 700 }}>5 วัน</span>
       </p>
 
-      {/* Features + Hamster — flex-1 ให้ยืดเต็มพื้นที่ว่าง */}
+      {/* Features + Hamster — flex-1 pushes schedule box to bottom */}
       <div style={{ display: "flex", alignItems: "flex-end", gap: 8, flex: 1, marginBottom: 20 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20, flex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 22, flex: 1 }}>
           {features.map((f, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div
-                className={f.floatClass}
-                style={{
-                  flexShrink: 0,
-                  width: 46,
-                  height: 46,
-                  borderRadius: "50%",
-                  background: "var(--primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <div className={f.floatClass} style={{ flexShrink: 0, width: 46, height: 46, borderRadius: "50%", background: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {f.icon}
               </div>
               <div>
@@ -84,27 +54,14 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
             </div>
           ))}
         </div>
-
-        <div style={{ flexShrink: 0, width: 210 }}>
+        <div style={{ flexShrink: 0, width: 200 }}>
           <HamsterMascot ref={hamsterRef} />
         </div>
       </div>
 
-      {/* Schedule box */}
-      <div style={{
-        background: "var(--ink)",
-        borderRadius: 16,
-        padding: "16px 20px",
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-      }}>
-        <div style={{
-          width: 48, height: 48, borderRadius: "50%",
-          background: "var(--white)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0,
-        }}>
+      {/* Schedule box — sticks to bottom via marginTop:auto on features */}
+      <div style={{ background: "var(--ink)", borderRadius: 16, padding: "16px 20px", display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ width: 48, height: 48, borderRadius: "50%", background: "var(--white)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <CalendarDays size={22} style={{ color: "var(--ink)" }} />
         </div>
         <div>
