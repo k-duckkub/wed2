@@ -160,18 +160,18 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         background: "var(--card-bg)",
         boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
         borderRadius: 30,
-        padding: "44px 40px",
+        padding: "48px 44px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-between",
         height: "100%",
         boxSizing: "border-box",
       }}
     >
       {/* Static header */}
-      <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 28, marginBottom: 6, margin: 0 }}>ลงทะเบียนเข้าร่วม</h2>
-        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "8px 0 12px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+      <div style={{ textAlign: "center" }}>
+        <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 30, margin: "0 0 8px" }}>ลงทะเบียนเข้าร่วม</h2>
+        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "0 0 14px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
         <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
           {STEPS.map((_, i) => (
@@ -192,7 +192,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       <div
         className="flex flex-col transition-all duration-200"
         style={{
-          gap: 20,
+          gap: 24,
           opacity: animating ? 0 : 1,
           transform: animating
             ? slideDir === "out" ? "translateY(-12px)" : "translateY(12px)"
