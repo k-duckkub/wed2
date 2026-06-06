@@ -133,9 +133,9 @@ export default function RightPanel({ hamsterRef }: Props) {
     <div style={panelStyle}>
       <div style={{ width: "100%", maxWidth: 400 }}>
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h2 style={{ color: "#00215E", fontWeight: 700, fontSize: 30, margin: "0 0 6px" }}>ลงทะเบียนเข้าร่วม</h2>
-          <p style={{ color: "#747A86", fontSize: 15, margin: "0 0 16px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <h2 style={{ color: "#00215E", fontWeight: 700, fontSize: 38, margin: "0 0 8px" }}>ลงทะเบียนเข้าร่วม</h2>
+          <p style={{ color: "#747A86", fontSize: 17, margin: "0 0 20px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
           {/* Step dots */}
           <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
             {STEPS.map((_, i) => (
@@ -152,13 +152,13 @@ export default function RightPanel({ hamsterRef }: Props) {
         {/* Animated content */}
         <div style={contentStyle}>
           {/* Chat bubble */}
-          <div style={{ background: "#E5EFFF", borderRadius: 20, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
-            <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#0165FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <div style={{ background: "#E5EFFF", borderRadius: 24, padding: "22px 24px", display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <div style={{ width: 54, height: 54, borderRadius: "50%", background: "#0165FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <PawSVG />
             </div>
             <div>
-              <p style={{ fontWeight: 700, fontSize: 15, color: "#00215E", margin: 0 }}>{current.infoTitle}</p>
-              <p style={{ fontSize: 13, color: "#747A86", margin: "3px 0 0" }}>{current.infoSub}</p>
+              <p style={{ fontWeight: 700, fontSize: 18, color: "#00215E", margin: 0 }}>{current.infoTitle}</p>
+              <p style={{ fontSize: 15, color: "#747A86", margin: "4px 0 0" }}>{current.infoSub}</p>
             </div>
           </div>
 
@@ -173,7 +173,7 @@ export default function RightPanel({ hamsterRef }: Props) {
           {error && <p style={{ color: "#E53E3E", fontSize: 13, margin: "6px 0 0 4px" }}>{error}</p>}
 
           {/* Buttons */}
-          <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
+          <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
             {step === 0 ? (
               <PrimaryButton onClick={goNext} label="ถัดไป" shaking={shaking} />
             ) : step < 4 ? (
@@ -213,7 +213,7 @@ function InputBox({ cfg, value, onChange, onKeyDown, hasError }: {
       display: "flex", alignItems: "center", gap: 12,
       background: "#F9FAFB",
       border: `1.5px solid ${hasError ? "#FC8181" : focused ? "#0165FF" : "#E8ECF5"}`,
-      borderRadius: 16, height: 64, padding: "0 20px",
+      borderRadius: 18, height: 76, padding: "0 24px",
       boxShadow: focused ? "0 0 0 4px rgba(1,101,255,0.12)" : hasError ? "0 0 0 3px rgba(252,129,129,0.2)" : "none",
       transition: "box-shadow 0.2s, border-color 0.2s",
     }}>
@@ -244,9 +244,9 @@ function PrimaryButton({ onClick, label, shaking, flex }: { onClick: () => void;
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => { setHovered(false); setPressed(false); }}
       onMouseDown={() => setPressed(true)} onMouseUp={() => setPressed(false)}
       style={{
-        flex: flex ?? 1, height: 64, borderRadius: 9999,
+        flex: flex ?? 1, height: 76, borderRadius: 9999,
         background: "linear-gradient(135deg, #0165FF 0%, #0052CC 100%)",
-        color: "white", fontSize: 20, fontWeight: 600, border: "none", cursor: "pointer",
+        color: "white", fontSize: 22, fontWeight: 600, border: "none", cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 8, position: "relative",
         boxShadow: hovered ? "0 16px 32px rgba(1,101,255,0.45)" : "0 8px 20px rgba(1,101,255,0.3)",
         transform: pressed ? "scale(0.96)" : hovered ? "scale(1.02)" : "scale(1)",
@@ -266,7 +266,7 @@ function GhostButton({ onClick, label, flex }: { onClick: () => void; label: str
     <button onClick={onClick}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       style={{
-        flex: flex ?? 1, height: 64, borderRadius: 9999,
+        flex: flex ?? 1, height: 76, borderRadius: 9999,
         background: hovered ? "rgba(1,101,255,0.06)" : "transparent",
         color: "#0165FF", fontSize: 15, fontWeight: 600,
         border: "1.5px solid #E8ECF5", cursor: "pointer",
