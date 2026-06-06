@@ -18,6 +18,7 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
       background: "var(--card-bg)",
       boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
       borderRadius: 30,
+      /* การ์ดซ้ายกำหนดความสูงด้วย aspect-ratio → การ์ดขวายืดตาม stretch */
       aspectRatio: "0.69",
       minHeight: 600,
       display: "flex",
@@ -26,7 +27,7 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
       boxSizing: "border-box",
     }}>
       {/* Title */}
-      <div style={{ marginBottom: 12 }}>
+      <div style={{ marginBottom: 10 }}>
         <h1 style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif", fontWeight: 900, color: "var(--ink)", fontSize: 52, lineHeight: 1.1, margin: 0 }}>Hamster</h1>
         <h1 style={{ fontFamily: "var(--font-poppins), Poppins, sans-serif", fontWeight: 900, color: "var(--primary)", fontSize: 52, lineHeight: 1.1, margin: 0, display: "flex", alignItems: "center", gap: 4 }}>
           <span>P</span><PawIcon /><span>p Camp</span>
@@ -34,14 +35,14 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
       </div>
 
       {/* Subtitle */}
-      <p style={{ color: "var(--text-slate)", fontSize: 17, lineHeight: 1.6, margin: "0 0 20px" }}>
+      <p style={{ color: "var(--text-slate)", fontSize: 17, lineHeight: 1.6, margin: "0 0 24px" }}>
         ตัวจริง เรียนรู้ ลงมือทำ<br />
         สร้างโปรเจกต์จบใน <span style={{ color: "var(--primary)", fontWeight: 700 }}>5 วัน</span>
       </p>
 
-      {/* Features + Hamster — flex-1 pushes schedule box to bottom */}
+      {/* Features + Hamster — flex:1 fills space, pushes schedule to bottom */}
       <div style={{ display: "flex", alignItems: "flex-end", gap: 8, flex: 1, marginBottom: 20 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 22, flex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
           {features.map((f, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div className={f.floatClass} style={{ flexShrink: 0, width: 46, height: 46, borderRadius: "50%", background: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -59,7 +60,7 @@ export default function HeroCard({ hamsterRef }: HeroCardProps) {
         </div>
       </div>
 
-      {/* Schedule box — sticks to bottom via marginTop:auto on features */}
+      {/* Schedule box — at bottom */}
       <div style={{ background: "var(--ink)", borderRadius: 16, padding: "16px 20px", display: "flex", alignItems: "center", gap: 16 }}>
         <div style={{ width: 48, height: 48, borderRadius: "50%", background: "var(--white)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <CalendarDays size={22} style={{ color: "var(--ink)" }} />

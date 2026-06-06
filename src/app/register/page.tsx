@@ -14,10 +14,13 @@ export default function RegisterPage() {
       alignItems: "center",
       justifyContent: "center",
       padding: "32px 24px",
+      boxSizing: "border-box",
     }}>
+      {/* align-items: stretch → การ์ดขวายืดสูงเท่าการ์ดซ้ายอัตโนมัติ */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
+        alignItems: "stretch",
         gap: 28,
         width: "100%",
         maxWidth: 1200,

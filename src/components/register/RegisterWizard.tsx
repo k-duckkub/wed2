@@ -160,22 +160,18 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         background: "var(--card-bg)",
         boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
         borderRadius: 30,
-        aspectRatio: "0.69",
-        minHeight: 600,
+        /* ไม่ใส่ aspect-ratio — ยืดตามการ์ดซ้ายผ่าน grid stretch */
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-start",
-        paddingTop: "12%",
-        paddingBottom: "8%",
-        paddingLeft: "9%",
-        paddingRight: "9%",
+        justifyContent: "center",
+        padding: "48px 44px",
         boxSizing: "border-box",
       }}
     >
       {/* Static header */}
-      <div style={{ textAlign: "center", marginBottom: "6%" }}>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
         <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 28, margin: "0 0 6px" }}>ลงทะเบียนเข้าร่วม</h2>
-        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "0 0 8px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "0 0 12px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
         <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
           {STEPS.map((_, i) => (
@@ -208,7 +204,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         {/* Info bubble */}
         <div
           className="flex items-center rounded-2xl"
-          style={{ background: "var(--info-bg)", padding: "16px 18px", gap: 14, marginBottom: "3.5%" }}
+          style={{ background: "var(--info-bg)", padding: "18px 20px", gap: 14, marginBottom: 24 }}
         >
           <div
             className="rounded-full flex-shrink-0 flex items-center justify-center animate-icon-float"
@@ -232,10 +228,10 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
           style={{
             background: "var(--white)",
             border: "1.5px solid var(--border)",
-            height: 60,
-            padding: "0 18px",
+            height: 64,
+            padding: "0 20px",
             gap: 12,
-            marginBottom: "2.5%",
+            marginBottom: 20,
           }}
           onFocus={(e) => {
             (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 4px rgba(4,104,250,0.12)";
