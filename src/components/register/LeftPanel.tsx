@@ -27,7 +27,7 @@ export default function LeftPanel({ hamsterRef }: { hamsterRef: RefObject<Hamste
       </div>
 
       {/* Subtitle */}
-      <p style={{ color: "#4B5563", fontSize: 18, lineHeight: 1.6, margin: "0 0 28px" }}>
+      <p style={{ color: "#4B5563", fontSize: 20, lineHeight: 1.6, margin: "0 0 28px" }}>
         ตัวจริง เรียนรู้ ลงมือทำ<br />
         สร้างโปรเจกต์จบใน <span style={{ color: "#0165FF", fontWeight: 700 }}>5 วัน</span>
       </p>
@@ -38,7 +38,7 @@ export default function LeftPanel({ hamsterRef }: { hamsterRef: RefObject<Hamste
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div
               style={{
-                width: 46, height: 46, borderRadius: "50%", background: "#0165FF",
+                width: 48, height: 48, borderRadius: "50%", background: "#0165FF",
                 display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 animation: `iconFloat 4s ease-in-out ${f.delay} infinite`,
               }}
@@ -52,7 +52,7 @@ export default function LeftPanel({ hamsterRef }: { hamsterRef: RefObject<Hamste
       </div>
 
       {/* Hamster */}
-      <div style={{ position: "absolute", bottom: 130, right: -20, width: 240, zIndex: 10 }}>
+      <div style={{ position: "absolute", bottom: 120, right: -50, width: 280, zIndex: 10 }}>
         <HamsterMascot ref={hamsterRef} />
       </div>
 

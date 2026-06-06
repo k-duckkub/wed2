@@ -199,7 +199,7 @@ const panelStyle: React.CSSProperties = {
   background: "white",
   display: "flex", flexDirection: "column",
   alignItems: "center", justifyContent: "center",
-  padding: "48px 52px",
+  padding: "48px 96px",
   boxSizing: "border-box",
 };
 
@@ -220,7 +220,7 @@ function InputBox({ cfg, value, onChange, onKeyDown, hasError }: {
       <cfg.InputIcon size={20} style={{ color: "#A3A6AB", flexShrink: 0 }} />
       <input
         className="flex-1 outline-none bg-transparent"
-        style={{ color: "#00215E", fontSize: 15, width: "100%" }}
+        style={{ color: "#00215E", fontSize: 18, width: "100%" }}
         type={cfg.type}
         placeholder={cfg.placeholder}
         value={value}
@@ -246,7 +246,7 @@ function PrimaryButton({ onClick, label, shaking, flex }: { onClick: () => void;
       style={{
         flex: flex ?? 1, height: 64, borderRadius: 9999,
         background: "linear-gradient(135deg, #0165FF 0%, #0052CC 100%)",
-        color: "white", fontSize: 16, fontWeight: 600, border: "none", cursor: "pointer",
+        color: "white", fontSize: 20, fontWeight: 600, border: "none", cursor: "pointer",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 8, position: "relative",
         boxShadow: hovered ? "0 16px 32px rgba(1,101,255,0.45)" : "0 8px 20px rgba(1,101,255,0.3)",
         transform: pressed ? "scale(0.96)" : hovered ? "scale(1.02)" : "scale(1)",
