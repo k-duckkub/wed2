@@ -163,15 +163,15 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         padding: "48px 44px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "center",
         height: "100%",
         boxSizing: "border-box",
       }}
     >
       {/* Static header */}
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginBottom: 48 }}>
         <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 30, margin: "0 0 8px" }}>ลงทะเบียนเข้าร่วม</h2>
-        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "0 0 14px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "0 0 10px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
         <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
           {STEPS.map((_, i) => (
@@ -192,7 +192,9 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       <div
         className="flex flex-col transition-all duration-200"
         style={{
-          gap: 24,
+          display: "flex",
+          flexDirection: "column",
+          gap: 0,
           opacity: animating ? 0 : 1,
           transform: animating
             ? slideDir === "out" ? "translateY(-12px)" : "translateY(12px)"
@@ -202,7 +204,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         {/* Info bubble */}
         <div
           className="flex items-center rounded-2xl"
-          style={{ background: "var(--info-bg)", padding: "18px 20px", gap: 16 }}
+          style={{ background: "var(--info-bg)", padding: "18px 20px", gap: 16, marginBottom: 28 }}
         >
           <div
             className="rounded-full flex-shrink-0 flex items-center justify-center animate-icon-float"
@@ -229,6 +231,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
             height: 64,
             padding: "0 20px",
             gap: 12,
+            marginBottom: 18,
           }}
           onFocus={(e) => {
             (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 4px rgba(4,104,250,0.12)";
