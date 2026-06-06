@@ -52,7 +52,7 @@ export default function LeftPanel({ hamsterRef }: { hamsterRef: RefObject<Hamste
       </div>
 
       {/* Hamster */}
-      <div style={{ position: "absolute", bottom: 200, right: -50, width: 280, zIndex: 10 }}>
+      <div style={{ position: "absolute", bottom: 200, right: 20, width: 280, zIndex: 10 }}>
         <HamsterMascot ref={hamsterRef} />
       </div>
 
