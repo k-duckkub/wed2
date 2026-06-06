@@ -156,19 +156,24 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
 
   return (
     <div
-      className="flex flex-col rounded-[30px]"
       style={{
         background: "var(--card-bg)",
         boxShadow: "0 20px 50px rgba(20,40,90,0.08)",
-        padding: "36px 32px",
+        borderRadius: 30,
+        padding: "44px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        height: "100%",
+        boxSizing: "border-box",
       }}
     >
       {/* Static header */}
-      <div className="text-center" style={{ marginBottom: 24 }}>
-        <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 26, marginBottom: 6 }}>ลงทะเบียนเข้าร่วม</h2>
-        <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0 }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
+      <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <h2 style={{ color: "var(--ink)", fontWeight: 700, fontSize: 28, marginBottom: 6, margin: 0 }}>ลงทะเบียนเข้าร่วม</h2>
+        <p style={{ color: "var(--text-muted)", fontSize: 15, margin: "8px 0 12px" }}>กรอกข้อมูลเพื่อสิทธิ์เข้าร่วมค่าย</p>
         {/* Step dots */}
-        <div className="flex justify-center" style={{ gap: 6, marginTop: 12 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
           {STEPS.map((_, i) => (
             <div
               key={i}
@@ -187,7 +192,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
       <div
         className="flex flex-col transition-all duration-200"
         style={{
-          gap: 14,
+          gap: 20,
           opacity: animating ? 0 : 1,
           transform: animating
             ? slideDir === "out" ? "translateY(-12px)" : "translateY(12px)"
@@ -197,7 +202,7 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
         {/* Info bubble */}
         <div
           className="flex items-center rounded-2xl"
-          style={{ background: "var(--info-bg)", padding: "14px 16px", gap: 14 }}
+          style={{ background: "var(--info-bg)", padding: "18px 20px", gap: 16 }}
         >
           <div
             className="rounded-full flex-shrink-0 flex items-center justify-center animate-icon-float"
@@ -221,8 +226,8 @@ export default function RegisterWizard({ hamsterRef }: RegisterWizardProps) {
           style={{
             background: "var(--white)",
             border: "1.5px solid var(--border)",
-            height: 60,
-            padding: "0 16px",
+            height: 64,
+            padding: "0 20px",
             gap: 12,
           }}
           onFocus={(e) => {
