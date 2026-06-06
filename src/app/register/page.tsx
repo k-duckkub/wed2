@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
-import HeroCard from "@/components/register/HeroCard";
-import RegisterWizard from "@/components/register/RegisterWizard";
+import LeftPanel from "@/components/register/LeftPanel";
+import RightPanel from "@/components/register/RightPanel";
 import { HamsterMascotHandle } from "@/components/register/HamsterMascot";
 
 export default function RegisterPage() {
@@ -9,24 +9,24 @@ export default function RegisterPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "var(--page-bg)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "32px 24px",
-      boxSizing: "border-box",
+      background: "#F9FAFB",
+      padding: "24px",
     }}>
-      {/* align-items: stretch → การ์ดขวายืดสูงเท่าการ์ดซ้ายอัตโนมัติ */}
+      {/* ONE big card, two columns */}
       <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        alignItems: "stretch",
-        gap: 28,
-        width: "100%",
-        maxWidth: 1200,
+        width: 1120,
+        height: 720,
+        borderRadius: 32,
+        boxShadow: "0 24px 64px rgba(0,33,94,0.12)",
+        display: "flex",
+        overflow: "hidden",
+        flexShrink: 0,
       }}>
-        <HeroCard hamsterRef={hamsterRef} />
-        <RegisterWizard hamsterRef={hamsterRef} />
+        <LeftPanel hamsterRef={hamsterRef} />
+        <RightPanel hamsterRef={hamsterRef} />
       </div>
     </main>
   );
