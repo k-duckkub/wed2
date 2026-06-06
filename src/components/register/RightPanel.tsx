@@ -86,7 +86,7 @@ export default function RightPanel({ hamsterRef }: Props) {
   if (done) {
     return (
       <div style={panelStyle}>
-        <div style={{ width: "100%", maxWidth: 400 }}>
+        <div style={{ width: "100%" }}>
           {/* Success icon */}
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#0165FF", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
@@ -199,7 +199,7 @@ const panelStyle: React.CSSProperties = {
   background: "white",
   display: "flex", flexDirection: "column",
   alignItems: "center", justifyContent: "center",
-  padding: "48px 96px",
+  padding: "48px 60px",
   boxSizing: "border-box",
 };
 
