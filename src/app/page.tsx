@@ -8,10 +8,11 @@
  * ยังไม่มีไฟล์ก็ไม่พัง — ช่องนั้นจะเป็นพื้นส้มอ่อนรอไว้
  */
 const IMG = {
-  heroHamster: "/img/hero-hamster.png", // 900×760  แฮมสเตอร์นั่งโน้ตบุ๊ก (PNG พื้นใส)
-  courseMain: "/img/course-main.jpg", //   840×620  ภาพคอร์สที่สั่งซื้อ
-  rec1: "/img/course-1.jpg", //            560×340  คอร์สแนะนำ 1
-  rec2: "/img/course-2.jpg", //            560×340  คอร์สแนะนำ 2
+  heroBg: "/img/hero-bg.jpg", //           1920×1100 ฉากหลังใหญ่เต็มจอด้านบน
+  heroHamster: "/img/hero-hamster.png", // 900×760   แฮมสเตอร์นั่งโน้ตบุ๊ก (PNG พื้นใส)
+  courseMain: "/img/course-main.jpg", //   840×620   ภาพคอร์สที่สั่งซื้อ
+  rec1: "/img/course-1.jpg", //            560×340   คอร์สแนะนำ 1
+  rec2: "/img/course-2.jpg", //            560×340   คอร์สแนะนำ 2
 };
 
 /** คอร์สที่ลูกค้าเพิ่งซื้อ */
@@ -33,192 +34,246 @@ const SOCIALS = [
   { name: "LINE", href: "https://page.line.me/jkm4247u", icon: "line" },
 ];
 
+/** ฝุ่นแสงลอย — ตำแหน่งคงที่ เพื่อให้ผลลัพธ์ตรงกันทุกครั้งที่ render */
+const MOTES = [
+  { l: "6%", s: 7, d: 26, delay: 0 },
+  { l: "15%", s: 4, d: 34, delay: 5 },
+  { l: "24%", s: 9, d: 30, delay: 11 },
+  { l: "33%", s: 5, d: 38, delay: 2 },
+  { l: "44%", s: 6, d: 28, delay: 16 },
+  { l: "53%", s: 3, d: 36, delay: 8 },
+  { l: "62%", s: 8, d: 32, delay: 21 },
+  { l: "71%", s: 5, d: 27, delay: 13 },
+  { l: "80%", s: 7, d: 35, delay: 4 },
+  { l: "89%", s: 4, d: 30, delay: 18 },
+  { l: "96%", s: 6, d: 33, delay: 9 },
+];
+
 export default function ThankYouPage() {
   return (
-    <div style={{ paddingBottom: 28 }}>
-      {/* ═══════════ TOP BAR ═══════════ */}
-      <header className="wrap" style={{ padding: "26px 20px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 11, textDecoration: "none" }}>
-            <LogoMark />
-            <span style={{ fontWeight: 900, fontSize: 15, lineHeight: 1.12, color: "var(--ink)", letterSpacing: ".01em" }}>
-              HAMSTER
-              <br />
-              HUB
-            </span>
-          </a>
-
-          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
-            <span
-              style={{
-                display: "grid",
-                placeItems: "center",
-                width: 30,
-                height: 30,
-                borderRadius: "50%",
-                border: "1.5px solid rgba(245,115,31,.4)",
-                color: "var(--brand)",
-              }}
-            >
-              <HamsterGlyph size={17} />
-            </span>
-            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)" }}>ไปที่หน้าหลัก</span>
-            <Chevron />
-          </a>
-        </div>
-      </header>
-
-      {/* ═══════════ HERO ═══════════ */}
-      <section className="wrap" style={{ position: "relative", paddingTop: 34, paddingBottom: 40 }}>
-        <div className="split" style={{ alignItems: "center" }}>
-          <div className="rise">
-            <h1 className="h1">THANK&nbsp;YOU!</h1>
-
-            <p style={{ margin: "16px 0 0", fontSize: "clamp(19px,2.6vw,25px)", fontWeight: 800, color: "var(--ink)" }}>
-              ขอบคุณที่เลือก <span className="on-brand">Hamster Hub</span>{" "}
-              <span style={{ color: "var(--brand)" }}>♥</span>
-            </p>
-
-            <p className="sub" style={{ margin: "16px 0 0" }}>
-              การเรียนรู้ของคุณเริ่มต้นแล้ว
-              <br />
-              เราได้ส่งข้อมูลการสั่งซื้อไปยังอีเมลของคุณแล้ว
-            </p>
-
-            <a className="btn" href="#course" style={{ marginTop: 26 }}>
-              เริ่มเรียนเลย
-              <span className="dot">
-                <ArrowRight />
-              </span>
-            </a>
-          </div>
-
-          {/* แฮมสเตอร์ */}
-          <div className="mascot bob" style={{ minHeight: 340 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMG.heroHamster} alt="" />
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════ คอร์สที่คุณสั่งซื้อ ═══════════ */}
-      <section className="wrap" id="course" style={{ marginBottom: 20 }}>
-        <div className="card sec split">
-          <div>
-            <p className="eyebrow">คอร์สที่คุณสั่งซื้อ</p>
-            <h2 className="h2" style={{ margin: "12px 0 0" }}>
-              {PURCHASED.title}
-            </h2>
-            <p style={{ margin: "4px 0 0", fontSize: "clamp(19px,2.4vw,24px)", fontWeight: 700, color: "var(--body)" }}>
-              {PURCHASED.subtitle}
-            </p>
-          </div>
-
-          <div
-            className="photo"
-            style={{ ["--img" as string]: `url(${IMG.courseMain})`, aspectRatio: "4/3", borderRadius: 16 }}
+    <>
+      {/* ฉากหลังต่อเนื่องทั้งหน้า */}
+      <div className="world" />
+      <div className="motes" aria-hidden="true">
+        {MOTES.map((m) => (
+          <i
+            key={m.l}
+            style={{
+              left: m.l,
+              bottom: "-8vh",
+              width: m.s,
+              height: m.s,
+              animationDuration: `${m.d}s`,
+              animationDelay: `-${m.delay}s`,
+            }}
           />
-        </div>
-      </section>
+        ))}
+      </div>
 
-      {/* ═══════════ คอร์สเรียนแนะนำ ═══════════ */}
-      <section className="wrap" style={{ marginBottom: 20 }}>
-        <div className="card sec split-nar">
-          <div>
-            <h2 className="h2">คอร์สเรียนแนะนำ</h2>
-            <p className="sub" style={{ marginTop: 10 }}>
-              ต่อยอดการเรียนรู้ของคุณ
-            </p>
-          </div>
-
-          <div className="two">
-            {RECOMMENDED.map((c) => (
-              <a
-                key={c.title}
-                href="https://www.hamsterhub.co/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="lift"
-                style={{
-                  display: "block",
-                  textDecoration: "none",
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  border: "1px solid var(--line-soft)",
-                  background: "var(--card)",
-                }}
-              >
-                <div className="photo" style={{ ["--img" as string]: `url(${c.img})`, aspectRatio: "16/9" }}>
-                  <span className="pill">แนะนำ</span>
-                </div>
-
-                <div style={{ padding: "15px 16px 16px" }}>
-                  <p className="h3">{c.title}</p>
-                  <p className="tiny" style={{ margin: "5px 0 0" }}>
-                    {c.desc}
-                  </p>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0 }}>
-                      <LevelIcon size={14} />
-                      <span className="tiny" style={{ fontSize: 12 }}>{c.level}</span>
-                    </span>
-                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--ink)" }}>{c.price}</span>
-                    <span className="round">
-                      <ArrowRight size={16} />
-                    </span>
-                  </div>
-                </div>
+      <div style={{ paddingBottom: 32 }}>
+        {/* ═══════════ TOP BAR ═══════════ */}
+        <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 20 }}>
+          <div className="wrap" style={{ padding: "26px 22px 0" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+              <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 11, textDecoration: "none" }}>
+                <LogoMark />
+                <span style={{ fontWeight: 900, fontSize: 15, lineHeight: 1.12, color: "var(--ink)", letterSpacing: ".01em" }}>
+                  HAMSTER
+                  <br />
+                  HUB
+                </span>
               </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════ FOOTER ═══════════ */}
-      <footer className="wrap">
-        <div
-          className="card"
-          style={{
-            padding: "26px 34px",
-            display: "flex",
-            alignItems: "center",
-            gap: 22,
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 240 }}>
-            <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: "var(--body)" }}>
-              ขอบคุณที่เป็นส่วนหนึ่งของครอบครัว
-            </p>
-            <p style={{ margin: "2px 0 0", fontSize: 21, fontWeight: 800, color: "var(--brand)" }}>
-              Hamster Hub ♥
-            </p>
-            <p className="tiny" style={{ margin: "6px 0 0" }}>
-              มาเรียนรู้ เติบโต และสนุกไปด้วยกันนะ!
-            </p>
+              <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
+                <span
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    border: "1.5px solid rgba(245,115,31,.45)",
+                    background: "rgba(255,255,255,.6)",
+                    color: "var(--brand)",
+                  }}
+                >
+                  <HamsterGlyph size={18} />
+                </span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)" }}>ไปที่หน้าหลัก</span>
+                <Chevron />
+              </a>
+            </div>
           </div>
+        </header>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: "var(--body)" }}>ติดต่อและติดตามเรา</span>
-            <div style={{ display: "flex", gap: 9 }}>
-              {SOCIALS.map((s) => (
+        {/* ═══════════ HERO ═══════════ */}
+        <section className="hero" style={{ ["--img" as string]: `url(${IMG.heroBg})` }}>
+          {/* ดวงอาทิตย์นวลหลังแฮมสเตอร์ */}
+          <span className="sun" style={{ width: 560, height: 560, right: "4%", top: "12%" }} />
+          <span
+            className="sun"
+            style={{ width: 340, height: 340, left: "-4%", bottom: "6%", animationDelay: "3.5s", opacity: 0.7 }}
+          />
+
+          <div className="wrap" style={{ width: "100%" }}>
+            <div className="split">
+              <div className="rise">
+                <h1 className="h1">THANK&nbsp;YOU!</h1>
+
+                <p style={{ margin: "18px 0 0", fontSize: "clamp(20px,2.8vw,27px)", fontWeight: 800, color: "var(--ink)" }}>
+                  ขอบคุณที่เลือก <span className="on-brand">Hamster Hub</span>{" "}
+                  <span style={{ color: "var(--brand)" }}>♥</span>
+                </p>
+
+                <p className="sub" style={{ margin: "18px 0 0" }}>
+                  การเรียนรู้ของคุณเริ่มต้นแล้ว
+                  <br />
+                  เราได้ส่งข้อมูลการสั่งซื้อไปยังอีเมลของคุณแล้ว
+                </p>
+
+                <a className="btn" href="#course" style={{ marginTop: 30 }}>
+                  เริ่มเรียนเลย
+                  <span className="dot">
+                    <ArrowRight />
+                  </span>
+                </a>
+              </div>
+
+              {/* แฮมสเตอร์ */}
+              <div className="mascot bob" style={{ minHeight: 400 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={IMG.heroHamster} alt="" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ คอร์สที่คุณสั่งซื้อ ═══════════ */}
+        <section className="wrap overlap" id="course" style={{ marginBottom: 22 }}>
+          <div className="card sec split">
+            <div>
+              <p className="eyebrow">คอร์สที่คุณสั่งซื้อ</p>
+              <h2 className="h2" style={{ margin: "12px 0 0" }}>
+                {PURCHASED.title}
+              </h2>
+              <p style={{ margin: "4px 0 0", fontSize: "clamp(19px,2.4vw,25px)", fontWeight: 700, color: "var(--body)" }}>
+                {PURCHASED.subtitle}
+              </p>
+              <div className="orn" style={{ marginTop: 22 }}>
+                <Spark />
+              </div>
+            </div>
+
+            <div
+              className="photo frame"
+              style={{ ["--img" as string]: `url(${IMG.courseMain})`, aspectRatio: "4/3", borderRadius: 18 }}
+            />
+          </div>
+        </section>
+
+        {/* ═══════════ คอร์สเรียนแนะนำ ═══════════ */}
+        <section className="wrap" style={{ marginBottom: 22 }}>
+          <div className="card sec split-nar">
+            <div>
+              <h2 className="h2">คอร์สเรียนแนะนำ</h2>
+              <p className="sub" style={{ marginTop: 10 }}>
+                ต่อยอดการเรียนรู้ของคุณ
+              </p>
+              <div className="orn" style={{ marginTop: 20 }}>
+                <Spark />
+              </div>
+            </div>
+
+            <div className="two">
+              {RECOMMENDED.map((c) => (
                 <a
-                  key={s.name}
-                  className="social"
-                  href={s.href}
+                  key={c.title}
+                  href="https://www.hamsterhub.co/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={s.name}
+                  className="lift"
+                  style={{
+                    display: "block",
+                    textDecoration: "none",
+                    borderRadius: 18,
+                    overflow: "hidden",
+                    border: "1px solid var(--line-soft)",
+                    background: "var(--card)",
+                    boxShadow: "var(--sh)",
+                  }}
                 >
-                  <Glyph name={s.icon} size={18} />
+                  <div className="photo frame" style={{ ["--img" as string]: `url(${c.img})`, aspectRatio: "16/9" }}>
+                    <span className="pill">แนะนำ</span>
+                  </div>
+
+                  <div style={{ padding: "16px 17px 17px" }}>
+                    <p className="h3">{c.title}</p>
+                    <p className="tiny" style={{ margin: "5px 0 0" }}>
+                      {c.desc}
+                    </p>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
+                      <span style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0 }}>
+                        <LevelIcon size={14} />
+                        <span className="tiny" style={{ fontSize: 12 }}>{c.level}</span>
+                      </span>
+                      <span style={{ fontSize: 16, fontWeight: 800, color: "var(--ink)" }}>{c.price}</span>
+                      <span className="round">
+                        <ArrowRight size={16} />
+                      </span>
+                    </div>
+                  </div>
                 </a>
               ))}
             </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </section>
+
+        {/* ═══════════ FOOTER ═══════════ */}
+        <footer className="wrap">
+          <div
+            className="card"
+            style={{
+              padding: "28px 36px",
+              display: "flex",
+              alignItems: "center",
+              gap: 22,
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ flex: 1, minWidth: 240 }}>
+              <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: "var(--body)" }}>
+                ขอบคุณที่เป็นส่วนหนึ่งของครอบครัว
+              </p>
+              <p style={{ margin: "2px 0 0", fontSize: 22, fontWeight: 800, color: "var(--brand)" }}>
+                Hamster Hub ♥
+              </p>
+              <p className="tiny" style={{ margin: "6px 0 0" }}>
+                มาเรียนรู้ เติบโต และสนุกไปด้วยกันนะ!
+              </p>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "var(--body)" }}>ติดต่อและติดตามเรา</span>
+              <div style={{ display: "flex", gap: 9 }}>
+                {SOCIALS.map((s) => (
+                  <a
+                    key={s.name}
+                    className="social"
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.name}
+                  >
+                    <Glyph name={s.icon} size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
   );
 }
 
@@ -245,6 +300,15 @@ function HamsterGlyph({ size = 20 }: { size?: number }) {
       <circle cx="24" cy="21.5" r="1.7" fill="currentColor" />
       <path d="M20 26v1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M17 29c.9.9 1.9 1.3 3 1.3s2.1-.4 3-1.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** ประกายเล็ก ๆ ใช้เป็นหัวเส้นคั่น */
+function Spark() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M12 2.5l2 6.2 6.2 2-6.2 2-2 6.2-2-6.2-6.2-2 6.2-2z" fill="var(--brand)" opacity=".85" />
     </svg>
   );
 }
