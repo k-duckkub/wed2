@@ -116,6 +116,20 @@ body {
   text-shadow: 0 2px 22px rgba(255, 170, 80, 0.22);
 }
 
+/* Thai inline link — gold, but tracked for Thai not Latin */
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-thai), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+a:hover .link-more { color: var(--gold-bright); gap: 12px; }
+
 .eyebrow {
   font-family: var(--font-cinzel), serif;
   text-transform: uppercase;

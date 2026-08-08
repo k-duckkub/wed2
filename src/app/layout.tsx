@@ -17,9 +17,9 @@ const notoThai = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "ขอบคุณสำหรับการลงทะเบียน",
+  title: "ขอบคุณที่ลงทะเบียน — HamsterHub",
   description:
-    "ลงทะเบียนสำเร็จแล้ว — ดูรายละเอียดกิจกรรม สิ่งที่น่าสนใจ และเป้าหมายในอนาคต",
+    "ลงทะเบียนกับ HamsterHub สำเร็จแล้ว — ดูข้อมูลกิจกรรม คอร์สอื่น ๆ ที่น่าสนใจ และเป้าหมายในอนาคต",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

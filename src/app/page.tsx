@@ -1,92 +1,164 @@
 /* ─────────────────────────────────────────────
-   Thank-you page
+   HamsterHub — thank-you page
+   Content sourced from hamsterhub.co
    ───────────────────────────────────────────── */
 
-const DETAILS = [
-  { label: "วันที่", value: "9 กุมภาพันธ์ 2569", icon: "calendar" },
-  { label: "เวลา", value: "19:30 – 21:30 น.", icon: "clock" },
-  { label: "รูปแบบ", value: "ออนไลน์ · ลิงก์ส่งทางอีเมล", icon: "portal" },
-  { label: "ขั้นตอนถัดไป", value: "รอการยืนยันภายใน 24 ชม.", icon: "scroll" },
+const MUTED = "var(--muted)";
+
+/** ข้อมูลกิจกรรม — รูปแบบการแข่ง Game Jam */
+const ACTIVITY = [
+  { label: "ระยะเวลา", value: "72 ชั่วโมง (3 วัน)", icon: "clock" },
+  { label: "ขนาดทีม", value: "2 – 5 คน", icon: "team" },
+  { label: "รูปแบบ", value: "ออนไลน์ผ่าน Discord", icon: "portal" },
+  { label: "อายุผู้เข้าร่วม", value: "10 – 22 ปี", icon: "scroll" },
 ] as const;
 
-const HIGHLIGHTS = [
+const ACTIVITY_NOTES = [
+  "พัฒนาเกมจากหัวข้อที่กำหนดให้ ภายในเวลาที่จำกัด",
+  "ใช้ Game Engine ใดก็ได้ — Unity, Unreal หรือ Godot",
+  "ฝึกทำงานเป็นทีม แก้ปัญหาเฉพาะหน้า และปิดงานให้จบตามเวลา",
+  "รอบ Specials จะย่นเวลาเหลือ 48 ชั่วโมง",
+];
+
+/** คอร์สอื่น ๆ ที่น่าสนใจ */
+const COURSES = [
   {
-    tag: "Update",
-    title: "กิจกรรมเปิดฤดูกาล",
-    desc: "รวมกิจกรรมพิเศษช่วงเปิดตัว พร้อมรางวัลสำหรับผู้ที่ลงทะเบียนในรอบแรก",
+    tag: "Subscription",
+    title: "Starways",
+    desc:
+      "คอร์สรายเดือน ยกเลิกได้ทุกเมื่อ ปูพื้นฐานสาย Game หรือ Data Science ให้แน่น แล้วต่อยอดสู่โปรเจกต์ระดับประเทศ มาพร้อมระบบ House ที่มีพี่ Mentor ดูแลตลอดทาง",
+    href: "https://www.hamsterhub.co/starways",
   },
   {
-    tag: "Guide",
-    title: "คู่มือเริ่มต้น",
-    desc: "สรุปทุกอย่างที่ต้องรู้ก่อนวันงาน ตั้งแต่การเตรียมตัวจนถึงขั้นตอนเข้าร่วม",
+    tag: "Competition",
+    title: "Hamster Hub Game Jam",
+    desc:
+      "สนามแข่งพัฒนาเกมจากหัวข้อที่กำหนด ภายใน 72 ชั่วโมง รวมพลคนสร้างเกมจากทั่วประเทศไว้ในที่เดียว",
+    href: "https://www.hamsterhub.co/gamejam",
   },
   {
-    tag: "Community",
-    title: "เข้าร่วมชุมชน",
-    desc: "พูดคุยกับผู้เข้าร่วมคนอื่น ถามคำถาม และรับประกาศสำคัญก่อนใคร",
+    tag: "Camp",
+    title: "Smart Camp",
+    desc:
+      "ค่าย 3 วัน 2 คืน เรียนรู้กระบวนการออกแบบและสร้างเกมด้วย Unity พร้อมแนะนำเส้นทางต่อยอดสำหรับคนอยากทำเกมเป็นอาชีพ",
+    href: "https://www.hamsterhub.co/",
+  },
+  {
+    tag: "Course",
+    title: "Roblox Creator Camp",
+    desc:
+      "เริ่มสร้างเกมบน Roblox Studio ตั้งแต่ศูนย์ เหมาะกับคนเพิ่งเริ่ม อยากมีเกมเป็นของตัวเองไว้อวดเพื่อน",
+    href: "https://www.hamsterhub.co/course/378",
+  },
+  {
+    tag: "Course",
+    title: "Unity — First Person Shooting",
+    desc:
+      "ลงมือสร้างเกมแนว FPS ด้วย Unity ตั้งแต่ระบบการเคลื่อนที่ การยิง ไปจนถึงการประกอบฉากให้เล่นได้จริง",
+    href: "https://www.hamsterhub.co/course/719",
+  },
+  {
+    tag: "Course",
+    title: "Python พื้นฐานแน่น",
+    desc:
+      "เขียนโปรแกรมภาษา Python แบบปูพื้นฐานให้แน่น เป็นบันไดขั้นแรกสู่สาย Data Science และงานพัฒนาอื่น ๆ",
+    href: "https://www.hamsterhub.co/course/1027",
   },
 ] as const;
 
+/** เวทีระดับประเทศที่ชาว HamsterHub ไปลุยกัน */
+const STAGES = ["NSC", "YSC", "Thailand Game Show", "Global Game Jam", "The New Gen"];
+
+/** เป้าหมายในอนาคต */
 const ROADMAP = [
-  { phase: "I", title: "ยืนยันการลงทะเบียน", desc: "ตรวจสอบข้อมูลและส่งอีเมลยืนยันพร้อมลิงก์เข้าร่วม" },
-  { phase: "II", title: "เตรียมความพร้อม", desc: "รับเอกสารแนะนำและเข้ากลุ่มชุมชนเพื่อเตรียมตัวก่อนวันงาน" },
-  { phase: "III", title: "วันจริง", desc: "เข้าร่วมกิจกรรมสด พร้อมช่วงถาม–ตอบกับทีมงานตลอดงาน" },
-  { phase: "IV", title: "ต่อยอดหลังจบงาน", desc: "รับสรุปเนื้อหาย้อนหลัง และสิทธิ์เข้าร่วมกิจกรรมรอบถัดไป" },
+  {
+    phase: "I",
+    title: "ปูพื้นฐานให้แน่น",
+    desc:
+      "เริ่มจากคอร์สที่ใช่ ไม่ว่าจะเป็นสาย Game หรือ Data Science เก็บพื้นฐานให้ครบก่อนลงสนามจริง",
+  },
+  {
+    phase: "II",
+    title: "ประชุม Standup ทุกวัน",
+    desc:
+      "ฝึกรายงานความคืบหน้าสั้น ๆ ทุกวันแบบทีมพัฒนามืออาชีพ — เมื่อวานทำอะไร วันนี้จะทำอะไร ติดปัญหาตรงไหน ทำให้งานไม่ค้างและทีมเห็นภาพตรงกัน",
+  },
+  {
+    phase: "III",
+    title: "ลงมือทำโปรเจกต์จริง",
+    desc:
+      "แปลงสิ่งที่เรียนเป็นผลงานของตัวเอง มีพี่ Mentor ในระบบ House คอยรีวิวและดันให้ไปต่อจนจบโปรเจกต์",
+  },
+  {
+    phase: "IV",
+    title: "ต่อยอดสู่เวทีระดับประเทศ",
+    desc:
+      "เอาผลงานไปลุยเวทีจริงอย่าง NSC, YSC, Thailand Game Show และ Global Game Jam พร้อมสะสมเป็นพอร์ตโฟลิโอ",
+  },
 ] as const;
+
+const SOCIALS = [
+  { label: "Facebook", href: "https://www.facebook.com/HamsterHubThailand/" },
+  { label: "Instagram", href: "https://www.instagram.com/hamsterhub_ig/" },
+  { label: "LINE", href: "https://page.line.me/jkm4247u" },
+  { label: "X", href: "https://x.com/HamsterHub_" },
+];
 
 export default function ThankYouPage() {
   return (
-    <main style={{ position: "relative" }}>
-      {/* ══════════ HERO ══════════ */}
+    <main>
+      {/* ══════════════ HERO ══════════════ */}
       <section
         style={{
-          minHeight: "88vh",
+          minHeight: "92vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: "96px 24px 72px",
+          padding: "92px 24px 76px",
         }}
       >
         <div className="rise">
           <Seal />
         </div>
 
-        <p className="eyebrow rise" style={{ margin: "34px 0 0", animationDelay: "0.1s" }}>
+        <p className="eyebrow rise" style={{ margin: "32px 0 0", animationDelay: "0.1s" }}>
           Registration Complete
         </p>
 
         <h1
           className="display rise"
           style={{
-            fontSize: "clamp(44px, 10vw, 104px)",
+            fontSize: "clamp(42px, 9.4vw, 100px)",
             lineHeight: 1,
-            margin: "18px 0 0",
+            margin: "16px 0 0",
             animationDelay: "0.18s",
           }}
         >
           Thank You
         </h1>
 
-        <div className="rule rise" style={{ margin: "30px 0", animationDelay: "0.26s" }}>
+        <div className="rule rise" style={{ margin: "28px 0", animationDelay: "0.26s" }}>
           <Diamond />
         </div>
 
         <p
           className="rise"
           style={{
-            maxWidth: 560,
+            maxWidth: 580,
             margin: 0,
             fontSize: 16,
-            lineHeight: 1.9,
-            color: var_muted,
+            lineHeight: 1.95,
+            color: MUTED,
             animationDelay: "0.32s",
           }}
         >
-          การลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว
+          ขอบคุณที่ลงทะเบียนกับ <strong style={{ color: "var(--gold)", fontWeight: 600 }}>HamsterHub</strong>
           <br />
-          เราได้ส่งอีเมลยืนยันไปให้เรียบร้อย โปรดตรวจสอบกล่องจดหมายของคุณ
+          ทีมงานจะติดต่อกลับพร้อมรายละเอียดกิจกรรมให้เร็ว ๆ นี้
+          <br />
+          ระหว่างนี้มาดูกันว่ามีอะไรรออยู่บ้าง
         </p>
 
         <div
@@ -96,67 +168,107 @@ export default function ThankYouPage() {
             gap: 14,
             flexWrap: "wrap",
             justifyContent: "center",
-            marginTop: 40,
+            marginTop: 38,
             animationDelay: "0.4s",
           }}
         >
-          <a className="btn btn-primary" href="#details">
-            ดูรายละเอียด
+          <a className="btn btn-primary" href="#activity">
+            ข้อมูลกิจกรรม
           </a>
-          <a className="btn btn-ghost" href="#community">
-            เข้าร่วมชุมชน
+          <a className="btn btn-ghost" href="#courses">
+            คอร์สอื่น ๆ
           </a>
         </div>
       </section>
 
-      {/* ══════════ DETAILS ══════════ */}
-      <Section id="details" eyebrow="Your Registration" title="รายละเอียดกิจกรรม">
+      {/* ══════════════ ข้อมูลกิจกรรม ══════════════ */}
+      <Section id="activity" eyebrow="The Event" title="ข้อมูลกิจกรรม">
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(228px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(212px, 1fr))",
             gap: 18,
+            marginBottom: 26,
           }}
         >
-          {DETAILS.map((d) => (
-            <div key={d.label} className="panel panel-hover" style={{ padding: "26px 22px", textAlign: "center" }}>
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-                <Glyph name={d.icon} />
+          {ACTIVITY.map((a) => (
+            <div
+              key={a.label}
+              className="panel panel-hover"
+              style={{ padding: "26px 20px", textAlign: "center" }}
+            >
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 15 }}>
+                <Glyph name={a.icon} />
               </div>
               <p className="eyebrow" style={{ margin: "0 0 9px", fontSize: 9.5 }}>
-                {d.label}
+                {a.label}
               </p>
-              <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: "var(--gold-bright)", lineHeight: 1.6 }}>
-                {d.value}
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 15.5,
+                  fontWeight: 600,
+                  color: "var(--gold-bright)",
+                  lineHeight: 1.6,
+                }}
+              >
+                {a.value}
               </p>
             </div>
           ))}
         </div>
+
+        <div className="panel" style={{ padding: "28px 30px" }}>
+          <p className="eyebrow" style={{ margin: "0 0 18px" }}>
+            How It Works
+          </p>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 13 }}>
+            {ACTIVITY_NOTES.map((n) => (
+              <li key={n} style={{ display: "flex", gap: 13, alignItems: "flex-start" }}>
+                <span style={{ flexShrink: 0, marginTop: 5 }}>
+                  <Diamond size={11} />
+                </span>
+                <span style={{ fontSize: 14.5, lineHeight: 1.85, color: MUTED }}>{n}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Section>
 
-      {/* ══════════ HIGHLIGHTS ══════════ */}
-      <Section id="community" eyebrow="What's Next" title="สิ่งที่น่าสนใจ">
+      {/* ══════════════ คอร์สอื่น ๆ ══════════════ */}
+      <Section id="courses" eyebrow="Keep Going" title="คอร์สอื่น ๆ ที่น่าสนใจ">
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(272px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(288px, 1fr))",
             gap: 20,
           }}
         >
-          {HIGHLIGHTS.map((h) => (
-            <article key={h.title} className="panel panel-hover" style={{ overflow: "hidden" }}>
-              {/* illustrative header band */}
+          {COURSES.map((c) => (
+            <a
+              key={c.title}
+              href={c.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="panel panel-hover"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textDecoration: "none",
+                overflow: "hidden",
+              }}
+            >
               <div
                 style={{
-                  height: 132,
+                  height: 112,
                   position: "relative",
                   background:
-                    "radial-gradient(70% 100% at 50% 0%, rgba(255,164,86,0.34), transparent 70%), linear-gradient(180deg, #0d3a55, #061c2e)",
+                    "radial-gradient(72% 100% at 50% 0%, rgba(255,164,86,0.30), transparent 72%), linear-gradient(180deg, #0d3a55, #061c2e)",
                   borderBottom: "1px solid var(--line)",
                 }}
               >
                 <span className="tag" style={{ position: "absolute", top: 12, left: 12 }}>
-                  {h.tag}
+                  {c.tag}
                 </span>
                 <div
                   className="seal-glow"
@@ -168,11 +280,11 @@ export default function ThankYouPage() {
                     justifyContent: "center",
                   }}
                 >
-                  <Diamond size={22} />
+                  <Diamond size={20} />
                 </div>
               </div>
 
-              <div style={{ padding: "22px 22px 26px" }}>
+              <div style={{ padding: "20px 22px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <h3
                   style={{
                     margin: "0 0 10px",
@@ -181,22 +293,60 @@ export default function ThankYouPage() {
                     color: "var(--gold-bright)",
                   }}
                 >
-                  {h.title}
+                  {c.title}
                 </h3>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.85, color: var_muted }}>{h.desc}</p>
+                <p style={{ margin: "0 0 16px", fontSize: 14, lineHeight: 1.85, color: MUTED, flex: 1 }}>
+                  {c.desc}
+                </p>
+                <span className="link-more">
+                  ดูรายละเอียด <span aria-hidden="true">→</span>
+                </span>
               </div>
-            </article>
+            </a>
           ))}
+        </div>
+
+        {/* เวทีระดับประเทศ */}
+        <div className="panel" style={{ marginTop: 26, padding: "26px 28px", textAlign: "center" }}>
+          <p className="eyebrow" style={{ margin: "0 0 8px" }}>
+            National Stages
+          </p>
+          <p style={{ margin: "0 0 18px", fontSize: 14, lineHeight: 1.85, color: MUTED }}>
+            ชาว HamsterHub ไปลุยกันมาแล้วบนเวทีเหล่านี้
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
+            {STAGES.map((s) => (
+              <span
+                key={s}
+                style={{
+                  padding: "8px 16px",
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: "var(--gold)",
+                  border: "1px solid var(--line)",
+                  background: "rgba(8,30,48,0.5)",
+                }}
+              >
+                {s}
+              </span>
+            ))}
+          </div>
         </div>
       </Section>
 
-      {/* ══════════ ROADMAP ══════════ */}
+      {/* ══════════════ เป้าหมายในอนาคต ══════════════ */}
       <Section eyebrow="The Road Ahead" title="เป้าหมายในอนาคต">
-        <div style={{ display: "grid", gap: 0 }}>
+        <div style={{ maxWidth: 660, margin: "0 auto" }}>
           {ROADMAP.map((r, i) => (
             <div key={r.phase} style={{ display: "flex", gap: 22 }}>
-              {/* rail */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  flexShrink: 0,
+                }}
+              >
                 <div
                   style={{
                     width: 46,
@@ -205,7 +355,8 @@ export default function ThankYouPage() {
                     placeItems: "center",
                     transform: "rotate(45deg)",
                     border: "1px solid var(--gold)",
-                    background: "linear-gradient(135deg, rgba(255,164,86,0.20), rgba(4,20,34,0.9))",
+                    background:
+                      "linear-gradient(135deg, rgba(255,164,86,0.22), rgba(4,20,34,0.9))",
                   }}
                 >
                   <span
@@ -220,19 +371,25 @@ export default function ThankYouPage() {
                     style={{
                       width: 1,
                       flex: 1,
-                      minHeight: 46,
+                      minHeight: 48,
                       background: "linear-gradient(180deg, var(--line), transparent)",
                     }}
                   />
                 )}
               </div>
 
-              {/* body */}
-              <div style={{ paddingBottom: i < ROADMAP.length - 1 ? 34 : 0, paddingTop: 6 }}>
-                <h3 style={{ margin: "0 0 8px", fontSize: 17, fontWeight: 700, color: "var(--gold-bright)" }}>
+              <div style={{ paddingBottom: i < ROADMAP.length - 1 ? 36 : 0, paddingTop: 5 }}>
+                <h3
+                  style={{
+                    margin: "0 0 8px",
+                    fontSize: 17.5,
+                    fontWeight: 700,
+                    color: "var(--gold-bright)",
+                  }}
+                >
                   {r.title}
                 </h3>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.85, color: var_muted, maxWidth: 520 }}>
+                <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.9, color: MUTED, maxWidth: 560 }}>
                   {r.desc}
                 </p>
               </div>
@@ -241,26 +398,60 @@ export default function ThankYouPage() {
         </div>
       </Section>
 
-      {/* ══════════ FOOTER ══════════ */}
+      {/* ══════════════ FOOTER ══════════════ */}
       <footer
         style={{
           borderTop: "1px solid var(--line)",
-          marginTop: 40,
-          padding: "48px 24px 56px",
+          marginTop: 32,
+          padding: "52px 24px 60px",
           textAlign: "center",
         }}
       >
-        <div className="rule" style={{ marginBottom: 26 }}>
+        <div className="rule" style={{ marginBottom: 24 }}>
           <Diamond size={14} />
         </div>
-        <p style={{ margin: "0 0 22px", fontSize: 13.5, lineHeight: 1.9, color: var_muted }}>
-          มีคำถามเพิ่มเติม? ทีมงานพร้อมช่วยเหลือคุณเสมอ
+
+        <p className="display" style={{ fontSize: 22, margin: "0 0 10px" }}>
+          HamsterHub
         </p>
-        <a className="btn btn-ghost" href="#">
-          ติดต่อทีมงาน
+        <p style={{ margin: "0 0 26px", fontSize: 13.5, lineHeight: 1.9, color: MUTED }}>
+          ชมรมเท่ ๆ สำหรับคนครีเอทีฟ
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            gap: 22,
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginBottom: 30,
+          }}
+        >
+          {SOCIALS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="eyebrow"
+              style={{ textDecoration: "none", fontSize: 10 }}
+            >
+              {s.label}
+            </a>
+          ))}
+        </div>
+
+        <a
+          className="btn btn-primary"
+          href="https://www.hamsterhub.co/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          กลับสู่ HamsterHub.co
         </a>
-        <p style={{ margin: "36px 0 0", fontSize: 11.5, color: "rgba(123,147,165,0.6)" }}>
-          © 2026 · สงวนลิขสิทธิ์
+
+        <p style={{ margin: "34px 0 0", fontSize: 11.5, color: "rgba(123,147,165,0.6)" }}>
+          © 2026 Hamster Hub · All rights reserved.
         </p>
       </footer>
     </main>
@@ -270,8 +461,6 @@ export default function ThankYouPage() {
 /* ─────────────────────────────────────────────
    Building blocks
    ───────────────────────────────────────────── */
-
-const var_muted = "var(--muted)";
 
 function Section({
   id,
@@ -285,12 +474,12 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} style={{ padding: "76px 24px", maxWidth: 1080, margin: "0 auto" }}>
-      <header style={{ textAlign: "center", marginBottom: 46 }}>
-        <p className="eyebrow" style={{ margin: "0 0 14px" }}>
+    <section id={id} style={{ padding: "74px 24px", maxWidth: 1080, margin: "0 auto" }}>
+      <header style={{ textAlign: "center", marginBottom: 44 }}>
+        <p className="eyebrow" style={{ margin: "0 0 13px" }}>
           {eyebrow}
         </p>
-        <h2 className="display-th" style={{ fontSize: "clamp(25px, 4.4vw, 40px)", margin: "0 0 22px" }}>
+        <h2 className="display-th" style={{ fontSize: "clamp(25px, 4.4vw, 40px)", margin: "0 0 20px" }}>
           {title}
         </h2>
         <div className="rule">
@@ -315,7 +504,6 @@ function Diamond({ size = 18 }: { size?: number }) {
 function Seal() {
   return (
     <div style={{ position: "relative", width: 132, height: 132 }}>
-      {/* glow */}
       <div
         className="seal-glow"
         style={{
@@ -326,23 +514,16 @@ function Seal() {
         }}
       />
       <svg width="132" height="132" viewBox="0 0 132 132" fill="none" style={{ position: "relative" }}>
-        {/* outer diamond */}
         <path d="M66 6 L126 66 L66 126 L6 66 Z" stroke="var(--gold)" strokeWidth="1.2" opacity="0.55" />
-        {/* inner diamond */}
         <path
           d="M66 20 L112 66 L66 112 L20 66 Z"
           stroke="var(--gold)"
           strokeWidth="1.4"
           fill="rgba(255,164,86,0.09)"
         />
-        {/* corner ticks */}
-        {[
-          "M66 0 L66 12", "M66 120 L66 132",
-          "M0 66 L12 66", "M120 66 L132 66",
-        ].map((d) => (
+        {["M66 0 L66 12", "M66 120 L66 132", "M0 66 L12 66", "M120 66 L132 66"].map((d) => (
           <path key={d} d={d} stroke="var(--gold)" strokeWidth="1.2" opacity="0.75" />
         ))}
-        {/* check */}
         <path
           d="M48 66 L61 79 L86 54"
           stroke="var(--gold-bright)"
@@ -355,33 +536,34 @@ function Seal() {
   );
 }
 
-/** Small line glyphs for the detail panels. */
-function Glyph({ name }: { name: "calendar" | "clock" | "portal" | "scroll" }) {
-  const common = {
+/** Small line glyphs for the activity panels. */
+function Glyph({ name }: { name: "clock" | "team" | "portal" | "scroll" }) {
+  const common: React.SVGProps<SVGSVGElement> = {
     width: 30,
     height: 30,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "var(--gold)",
     strokeWidth: 1.3,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
     "aria-hidden": true,
   };
-
-  if (name === "calendar")
-    return (
-      <svg {...common}>
-        <rect x="3" y="5" width="18" height="16" rx="1" />
-        <path d="M3 10h18M8 3v4M16 3v4" />
-      </svg>
-    );
 
   if (name === "clock")
     return (
       <svg {...common}>
         <circle cx="12" cy="12" r="9" />
         <path d="M12 7v5l3.5 2" />
+      </svg>
+    );
+
+  if (name === "team")
+    return (
+      <svg {...common}>
+        <circle cx="9" cy="8" r="3.2" />
+        <path d="M3 20a6 6 0 0 1 12 0" />
+        <path d="M16 5.5a3.2 3.2 0 0 1 0 6M17.5 20a6 6 0 0 0-2.2-4.6" />
       </svg>
     );
 
