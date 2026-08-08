@@ -1,498 +1,369 @@
 /* ═════════════════════════════════════════════
-   HamsterHub — thank-you page
-   Layout follows the supplied reference; content
-   sourced from hamsterhub.co
+   HamsterHub — หน้า Thank You
    ═════════════════════════════════════════════ */
 
 /**
- * ทุกรูปในหน้านี้อยู่ตรงนี้ที่เดียว
- * วางไฟล์ลง /public/img/ ตามชื่อด้านล่างแล้วรูปจะขึ้นเอง
- * ยังไม่มีไฟล์ก็ไม่พัง — จะใช้ gradient รองไว้ให้
+ * รูปทั้งหมดของหน้านี้อยู่ตรงนี้ที่เดียว
+ * วางไฟล์ลง /public/img/ ตามชื่อด้านล่าง แล้วรูปจะขึ้นเอง
+ * ยังไม่มีไฟล์ก็ไม่พัง — ช่องนั้นจะเป็นพื้นส้มอ่อนรอไว้
  */
 const IMG = {
-  hero: "/img/hero.jpg", //            1920×1080 ภาพพื้นหลังหลัก
-  news1: "/img/news-1.jpg", //          640×360
-  news2: "/img/news-2.jpg", //          640×360
-  news3: "/img/news-3.jpg", //          640×360
-  why: "/img/why.png", //               600×700  ตัวละคร/มาสคอต (PNG พื้นใส)
-  trailer: "/img/trailer.jpg", //       960×540
-  media1: "/img/media-1.jpg", //        480×320
-  media2: "/img/media-2.jpg", //        480×320
-  media3: "/img/media-3.jpg", //        480×320
+  heroHamster: "/img/hero-hamster.png", // 900×760  แฮมสเตอร์นั่งโน้ตบุ๊ก (PNG พื้นใส)
+  courseMain: "/img/course-main.jpg", //   840×620  ภาพคอร์สที่สั่งซื้อ
+  rec1: "/img/course-1.jpg", //            560×340  คอร์สแนะนำ 1
+  rec2: "/img/course-2.jpg", //            560×340  คอร์สแนะนำ 2
+  footHamster: "/img/foot-hamster.png", // 340×340  แฮมสเตอร์โบกมือ (PNG พื้นใส)
 };
 
-const NAV = [
-  { label: "หน้าแรก", href: "https://www.hamsterhub.co/" },
-  { label: "เกี่ยวกับเรา", href: "https://www.hamsterhub.co/", on: true },
-  { label: "คอร์ส", href: "https://www.hamsterhub.co/starways" },
-  { label: "กิจกรรม", href: "https://www.hamsterhub.co/gamejam" },
-  { label: "แกลเลอรี", href: "https://hamsterhub.co/gallery" },
+/** คอร์สที่ลูกค้าเพิ่งซื้อ */
+const PURCHASED = {
+  title: "วาดภาพดิจิทัล",
+  subtitle: "สำหรับมือใหม่",
+  level: "ระดับเริ่มต้น",
+  perks: [
+    { icon: "play", label: "เข้าเรียนได้ทันที" },
+    { icon: "infinity", label: "เรียนได้ไม่จำกัด" },
+    { icon: "badge", label: "ใบประกาศนียบัตร" },
+  ],
+};
+
+/** คอร์สเรียนแนะนำ */
+const RECOMMENDED = [
+  { img: IMG.rec1, title: "Procreate", desc: "วาดภาพบน iPad อย่างมืออาชีพ", level: "ระดับกลาง", price: "1,290.-" },
+  { img: IMG.rec2, title: "พื้นฐานการถ่ายภาพ", desc: "สำหรับมือใหม่", level: "ระดับเริ่มต้น", price: "990.-" },
 ];
 
-/** ── ข้อมูลกิจกรรม (แถวการ์ดข่าว) ── */
-const ACTIVITY_CARDS = [
-  {
-    tag: "รายละเอียด",
-    tagColor: "var(--tag-green)",
-    img: IMG.news1,
-    title: "แข่ง 72 ชั่วโมง ทีมละ 2–5 คน",
-    meta: "รูปแบบการแข่ง",
-    body: "พัฒนาเกมจากหัวข้อที่กำหนดให้ ภายในเวลาที่จำกัด จับทีมกันเองได้ 2–5 คน เปิดรับอายุ 10–22 ปี",
-  },
-  {
-    tag: "กติกา",
-    tagColor: "var(--tag-blue)",
-    img: IMG.news2,
-    title: "ใช้ Engine ไหนก็ได้",
-    meta: "เครื่องมือ",
-    body: "Unity, Unreal หรือ Godot เลือกที่ถนัดได้เลย ไม่มีข้อจำกัดเรื่องโปรแกรมที่ใช้",
-  },
-  {
-    tag: "เตรียมตัว",
-    tagColor: "var(--tag-purple)",
-    img: IMG.news3,
-    title: "จัดออนไลน์ผ่าน Discord",
-    meta: "สถานที่",
-    body: "ทุกอย่างเกิดขึ้นบน Discord ทีมงานจะส่งลิงก์เข้าห้องให้ก่อนวันงาน รอบ Specials ย่นเหลือ 48 ชั่วโมง",
-  },
+/** กิจกรรมสำหรับคุณ */
+const ACTIVITIES = [
+  { icon: "trophy", label: "CHALLENGE", l1: "ส่งผลงาน", l2: "ประจำเดือน" },
+  { icon: "people", label: "WORKSHOP", l1: "เวิร์กช็อปสด", l2: "จากผู้เชี่ยวชาญ" },
+  { icon: "chat", label: "COMMUNITY", l1: "แลกเปลี่ยนผลงาน", l2: "และไอเดีย" },
+  { icon: "gift", label: "SPECIAL EVENT", l1: "สิทธิพิเศษสำหรับ", l2: "สมาชิกเท่านั้น" },
 ];
 
-/** ── ทำไมต้อง HamsterHub ── */
-const WHY_POINTS = [
-  { icon: "shield", l1: "ระบบ House", l2: "มีพี่ Mentor ดูแล" },
-  { icon: "trophy", l1: "เวทีระดับประเทศ", l2: "NSC · YSC · Game Show" },
+/** Hamster Hub ในอนาคต */
+const FUTURE = [
+  { icon: "sprout", label: "NOW", l1: "คอร์สออนไลน์", l2: "และกิจกรรมสำหรับผู้เรียน", now: true },
+  { icon: "people", label: "NEXT", l1: "Community & Workshop", l2: "พื้นที่เรียนรู้และแลกเปลี่ยน" },
+  { icon: "gift", label: "COMING SOON", l1: "คอร์สใหม่", l2: "และกิจกรรมพิเศษ" },
+  { icon: "rocket", label: "THE FUTURE", l1: "Ecosystem การเรียนรู้", l2: "ที่ครบจบในที่เดียว" },
 ];
 
-/** ── คอร์สอื่น ๆ (แท็บ + แผงหลัก) ── */
-const COURSES = [
-  {
-    key: "starways",
-    tab1: "STARWAYS",
-    tab2: "รายเดือน",
-    title: "Starways",
-    body:
-      "ปูพื้นฐานสาย Game หรือ Data Science ให้แน่น แล้วต่อยอดสู่โปรเจกต์ระดับประเทศ มาพร้อมระบบ House ที่มีพี่ Mentor ดูแลตลอดทาง ยกเลิกได้ทุกเมื่อ",
-    href: "https://www.hamsterhub.co/starways",
-  },
-  { key: "gamejam", tab1: "GAME JAM", tab2: "แข่งขัน", title: "Hamster Hub Game Jam", body: "สนามแข่งพัฒนาเกมจากหัวข้อที่กำหนด ภายใน 72 ชั่วโมง", href: "https://www.hamsterhub.co/gamejam" },
-  { key: "camp", tab1: "SMART CAMP", tab2: "ค่าย", title: "Smart Camp", body: "ค่าย 3 วัน 2 คืน เรียนออกแบบและสร้างเกมด้วย Unity", href: "https://www.hamsterhub.co/" },
-  { key: "roblox", tab1: "ROBLOX", tab2: "คอร์ส", title: "Roblox Creator Camp", body: "เริ่มสร้างเกมบน Roblox Studio ตั้งแต่ศูนย์", href: "https://www.hamsterhub.co/course/378" },
-  { key: "python", tab1: "PYTHON", tab2: "คอร์ส", title: "Python พื้นฐานแน่น", body: "บันไดขั้นแรกสู่สาย Data Science", href: "https://www.hamsterhub.co/course/1027" },
+const SOCIALS = [
+  { name: "Facebook", href: "https://www.facebook.com/HamsterHubThailand/", icon: "facebook" },
+  { name: "YouTube", href: "https://www.hamsterhub.co/", icon: "youtube" },
+  { name: "Instagram", href: "https://www.instagram.com/hamsterhub_ig/", icon: "instagram" },
+  { name: "LINE", href: "https://page.line.me/jkm4247u", icon: "line" },
 ];
-
-/** ── เป้าหมายในอนาคต (แถวการ์ดล่าง) ── */
-const GOALS = [
-  {
-    tag: "ขั้นที่ 1",
-    img: IMG.media1,
-    title: "ปูพื้นฐานให้แน่น",
-    body: "เริ่มจากคอร์สที่ใช่ เก็บพื้นฐานให้ครบก่อนลงสนามจริง",
-  },
-  {
-    tag: "ขั้นที่ 2",
-    img: IMG.media2,
-    title: "ประชุม Standup ทุกวัน",
-    body: "รายงานสั้น ๆ ทุกวันแบบทีมพัฒนามืออาชีพ — เมื่อวานทำอะไร วันนี้จะทำอะไร ติดปัญหาตรงไหน",
-    highlight: true,
-  },
-  {
-    tag: "ขั้นที่ 3",
-    img: IMG.media3,
-    title: "ต่อยอดสู่เวทีจริง",
-    body: "ทำโปรเจกต์ของตัวเองจนจบ แล้วเอาไปลุยเวทีระดับประเทศ",
-  },
-];
-
-const FOOTER_NAV = ["หน้าแรก", "เกี่ยวกับเรา", "คอร์ส", "กิจกรรม", "แกลเลอรี", "ติดต่อเรา", "คำถามที่พบบ่อย"];
 
 export default function ThankYouPage() {
   return (
-    <div style={{ background: "var(--abyss)" }}>
-      {/* ═══════════ NAV ═══════════ */}
-      <header
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 40,
-          padding: "16px 28px",
-        }}
-      >
-        <div className="topbar">
-          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}>
-            <Crest size={30} />
+    <div style={{ paddingBottom: 28 }}>
+      {/* ═══════════ TOP BAR ═══════════ */}
+      <header className="wrap" style={{ padding: "26px 20px 0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 11, textDecoration: "none" }}>
+            <LogoMark />
+            <span style={{ fontWeight: 900, fontSize: 15, lineHeight: 1.12, color: "var(--ink)", letterSpacing: ".01em" }}>
+              HAMSTER
+              <br />
+              HUB
+            </span>
           </a>
 
-          <nav className="topnav">
-            {NAV.map((n) => (
-              <a key={n.label} className={`navlink${n.on ? " on" : ""}`} href={n.href}>
-                {n.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* HamCoin */}
-          <div
-            className="coin"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "6px 14px 6px 8px",
-              borderRadius: 999,
-              border: "1px solid var(--line)",
-              background: "rgba(4,20,32,.6)",
-            }}
+          <a
+            href="https://www.hamsterhub.co/"
+            style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}
           >
-            <span style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(180deg,#ffd98a,#e2701d)", display: "grid", placeItems: "center", fontSize: 10, fontWeight: 800, color: "#3a1a05" }}>
-              ฿
+            <span
+              style={{
+                display: "grid",
+                placeItems: "center",
+                width: 30,
+                height: 30,
+                borderRadius: "50%",
+                border: "1.5px solid rgba(245,115,31,.4)",
+                color: "var(--brand)",
+              }}
+            >
+              <HamsterGlyph size={17} />
             </span>
-            <div style={{ lineHeight: 1.1 }}>
-              <p style={{ margin: 0, fontSize: 12.5, fontWeight: 700, color: "var(--gold-lit)" }}>1,240</p>
-              <p className="eyebrow" style={{ margin: 0, fontSize: 8 }}>HamCoin</p>
-            </div>
-          </div>
-
-          <span className="eyebrow" style={{ fontSize: 10 }}>TH</span>
-
-          <a className="btn btn-orange" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", fontSize: 12.5 }}>
-            <ChatIcon /> ทักแชท
+            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)" }}>ไปที่หน้าหลัก</span>
+            <Chevron />
           </a>
         </div>
       </header>
 
       {/* ═══════════ HERO ═══════════ */}
-      <section
-        className="slot"
-        style={{
-          position: "relative",
-          minHeight: 660,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "150px 28px 90px",
-          backgroundImage: `url(${IMG.hero})`,
-        }}
-      >
-        {/* ล่างจางลงไปหาสีพื้น */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 1,
-            background:
-              "linear-gradient(180deg, rgba(3,16,26,.62) 0%, rgba(3,16,26,.15) 34%, rgba(3,16,26,.72) 78%, var(--abyss) 100%)",
-          }}
-        />
+      <section className="wrap" style={{ position: "relative", paddingTop: 34, paddingBottom: 40 }}>
+        <div className="split" style={{ alignItems: "center" }}>
+          <div className="rise">
+            <h1 className="h1">THANK&nbsp;YOU!</h1>
 
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 1240, margin: "0 auto", width: "100%" }}>
-          {/* โลโก้กลาง */}
-          <div className="rise float" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
-            <div style={{ textAlign: "center" }}>
-              <Crest size={76} />
-              <p className="display" style={{ fontSize: 42, margin: "10px 0 0", letterSpacing: ".14em" }}>
-                HamsterHub
-              </p>
-            </div>
-          </div>
-
-          {/* บล็อกข้อความชิดซ้าย */}
-          <div className="rise" style={{ maxWidth: 620, animationDelay: ".15s" }}>
-            <p className="eyebrow" style={{ margin: "0 0 12px", color: "var(--orange)" }}>
-              Registration Complete
+            <p style={{ margin: "16px 0 0", fontSize: "clamp(19px,2.6vw,25px)", fontWeight: 800, color: "var(--ink)" }}>
+              ขอบคุณที่เลือก <span className="on-brand">Hamster Hub</span>{" "}
+              <span style={{ color: "var(--brand)" }}>♥</span>
             </p>
 
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 22, flexWrap: "wrap" }}>
-              <h1 className="display-th" style={{ fontSize: "clamp(28px,4.2vw,42px)", margin: 0, flex: 1, minWidth: 280 }}>
-                ขอบคุณที่ลงทะเบียน
-                <br />
-                กับ HamsterHub
-              </h1>
-              <a className="btn btn-orange" href="#activity" style={{ marginTop: 6 }}>
-                ดูข้อมูลกิจกรรม
-              </a>
-            </div>
-
-            <p className="body-sm" style={{ margin: "18px 0 0", maxWidth: 500 }}>
-              การลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว ทีมงานจะติดต่อกลับพร้อมรายละเอียดกิจกรรมให้เร็ว ๆ นี้
-              ระหว่างนี้เลื่อนลงไปดูกันได้เลยว่ามีอะไรรออยู่บ้าง
+            <p className="sub" style={{ margin: "16px 0 0" }}>
+              การเรียนรู้ของคุณเริ่มต้นแล้ว
+              <br />
+              เราได้ส่งข้อมูลการสั่งซื้อไปยังอีเมลของคุณแล้ว
             </p>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════ ข้อมูลกิจกรรม (การ์ดข่าว) ═══════════ */}
-      <section id="activity" style={{ padding: "0 28px 84px", marginTop: -40, position: "relative", zIndex: 5 }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 20 }}>
-            {ACTIVITY_CARDS.map((c, i) => (
-              <article key={c.title} className="framed lift" style={{ background: "rgba(7,38,57,.55)", border: "1px solid var(--line-soft)" }}>
-                <div className="slot" style={{ height: 168, backgroundImage: `url(${c.img})`, position: "relative" }}>
-                  <span className="tag" style={{ position: "absolute", top: 10, left: 10, background: c.tagColor, zIndex: 2 }}>
-                    {c.tag}
-                  </span>
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 40%,rgba(3,16,26,.9))", zIndex: 1 }} />
-                  <div style={{ position: "absolute", left: 16, right: 16, bottom: 12, zIndex: 2 }}>
-                    <p className="display-th" style={{ fontSize: 16, margin: 0 }}>{c.title}</p>
-                    <p className="eyebrow" style={{ margin: "4px 0 0", fontSize: 8.5 }}>{c.meta}</p>
-                  </div>
-                </div>
-                <p className="body-sm" style={{ margin: 0, padding: "16px 18px 20px" }}>{c.body}</p>
-                {i === ACTIVITY_CARDS.length - 1 && null}
-              </article>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 26, flexWrap: "wrap" }}>
-            <p className="body-sm" style={{ margin: 0, flex: 1, minWidth: 260 }}>
-              รอบ Specials จะย่นเวลาเหลือ 48 ชั่วโมง เร่งเครื่องกว่าเดิม — ทีมงานจะแจ้งวันเวลาที่แน่นอนทางอีเมลและ LINE อีกครั้ง
-            </p>
-            <a className="btn btn-orange" href="https://www.hamsterhub.co/gamejam" target="_blank" rel="noopener noreferrer">
-              ดูกิจกรรมทั้งหมด
+            <a className="btn" href="#course" style={{ marginTop: 26 }}>
+              เริ่มเรียนเลย
+              <span className="dot">
+                <ArrowRight />
+              </span>
             </a>
           </div>
+
+          {/* แฮมสเตอร์ */}
+          <div className="mascot bob" style={{ minHeight: 340 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={IMG.heroHamster} alt="" />
+          </div>
         </div>
       </section>
 
-      {/* ═══════════ ทำไมต้อง HamsterHub ═══════════ */}
-      <section style={{ padding: "40px 28px 90px", position: "relative" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,.85fr) minmax(0,1.15fr)", gap: 40, alignItems: "center" }} className="why-grid">
-          {/* ตัวละคร */}
-          <div className="slot float" style={{ minHeight: 340, backgroundImage: `url(${IMG.why})`, backgroundSize: "contain", backgroundColor: "transparent", borderRadius: 8 }}>
-            <span style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 50%, rgba(23,120,158,.35), transparent 70%)", zIndex: 0 }} />
-          </div>
-
+      {/* ═══════════ คอร์สที่คุณสั่งซื้อ ═══════════ */}
+      <section className="wrap" id="course" style={{ marginBottom: 20 }}>
+        <div className="card sec split">
           <div>
-            <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 14px", textAlign: "center" }}>
-              ทำไมต้อง HamsterHub?
+            <p className="eyebrow">คอร์สที่คุณสั่งซื้อ</p>
+            <h2 className="h2" style={{ margin: "12px 0 0" }}>
+              {PURCHASED.title}
             </h2>
-            <div className="rule" style={{ marginBottom: 24 }}>
-              <Diamond />
+            <p style={{ margin: "4px 0 0", fontSize: "clamp(19px,2.4vw,24px)", fontWeight: 700, color: "var(--body)" }}>
+              {PURCHASED.subtitle}
+            </p>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "22px 0 0" }}>
+              <LevelIcon />
+              <span style={{ fontSize: 14, fontWeight: 600, color: "var(--body)" }}>{PURCHASED.level}</span>
             </div>
 
-            <p className="body-sm" style={{ margin: "0 0 14px" }}>
-              เราคือ<span style={{ color: "var(--gold)" }}>ชมรมเท่ ๆ สำหรับคนครีเอทีฟ</span> ที่เชื่อว่าการเรียนเขียนโค้ดและทำเกม
-              ควรได้ลงมือทำจริงตั้งแต่วันแรก ไม่ใช่แค่นั่งฟังทฤษฎี
-            </p>
-            <p className="body-sm" style={{ margin: "0 0 26px" }}>
-              ตั้งแต่ปูพื้นฐาน ไปจนถึงส่งผลงานขึ้นเวทีระดับประเทศ มีพี่ Mentor และเพื่อนร่วมทางที่สนใจเรื่องเดียวกันคอยดันตลอดทาง
-            </p>
-
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-              {WHY_POINTS.map((w) => (
-                <div key={w.l1} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", border: "1px solid var(--line-soft)", background: "rgba(7,38,57,.5)", flex: "1 1 200px" }}>
-                  <span style={{ flexShrink: 0 }}>{w.icon === "shield" ? <ShieldIcon /> : <TrophyIcon />}</span>
-                  <div>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "var(--gold-lit)" }}>{w.l1}</p>
-                    <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--muted)" }}>{w.l2}</p>
+            <div style={{ display: "flex", gap: 26, marginTop: 26, flexWrap: "wrap" }}>
+              {PURCHASED.perks.map((p) => (
+                <div key={p.label} style={{ textAlign: "center", width: 86 }}>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <span className="ring">
+                      <Glyph name={p.icon} />
+                    </span>
                   </div>
+                  <p className="tiny" style={{ marginTop: 9, fontSize: 12 }}>
+                    {p.label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
+
+          <div
+            className="photo"
+            style={{ ["--img" as string]: `url(${IMG.courseMain})`, aspectRatio: "4/3", borderRadius: 16 }}
+          />
         </div>
       </section>
 
-      {/* ═══════════ คอร์สอื่น ๆ (ฟีเจอร์ + แท็บ) ═══════════ */}
-      <section style={{ padding: "0 28px 90px" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 12px" }}>
-            คอร์สอื่น ๆ ที่น่าสนใจ
-          </h2>
-          <div className="rule rule-left" style={{ marginBottom: 34, maxWidth: 320 }}>
-            <Diamond />
+      {/* ═══════════ คอร์สเรียนแนะนำ ═══════════ */}
+      <section className="wrap" style={{ marginBottom: 20 }}>
+        <div className="card sec split-nar">
+          <div>
+            <h2 className="h2">คอร์สเรียนแนะนำ</h2>
+            <p className="sub" style={{ marginTop: 10 }}>
+              ต่อยอดการเรียนรู้ของคุณ
+            </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 34, alignItems: "start" }} className="feat-grid">
-            {/* ซ้าย: ภาพใหญ่ */}
-            <a href={COURSES[0].href} target="_blank" rel="noopener noreferrer" className="framed" style={{ display: "block", textDecoration: "none" }}>
-              <div className="slot" style={{ aspectRatio: "16/9", backgroundImage: `url(${IMG.trailer})`, position: "relative", display: "grid", placeItems: "center" }}>
-                <span className="tag" style={{ position: "absolute", top: 12, left: 12, background: "var(--tag-green)", zIndex: 3 }}>
-                  แนะนำ
-                </span>
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(3,16,26,.2) 40%,rgba(3,16,26,.92))", zIndex: 1 }} />
-                <span className="play" style={{ zIndex: 2 }}>
-                  <PlayIcon />
-                </span>
-                <div style={{ position: "absolute", left: 18, right: 18, bottom: 14, zIndex: 2 }}>
-                  <p className="display-th" style={{ fontSize: 17, margin: 0 }}>[แนะนำคอร์ส] Starways</p>
-                  <p className="eyebrow" style={{ margin: "5px 0 0", fontSize: 8.5 }}>
-                    รายเดือน · ยกเลิกได้ทุกเมื่อ
+          <div className="two">
+            {RECOMMENDED.map((c) => (
+              <a
+                key={c.title}
+                href="https://www.hamsterhub.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lift"
+                style={{
+                  display: "block",
+                  textDecoration: "none",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  border: "1px solid var(--line-soft)",
+                  background: "var(--card)",
+                }}
+              >
+                <div className="photo" style={{ ["--img" as string]: `url(${c.img})`, aspectRatio: "16/9" }}>
+                  <span className="pill">แนะนำ</span>
+                </div>
+
+                <div style={{ padding: "15px 16px 16px" }}>
+                  <p className="h3">{c.title}</p>
+                  <p className="tiny" style={{ margin: "5px 0 0" }}>
+                    {c.desc}
                   </p>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0 }}>
+                      <LevelIcon size={14} />
+                      <span className="tiny" style={{ fontSize: 12 }}>{c.level}</span>
+                    </span>
+                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--ink)" }}>{c.price}</span>
+                    <span className="round">
+                      <ArrowRight size={16} />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ กิจกรรมสำหรับคุณ ═══════════ */}
+      <section className="wrap" style={{ marginBottom: 20 }}>
+        <div className="card sec split-nar">
+          <div>
+            <h2 className="h2">
+              กิจกรรม
+              <br />
+              สำหรับคุณ
+            </h2>
+            <p className="tiny" style={{ margin: "14px 0 0" }}>
+              อัปเดตกิจกรรมใหม่ ๆ
+              <br />
+              เพื่อการเรียนรู้และแลกเปลี่ยน
+            </p>
+            <a className="linkmore" href="https://www.hamsterhub.co/" style={{ marginTop: 16 }}>
+              ดูทั้งหมด <Chevron />
             </a>
+          </div>
 
-            {/* ขวา: รายละเอียด + แท็บ */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                <StarIcon />
-                <h3 className="display" style={{ fontSize: 19, margin: 0, letterSpacing: ".1em" }}>
-                  {COURSES[0].title}
-                </h3>
-              </div>
-
-              <p className="body-sm" style={{ margin: "0 0 24px" }}>{COURSES[0].body}</p>
-
-              {/* แท็บคอร์ส */}
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
-                <Arrow dir="left" />
-                <div className="tabs">
-                  {COURSES.map((c, i) => (
-                    <a key={c.key} href={c.href} target="_blank" rel="noopener noreferrer" className={`tab${i === 0 ? " on" : ""}`} style={{ textDecoration: "none" }}>
-                      <span style={{ display: "block", fontFamily: "var(--font-cinzel), serif", fontSize: 9.5, letterSpacing: ".12em" }}>{c.tab1}</span>
-                      <span style={{ display: "block", marginTop: 3 }}>{c.tab2}</span>
-                    </a>
-                  ))}
+          <div className="four">
+            {ACTIVITIES.map((a, i) => (
+              <div
+                key={a.label}
+                style={{
+                  textAlign: "center",
+                  padding: "0 10px",
+                  borderLeft: i === 0 ? "none" : "1px solid var(--line-soft)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <span className="disc">
+                    <Glyph name={a.icon} size={26} />
+                  </span>
                 </div>
-                <Arrow dir="right" />
+                <p style={{ margin: "13px 0 0", fontSize: 13, fontWeight: 800, letterSpacing: ".04em", color: "var(--brand)" }}>
+                  {a.label}
+                </p>
+                <p className="tiny" style={{ margin: "7px 0 0", fontSize: 12.5 }}>
+                  {a.l1}
+                  <br />
+                  {a.l2}
+                </p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
-                <a className="btn btn-orange" href={COURSES[0].href} target="_blank" rel="noopener noreferrer">
-                  ดูรายละเอียด
-                </a>
-                <a className="eyebrow" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "var(--gold)" }}>
-                  ทักแชทสอบถาม
-                </a>
+      {/* ═══════════ Hamster Hub ในอนาคต ═══════════ */}
+      <section className="wrap" style={{ marginBottom: 20 }}>
+        <div className="card sec split-nar">
+          <div>
+            <h2 className="h2">
+              Hamster Hub
+              <br />
+              <span className="on-brand">ในอนาคต</span>
+            </h2>
+            <p className="tiny" style={{ margin: "14px 0 0" }}>
+              เรากำลังสร้างระบบนิเวศการเรียนรู้
+              <br />
+              ที่มากกว่าคอร์สออนไลน์
+              <br />
+              เพื่อให้คุณเติบโตได้ในทุกเส้นทาง
+            </p>
+          </div>
+
+          <div className="four rail">
+            {FUTURE.map((f) => (
+              <div key={f.label} style={{ textAlign: "center", padding: "0 6px" }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <span
+                    className="disc"
+                    style={{
+                      background: f.now ? "var(--card)" : "var(--brand-soft)",
+                      border: f.now ? "2px solid var(--brand)" : "2px solid transparent",
+                      boxShadow: f.now ? "0 6px 18px rgba(245,115,31,.26)" : "none",
+                    }}
+                  >
+                    <Glyph name={f.icon} size={26} />
+                  </span>
+                </div>
+                <p style={{ margin: "13px 0 0", fontSize: 13, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink)" }}>
+                  {f.label}
+                </p>
+                <p className="tiny" style={{ margin: "7px 0 0", fontSize: 12.5 }}>
+                  {f.l1}
+                  <br />
+                  {f.l2}
+                </p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ FOOTER ═══════════ */}
+      <footer className="wrap">
+        <div
+          className="card"
+          style={{
+            padding: "26px 34px",
+            display: "flex",
+            alignItems: "center",
+            gap: 22,
+            flexWrap: "wrap",
+          }}
+        >
+          <div className="mascot" style={{ width: 104, height: 104, flexShrink: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={IMG.footHamster} alt="" />
+          </div>
+
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: "var(--body)" }}>
+              ขอบคุณที่เป็นส่วนหนึ่งของครอบครัว
+            </p>
+            <p style={{ margin: "2px 0 0", fontSize: 21, fontWeight: 800, color: "var(--brand)" }}>
+              Hamster Hub ♥
+            </p>
+            <p className="tiny" style={{ margin: "6px 0 0" }}>
+              มาเรียนรู้ เติบโต และสนุกไปด้วยกันนะ!
+            </p>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "var(--body)" }}>ติดต่อและติดตามเรา</span>
+            <div style={{ display: "flex", gap: 9 }}>
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.name}
+                  className="social"
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.name}
+                >
+                  <Glyph name={s.icon} size={18} />
+                </a>
+              ))}
             </div>
           </div>
         </div>
-      </section>
-
-      {/* ═══════════ เป้าหมายในอนาคต (แถวการ์ดล่าง) ═══════════ */}
-      <section style={{ padding: "0 28px 90px" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 12px" }}>
-            เป้าหมายในอนาคต
-          </h2>
-          <div className="rule rule-left" style={{ marginBottom: 34, maxWidth: 320 }}>
-            <Diamond />
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(272px,1fr))", gap: 20 }}>
-            {GOALS.map((g) => (
-              <article
-                key={g.title}
-                className="framed lift"
-                style={{
-                  background: "rgba(7,38,57,.55)",
-                  border: g.highlight ? "1px solid rgba(240,145,63,.5)" : "1px solid var(--line-soft)",
-                }}
-              >
-                <div className="slot" style={{ height: 176, backgroundImage: `url(${g.img})`, position: "relative", display: "grid", placeItems: "center" }}>
-                  <span className="tag" style={{ position: "absolute", top: 10, left: 10, background: g.highlight ? "var(--orange)" : "var(--tag-blue)", zIndex: 3 }}>
-                    {g.tag}
-                  </span>
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 45%,rgba(3,16,26,.92))", zIndex: 1 }} />
-                  <span className="play" style={{ zIndex: 2, width: 46, height: 46 }}>
-                    <PlusIcon />
-                  </span>
-                  <div style={{ position: "absolute", left: 16, right: 16, bottom: 12, zIndex: 2 }}>
-                    <p className="display-th" style={{ fontSize: 16, margin: 0 }}>{g.title}</p>
-                  </div>
-                </div>
-                <p className="body-sm" style={{ margin: 0, padding: "16px 18px 20px" }}>{g.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════ FOOTER NAV ═══════════ */}
-      <div style={{ padding: "0 28px" }}>
-        <div
-          style={{
-            maxWidth: 1240,
-            margin: "0 auto",
-            borderTop: "1px solid var(--line-soft)",
-            padding: "26px 0",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px 8px",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {FOOTER_NAV.map((f, i) => (
-            <span key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <a className="navlink" href="https://www.hamsterhub.co/" style={{ fontSize: 12.5, color: i === 1 ? "var(--gold)" : undefined }}>
-                {f}
-              </a>
-              {i < FOOTER_NAV.length - 1 && <Diamond size={8} />}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ═══════════ FOOTER ═══════════ */}
-      <footer style={{ padding: "34px 28px 46px" }}>
-        <div
-          style={{
-            maxWidth: 1240,
-            margin: "0 auto",
-            display: "flex",
-            gap: 28,
-            flexWrap: "wrap",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-            <Crest size={38} />
-            <p className="display" style={{ fontSize: 21, margin: 0 }}>HamsterHub</p>
-          </div>
-
-          <p className="body-sm" style={{ margin: 0, flex: 1, minWidth: 260, fontSize: 12.5, borderLeft: "1px solid var(--line-soft)", paddingLeft: 24 }}>
-            ชมรมเท่ ๆ สำหรับคนครีเอทีฟ — เรียนเขียนโค้ดและสร้างเกมแบบลงมือทำจริง
-            ตั้งแต่<span style={{ color: "var(--gold)" }}>ปูพื้นฐาน</span>จนถึงส่งผลงานขึ้นเวทีระดับประเทศ
-          </p>
-
-          <span className="eyebrow" style={{ fontSize: 10 }}>TH</span>
-
-          <a className="btn btn-orange" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", fontSize: 12.5 }}>
-            <ChatIcon /> ทักแชท
-          </a>
-        </div>
-
-        <div
-          style={{
-            maxWidth: 1240,
-            margin: "26px auto 0",
-            paddingTop: 18,
-            borderTop: "1px solid var(--line-soft)",
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 16,
-            flexWrap: "wrap",
-          }}
-        >
-          <p style={{ margin: 0, fontSize: 11.5, color: "rgba(125,148,166,.7)" }}>
-            © 2026 Hamster Hub · All rights reserved.
-          </p>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            {[
-              { l: "Facebook", h: "https://www.facebook.com/HamsterHubThailand/" },
-              { l: "Instagram", h: "https://www.instagram.com/hamsterhub_ig/" },
-              { l: "LINE", h: "https://page.line.me/jkm4247u" },
-              { l: "X", h: "https://x.com/HamsterHub_" },
-            ].map((s) => (
-              <a key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11.5, color: "rgba(125,148,166,.7)", textDecoration: "none" }}>
-                {s.l}
-              </a>
-            ))}
-          </div>
-        </div>
       </footer>
-
-      {/* responsive collapses that need media queries */}
-      <style>{`
-        @media (max-width: 900px) {
-          .why-grid { grid-template-columns: 1fr !important; }
-          .feat-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }
@@ -501,92 +372,164 @@ export default function ThankYouPage() {
    Marks & icons
    ───────────────────────────────────────────── */
 
-/** โลโก้แฮมสเตอร์ในกรอบโล่ */
-function Crest({ size = 40 }: { size?: number }) {
+/** ตัว H ของโลโก้ */
+function LogoMark() {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <path d="M32 3 L58 13 v22 c0 14-11 22-26 26 C17 57 6 49 6 35 V13 Z" fill="rgba(4,22,35,.85)" stroke="var(--gold)" strokeWidth="1.6" />
-      <circle cx="23" cy="24" r="5" stroke="var(--gold)" strokeWidth="2" />
-      <circle cx="41" cy="24" r="5" stroke="var(--gold)" strokeWidth="2" />
-      <circle cx="32" cy="35" r="12" stroke="var(--gold)" strokeWidth="2" />
-      <circle cx="27.6" cy="33" r="1.9" fill="var(--gold)" />
-      <circle cx="36.4" cy="33" r="1.9" fill="var(--gold)" />
-      <path d="M32 38v1.8" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
-      <path d="M28.6 41.6c1 1 2.1 1.5 3.4 1.5s2.4-.5 3.4-1.5" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
+    <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M7 5h7v11.5h12V5h7v30h-7V23.5H14V35H7z" fill="var(--brand)" />
     </svg>
   );
 }
 
-function Diamond({ size = 12 }: { size?: number }) {
+function HamsterGlyph({ size = 20 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-      <path d="M12 2 L22 12 L12 22 L2 12 Z" stroke="var(--gold)" strokeWidth="1.4" opacity=".85" />
-      <path d="M12 7 L17 12 L12 17 L7 12 Z" fill="var(--gold)" opacity=".5" />
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.6" stroke="currentColor" strokeWidth="2.2" />
+      <circle cx="28" cy="12" r="4.6" stroke="currentColor" strokeWidth="2.2" />
+      <circle cx="20" cy="23" r="11" stroke="currentColor" strokeWidth="2.2" />
+      <circle cx="16" cy="21.5" r="1.7" fill="currentColor" />
+      <circle cx="24" cy="21.5" r="1.7" fill="currentColor" />
+      <path d="M20 26v1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M17 29c.9.9 1.9 1.3 3 1.3s2.1-.4 3-1.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
 
-function Arrow({ dir }: { dir: "left" | "right" }) {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0, opacity: 0.6 }}>
-      <path
-        d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
-        stroke="var(--gold)"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-      <path d="M8 5.5v13l11-6.5z" />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 5v14M5 12h14" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 2.5l8 3v6.5c0 4.6-3.4 7.4-8 9.5-4.6-2.1-8-4.9-8-9.5V5.5z" stroke="var(--gold)" strokeWidth="1.5" />
-      <path d="M8.6 12.2l2.4 2.4 4.4-4.8" stroke="var(--orange)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function TrophyIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M7 4h10v5a5 5 0 0 1-10 0z" stroke="var(--gold)" strokeWidth="1.5" />
-      <path d="M7 5.5H4.5V8a3 3 0 0 0 3 3M17 5.5h2.5V8a3 3 0 0 1-3 3" stroke="var(--gold)" strokeWidth="1.5" />
-      <path d="M12 14v3.5M8.5 20.5h7" stroke="var(--orange)" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function StarIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3l2.4 6.1L21 9.8l-4.9 4.2L17.6 21 12 17.4 6.4 21l1.5-7L3 9.8l6.6-.7z" stroke="var(--orange)" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ChatIcon() {
+function Chevron() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M21 11.5a8 8 0 0 1-8 8H7l-3.5 2.5V11.5a8 8 0 0 1 8-8h1a8 8 0 0 1 8 8z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
+}
+
+function ArrowRight({ size = 19 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** แท่งบอกระดับความยาก */
+function LevelIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3" y="14" width="4" height="7" rx="1" fill="var(--brand)" />
+      <rect x="10" y="10" width="4" height="11" rx="1" fill="var(--brand)" opacity=".45" />
+      <rect x="17" y="5" width="4" height="16" rx="1" fill="var(--brand)" opacity=".45" />
+    </svg>
+  );
+}
+
+function Glyph({ name, size = 20 }: { name: string; size?: number }) {
+  const s = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.7,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  switch (name) {
+    case "play":
+      return (
+        <svg {...s}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "infinity":
+      return (
+        <svg {...s}>
+          <path d="M6.8 8.5c2 0 3 1.6 5.2 3.5s3.2 3.5 5.2 3.5a3.5 3.5 0 1 0 0-7c-2 0-3 1.6-5.2 3.5s-3.2 3.5-5.2 3.5a3.5 3.5 0 1 1 0-7z" />
+        </svg>
+      );
+    case "badge":
+      return (
+        <svg {...s}>
+          <path d="M6 3h12v11l-6 3.5L6 14z" />
+          <path d="M9.5 8.8l1.9 1.9 3.3-3.4" />
+        </svg>
+      );
+    case "trophy":
+      return (
+        <svg {...s}>
+          <path d="M7 4h10v5a5 5 0 0 1-10 0z" />
+          <path d="M7 5.5H4.5V8a3 3 0 0 0 3 3M17 5.5h2.5V8a3 3 0 0 1-3 3" />
+          <path d="M12 14v3.5M8.5 20.5h7" />
+        </svg>
+      );
+    case "people":
+      return (
+        <svg {...s}>
+          <circle cx="9" cy="8" r="3" />
+          <circle cx="17" cy="9.5" r="2.3" />
+          <path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 19a4.6 4.6 0 0 1 4.5-4.4" />
+        </svg>
+      );
+    case "chat":
+      return (
+        <svg {...s}>
+          <path d="M20.5 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2.4V11.5A7.5 7.5 0 0 1 11 4h2a7.5 7.5 0 0 1 7.5 7.5z" />
+          <path d="M8.6 11h6.8M8.6 14.4h4.2" />
+        </svg>
+      );
+    case "gift":
+      return (
+        <svg {...s}>
+          <rect x="3" y="9" width="18" height="4" rx="1" />
+          <path d="M4.6 13v7.4h14.8V13M12 9v11.4" />
+          <path d="M12 9S10.6 4 8.2 4a2.1 2.1 0 0 0 0 5M12 9s1.4-5 3.8-5a2.1 2.1 0 0 1 0 5" />
+        </svg>
+      );
+    case "sprout":
+      return (
+        <svg {...s}>
+          <path d="M12 20v-7" />
+          <path d="M12 13c0-3.4-2.4-5.6-6-5.6 0 3.4 2.4 5.6 6 5.6z" />
+          <path d="M12 13c0-3.9 2.4-6.4 6-6.4 0 3.9-2.4 6.4-6 6.4z" />
+        </svg>
+      );
+    case "rocket":
+      return (
+        <svg {...s}>
+          <path d="M12 2.6c3.2 2.3 5 5.7 5 9.4l-2.4 3.4H9.4L7 12c0-3.7 1.8-7.1 5-9.4z" />
+          <circle cx="12" cy="10.4" r="1.9" />
+          <path d="M9.4 15.4L7 18.6l3-.6M14.6 15.4l2.4 3.2-3-.6M10.6 20.4h2.8" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.12-2.41-.12-2.39 0-4.02 1.46-4.02 4.13V9.9H7.6V13h2.67v8z" />
+        </svg>
+      );
+    case "youtube":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.6 7.6c-.23-1.75-.94-2.4-2.66-2.5C16.9 5 14.6 5 12 5s-4.9 0-6.94.1c-1.72.1-2.43.75-2.66 2.5C2.2 9 2.2 10.4 2.2 12s0 3 .2 4.4c.23 1.75.94 2.4 2.66 2.5C7.1 19 9.4 19 12 19s4.9 0 6.94-.1c1.72-.1 2.43-.75 2.66-2.5.2-1.4.2-2.8.2-4.4s0-3-.2-4.4zM10.2 15.1V8.9l5.2 3.1z" />
+        </svg>
+      );
+    case "instagram":
+      return (
+        <svg {...s} strokeWidth={1.9}>
+          <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "line":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 3C6.9 3 2.8 6.4 2.8 10.5c0 3.7 3.2 6.8 7.6 7.4.3.06.7.2.8.45.09.23.06.58.03.81l-.13.78c-.04.23-.18.9.79.49s5.2-3.07 7.1-5.25c1.3-1.42 1.9-2.87 1.9-4.68C21 6.4 17.1 3 12 3zM8.3 13h-1.9a.5.5 0 0 1-.5-.5v-3.8a.5.5 0 0 1 1 0V12h1.4a.5.5 0 0 1 0 1zm2-.5a.5.5 0 0 1-1 0V8.7a.5.5 0 0 1 1 0zm4.5 0a.5.5 0 0 1-.9.3l-1.95-2.65v2.35a.5.5 0 0 1-1 0V8.7a.5.5 0 0 1 .9-.3l1.95 2.65V8.7a.5.5 0 0 1 1 0zm3.2-2.4a.5.5 0 0 1 0 1h-1.4v.9h1.4a.5.5 0 0 1 0 1h-1.9a.5.5 0 0 1-.5-.5V8.7a.5.5 0 0 1 .5-.5h1.9a.5.5 0 0 1 0 1h-1.4v.9z" />
+        </svg>
+      );
+    default:
+      return null;
+  }
 }

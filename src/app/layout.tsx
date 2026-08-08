@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Cinzel, Noto_Sans_Thai } from "next/font/google";
+import { Archivo, Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
 
-const cinzel = Cinzel({
-  weight: ["400", "700", "900"],
+/* หัวข้อ THANK YOU! ตัวหนามาก */
+const archivo = Archivo({
+  weight: ["800", "900"],
   subsets: ["latin"],
-  variable: "--font-cinzel",
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -17,14 +18,14 @@ const notoThai = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "ขอบคุณที่ลงทะเบียน — HamsterHub",
+  title: "ขอบคุณที่เลือก Hamster Hub",
   description:
-    "ลงทะเบียนกับ HamsterHub สำเร็จแล้ว — ดูข้อมูลกิจกรรม คอร์สอื่น ๆ ที่น่าสนใจ และเป้าหมายในอนาคต",
+    "ขอบคุณที่สั่งซื้อคอร์สกับ Hamster Hub — ดูคอร์สที่คุณสั่งซื้อ คอร์สเรียนแนะนำ กิจกรรมสำหรับคุณ และ Hamster Hub ในอนาคต",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="th" className={`${cinzel.variable} ${notoThai.variable}`}>
+    <html lang="th" className={`${archivo.variable} ${notoThai.variable}`}>
       <body style={{ fontFamily: "var(--font-thai), system-ui, sans-serif" }}>{children}</body>
     </html>
   );
