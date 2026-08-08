@@ -1,611 +1,592 @@
-/* ─────────────────────────────────────────────
+/* ═════════════════════════════════════════════
    HamsterHub — thank-you page
-   Content sourced from hamsterhub.co
-   ───────────────────────────────────────────── */
+   Layout follows the supplied reference; content
+   sourced from hamsterhub.co
+   ═════════════════════════════════════════════ */
 
-const ACTIVITY = [
-  { label: "ระยะเวลา", value: "72", unit: "ชั่วโมง" },
-  { label: "ขนาดทีม", value: "2–5", unit: "คน" },
-  { label: "อายุ", value: "10–22", unit: "ปี" },
-  { label: "จัดที่", value: "Discord", unit: "ออนไลน์" },
-] as const;
-
-const RULES = [
-  "พัฒนาเกมจากหัวข้อที่กำหนดให้ ภายในเวลาที่จำกัด",
-  "ใช้ Game Engine ใดก็ได้ — Unity, Unreal หรือ Godot",
-  "ฝึกทำงานเป็นทีม แก้ปัญหาเฉพาะหน้า และปิดงานให้จบตามเวลา",
-  "รอบ Specials จะย่นเวลาเหลือ 48 ชั่วโมง",
-];
-
-/** การ์ดเด่น */
-const FEATURED = {
-  tag: "รายเดือน · ยกเลิกได้ทุกเมื่อ",
-  title: "Starways",
-  desc: "ปูพื้นฐานสาย Game หรือ Data Science ให้แน่น แล้วต่อยอดสู่โปรเจกต์ระดับประเทศ",
-  points: ["ระบบ House มีพี่ Mentor ดูแล", "ลงมือทำโปรเจกต์จริง", "คอมมูนิตี้คนสายเดียวกัน"],
-  href: "https://www.hamsterhub.co/starways",
+/**
+ * ทุกรูปในหน้านี้อยู่ตรงนี้ที่เดียว
+ * วางไฟล์ลง /public/img/ ตามชื่อด้านล่างแล้วรูปจะขึ้นเอง
+ * ยังไม่มีไฟล์ก็ไม่พัง — จะใช้ gradient รองไว้ให้
+ */
+const IMG = {
+  hero: "/img/hero.jpg", //            1920×1080 ภาพพื้นหลังหลัก
+  news1: "/img/news-1.jpg", //          640×360
+  news2: "/img/news-2.jpg", //          640×360
+  news3: "/img/news-3.jpg", //          640×360
+  why: "/img/why.png", //               600×700  ตัวละคร/มาสคอต (PNG พื้นใส)
+  trailer: "/img/trailer.jpg", //       960×540
+  media1: "/img/media-1.jpg", //        480×320
+  media2: "/img/media-2.jpg", //        480×320
+  media3: "/img/media-3.jpg", //        480×320
 };
 
+const NAV = [
+  { label: "หน้าแรก", href: "https://www.hamsterhub.co/" },
+  { label: "เกี่ยวกับเรา", href: "https://www.hamsterhub.co/", on: true },
+  { label: "คอร์ส", href: "https://www.hamsterhub.co/starways" },
+  { label: "กิจกรรม", href: "https://www.hamsterhub.co/gamejam" },
+  { label: "แกลเลอรี", href: "https://hamsterhub.co/gallery" },
+];
+
+/** ── ข้อมูลกิจกรรม (แถวการ์ดข่าว) ── */
+const ACTIVITY_CARDS = [
+  {
+    tag: "รายละเอียด",
+    tagColor: "var(--tag-green)",
+    img: IMG.news1,
+    title: "แข่ง 72 ชั่วโมง ทีมละ 2–5 คน",
+    meta: "รูปแบบการแข่ง",
+    body: "พัฒนาเกมจากหัวข้อที่กำหนดให้ ภายในเวลาที่จำกัด จับทีมกันเองได้ 2–5 คน เปิดรับอายุ 10–22 ปี",
+  },
+  {
+    tag: "กติกา",
+    tagColor: "var(--tag-blue)",
+    img: IMG.news2,
+    title: "ใช้ Engine ไหนก็ได้",
+    meta: "เครื่องมือ",
+    body: "Unity, Unreal หรือ Godot เลือกที่ถนัดได้เลย ไม่มีข้อจำกัดเรื่องโปรแกรมที่ใช้",
+  },
+  {
+    tag: "เตรียมตัว",
+    tagColor: "var(--tag-purple)",
+    img: IMG.news3,
+    title: "จัดออนไลน์ผ่าน Discord",
+    meta: "สถานที่",
+    body: "ทุกอย่างเกิดขึ้นบน Discord ทีมงานจะส่งลิงก์เข้าห้องให้ก่อนวันงาน รอบ Specials ย่นเหลือ 48 ชั่วโมง",
+  },
+];
+
+/** ── ทำไมต้อง HamsterHub ── */
+const WHY_POINTS = [
+  { icon: "shield", l1: "ระบบ House", l2: "มีพี่ Mentor ดูแล" },
+  { icon: "trophy", l1: "เวทีระดับประเทศ", l2: "NSC · YSC · Game Show" },
+];
+
+/** ── คอร์สอื่น ๆ (แท็บ + แผงหลัก) ── */
 const COURSES = [
   {
-    n: "01",
-    tag: "แข่งขัน",
-    title: "Hamster Hub Game Jam",
-    desc: "สนามแข่งพัฒนาเกมจากหัวข้อที่กำหนด ภายใน 72 ชั่วโมง รวมพลคนสร้างเกมจากทั่วประเทศ",
-    href: "https://www.hamsterhub.co/gamejam",
-    from: "#ff9a3d",
-    to: "#e0431a",
+    key: "starways",
+    tab1: "STARWAYS",
+    tab2: "รายเดือน",
+    title: "Starways",
+    body:
+      "ปูพื้นฐานสาย Game หรือ Data Science ให้แน่น แล้วต่อยอดสู่โปรเจกต์ระดับประเทศ มาพร้อมระบบ House ที่มีพี่ Mentor ดูแลตลอดทาง ยกเลิกได้ทุกเมื่อ",
+    href: "https://www.hamsterhub.co/starways",
   },
-  {
-    n: "02",
-    tag: "แข่งขัน",
-    title: "Game Jam Specials",
-    desc: "รอบพิเศษที่ย่นเวลาเหลือ 48 ชั่วโมง เร่งเครื่องกว่าเดิม เหมาะกับคนที่อยากลองของ",
-    href: "https://www.hamsterhub.co/gamejam",
-    from: "#ff7a3d",
-    to: "#c9390d",
-  },
-  {
-    n: "03",
-    tag: "ค่าย",
-    title: "Smart Camp",
-    desc: "ค่าย 3 วัน 2 คืน เรียนรู้กระบวนการออกแบบและสร้างเกมด้วย Unity แบบลงมือทำจริง",
-    href: "https://www.hamsterhub.co/",
-    from: "#ffb457",
-    to: "#f2681f",
-  },
-  {
-    n: "04",
-    tag: "คอร์ส",
-    title: "Roblox Creator Camp",
-    desc: "เริ่มสร้างเกมบน Roblox Studio ตั้งแต่ศูนย์ เหมาะกับคนเพิ่งเริ่มอยากมีเกมเป็นของตัวเอง",
-    href: "https://www.hamsterhub.co/course/378",
-    from: "#ff8a4c",
-    to: "#d2430f",
-  },
-  {
-    n: "05",
-    tag: "คอร์ส",
-    title: "Unity — FPS",
-    desc: "สร้างเกมแนว First Person Shooting ตั้งแต่ระบบเคลื่อนที่ การยิง ไปจนถึงประกอบฉากให้เล่นได้จริง",
-    href: "https://www.hamsterhub.co/course/719",
-    from: "#ffa63d",
-    to: "#e85b16",
-  },
-  {
-    n: "06",
-    tag: "คอร์ส",
-    title: "Python พื้นฐานแน่น",
-    desc: "ปูพื้นฐาน Python ให้แน่น เป็นบันไดขั้นแรกสู่สาย Data Science และงานพัฒนาอื่น ๆ",
-    href: "https://www.hamsterhub.co/course/1027",
-    from: "#ffc36b",
-    to: "#f2681f",
-  },
-] as const;
+  { key: "gamejam", tab1: "GAME JAM", tab2: "แข่งขัน", title: "Hamster Hub Game Jam", body: "สนามแข่งพัฒนาเกมจากหัวข้อที่กำหนด ภายใน 72 ชั่วโมง", href: "https://www.hamsterhub.co/gamejam" },
+  { key: "camp", tab1: "SMART CAMP", tab2: "ค่าย", title: "Smart Camp", body: "ค่าย 3 วัน 2 คืน เรียนออกแบบและสร้างเกมด้วย Unity", href: "https://www.hamsterhub.co/" },
+  { key: "roblox", tab1: "ROBLOX", tab2: "คอร์ส", title: "Roblox Creator Camp", body: "เริ่มสร้างเกมบน Roblox Studio ตั้งแต่ศูนย์", href: "https://www.hamsterhub.co/course/378" },
+  { key: "python", tab1: "PYTHON", tab2: "คอร์ส", title: "Python พื้นฐานแน่น", body: "บันไดขั้นแรกสู่สาย Data Science", href: "https://www.hamsterhub.co/course/1027" },
+];
 
-const STAGES = ["NSC", "YSC", "Thailand Game Show", "Global Game Jam", "The New Gen"];
-
-const ROADMAP = [
+/** ── เป้าหมายในอนาคต (แถวการ์ดล่าง) ── */
+const GOALS = [
   {
-    n: "01",
+    tag: "ขั้นที่ 1",
+    img: IMG.media1,
     title: "ปูพื้นฐานให้แน่น",
-    desc: "เริ่มจากคอร์สที่ใช่ ไม่ว่าจะเป็นสาย Game หรือ Data Science เก็บพื้นฐานให้ครบก่อนลงสนามจริง",
-    highlight: false,
+    body: "เริ่มจากคอร์สที่ใช่ เก็บพื้นฐานให้ครบก่อนลงสนามจริง",
   },
   {
-    n: "02",
+    tag: "ขั้นที่ 2",
+    img: IMG.media2,
     title: "ประชุม Standup ทุกวัน",
-    desc:
-      "ฝึกรายงานความคืบหน้าสั้น ๆ ทุกวันแบบทีมพัฒนามืออาชีพ — เมื่อวานทำอะไร วันนี้จะทำอะไร ติดปัญหาตรงไหน ทำให้งานไม่ค้างและทีมเห็นภาพตรงกัน",
+    body: "รายงานสั้น ๆ ทุกวันแบบทีมพัฒนามืออาชีพ — เมื่อวานทำอะไร วันนี้จะทำอะไร ติดปัญหาตรงไหน",
     highlight: true,
   },
   {
-    n: "03",
-    title: "ลงมือทำโปรเจกต์จริง",
-    desc: "แปลงสิ่งที่เรียนเป็นผลงานของตัวเอง มีพี่ Mentor ในระบบ House คอยรีวิวและดันให้ไปต่อจนจบ",
-    highlight: false,
+    tag: "ขั้นที่ 3",
+    img: IMG.media3,
+    title: "ต่อยอดสู่เวทีจริง",
+    body: "ทำโปรเจกต์ของตัวเองจนจบ แล้วเอาไปลุยเวทีระดับประเทศ",
   },
-  {
-    n: "04",
-    title: "ต่อยอดสู่เวทีระดับประเทศ",
-    desc: "เอาผลงานไปลุยเวทีจริง พร้อมสะสมเป็นพอร์ตโฟลิโอไว้ใช้ต่อในอนาคต",
-    highlight: false,
-  },
-] as const;
-
-const SOCIALS = [
-  { label: "Facebook", href: "https://www.facebook.com/HamsterHubThailand/" },
-  { label: "Instagram", href: "https://www.instagram.com/hamsterhub_ig/" },
-  { label: "LINE", href: "https://page.line.me/jkm4247u" },
-  { label: "X", href: "https://x.com/HamsterHub_" },
 ];
 
-const CONFETTI = [
-  { l: "6%", d: "0s", c: "#f2681f", r: 2.9 },
-  { l: "14%", d: ".5s", c: "#ffb457", r: 3.4 },
-  { l: "23%", d: ".2s", c: "#ff9a3d", r: 3.1 },
-  { l: "32%", d: ".9s", c: "#d2430f", r: 3.6 },
-  { l: "41%", d: ".35s", c: "#ffc36b", r: 3 },
-  { l: "50%", d: ".7s", c: "#f2681f", r: 3.3 },
-  { l: "59%", d: ".1s", c: "#ff8a4c", r: 3.5 },
-  { l: "68%", d: ".8s", c: "#ffb457", r: 2.8 },
-  { l: "77%", d: ".45s", c: "#e0431a", r: 3.2 },
-  { l: "86%", d: ".25s", c: "#ff9a3d", r: 3.6 },
-  { l: "94%", d: ".65s", c: "#ffc36b", r: 3 },
-];
+const FOOTER_NAV = ["หน้าแรก", "เกี่ยวกับเรา", "คอร์ส", "กิจกรรม", "แกลเลอรี", "ติดต่อเรา", "คำถามที่พบบ่อย"];
 
 export default function ThankYouPage() {
   return (
-    <>
-      {/* ══════════ HEADER ══════════ */}
+    <div style={{ background: "var(--abyss)" }}>
+      {/* ═══════════ NAV ═══════════ */}
       <header
         style={{
-          position: "sticky",
+          position: "absolute",
           top: 0,
-          zIndex: 30,
-          background: "rgba(255,255,255,.82)",
-          backdropFilter: "blur(14px)",
-          borderBottom: "1px solid var(--line-soft)",
+          left: 0,
+          right: 0,
+          zIndex: 40,
+          padding: "16px 28px",
         }}
       >
-        <Wrap style={{ padding: "13px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <HamsterMark />
-            <span style={{ fontWeight: 800, fontSize: 16.5, color: "var(--ink)" }}>HamsterHub</span>
+        <div className="topbar">
+          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}>
+            <Crest size={30} />
           </a>
-          <a href="https://www.hamsterhub.co/" style={{ textDecoration: "none" }}>
-            <span className="link-more">
-              กลับหน้าแรก <Chevron />
+
+          <nav className="topnav">
+            {NAV.map((n) => (
+              <a key={n.label} className={`navlink${n.on ? " on" : ""}`} href={n.href}>
+                {n.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* HamCoin */}
+          <div
+            className="coin"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "6px 14px 6px 8px",
+              borderRadius: 999,
+              border: "1px solid var(--line)",
+              background: "rgba(4,20,32,.6)",
+            }}
+          >
+            <span style={{ width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(180deg,#ffd98a,#e2701d)", display: "grid", placeItems: "center", fontSize: 10, fontWeight: 800, color: "#3a1a05" }}>
+              ฿
             </span>
+            <div style={{ lineHeight: 1.1 }}>
+              <p style={{ margin: 0, fontSize: 12.5, fontWeight: 700, color: "var(--gold-lit)" }}>1,240</p>
+              <p className="eyebrow" style={{ margin: 0, fontSize: 8 }}>HamCoin</p>
+            </div>
+          </div>
+
+          <span className="eyebrow" style={{ fontSize: 10 }}>TH</span>
+
+          <a className="btn btn-orange" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", fontSize: 12.5 }}>
+            <ChatIcon /> ทักแชท
           </a>
-        </Wrap>
+        </div>
       </header>
 
-      <main>
-        {/* ══════════ HERO ══════════ */}
-        <section style={{ position: "relative", padding: "92px 24px 96px", textAlign: "center", overflow: "hidden" }}>
-          <div className="hero-bg">
-            <span className="blob" style={{ width: 420, height: 420, left: "-6%", top: "-12%", background: "#ffb98c" }} />
-            <span className="blob" style={{ width: 360, height: 360, right: "-4%", top: "4%", background: "#ffd6a5", animationDelay: "4s" }} />
-            <span className="blob" style={{ width: 300, height: 300, left: "38%", bottom: "-14%", background: "#ffc9a8", animationDelay: "8s" }} />
-          </div>
+      {/* ═══════════ HERO ═══════════ */}
+      <section
+        className="slot"
+        style={{
+          position: "relative",
+          minHeight: 660,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "150px 28px 90px",
+          backgroundImage: `url(${IMG.hero})`,
+        }}
+      >
+        {/* ล่างจางลงไปหาสีพื้น */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 1,
+            background:
+              "linear-gradient(180deg, rgba(3,16,26,.62) 0%, rgba(3,16,26,.15) 34%, rgba(3,16,26,.72) 78%, var(--abyss) 100%)",
+          }}
+        />
 
-          <div className="confetti" aria-hidden="true">
-            {CONFETTI.map((c) => (
-              <i key={c.l} style={{ left: c.l, background: c.c, animationDelay: c.d, animationDuration: `${c.r}s` }} />
-            ))}
-          </div>
-
-          <div style={{ position: "relative", maxWidth: 820, margin: "0 auto" }}>
-            <div className="rise" style={{ display: "flex", justifyContent: "center" }}>
-              <div className="seal">
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="2.7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1240, margin: "0 auto", width: "100%" }}>
+          {/* โลโก้กลาง */}
+          <div className="rise float" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
+            <div style={{ textAlign: "center" }}>
+              <Crest size={76} />
+              <p className="display" style={{ fontSize: 42, margin: "10px 0 0", letterSpacing: ".14em" }}>
+                HamsterHub
+              </p>
             </div>
+          </div>
 
-            <p className="eyebrow rise" style={{ margin: "30px 0 0", animationDelay: ".08s" }}>
+          {/* บล็อกข้อความชิดซ้าย */}
+          <div className="rise" style={{ maxWidth: 620, animationDelay: ".15s" }}>
+            <p className="eyebrow" style={{ margin: "0 0 12px", color: "var(--orange)" }}>
               Registration Complete
             </p>
 
-            <h1 className="display rise" style={{ fontSize: "clamp(40px, 8vw, 78px)", margin: "14px 0 0", animationDelay: ".15s" }}>
-              ขอบคุณที่ลงทะเบียน
-              <br />
-              <span
-                style={{
-                  background: "linear-gradient(120deg, var(--brand-lit), var(--brand) 42%, var(--brand-deep))",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 22, flexWrap: "wrap" }}>
+              <h1 className="display-th" style={{ fontSize: "clamp(28px,4.2vw,42px)", margin: 0, flex: 1, minWidth: 280 }}>
+                ขอบคุณที่ลงทะเบียน
+                <br />
                 กับ HamsterHub
-              </span>
-            </h1>
-
-            <p className="lead rise" style={{ maxWidth: 520, margin: "24px auto 0", animationDelay: ".22s" }}>
-              ทีมงานจะติดต่อกลับพร้อมรายละเอียดกิจกรรมให้เร็ว ๆ นี้ ระหว่างนี้มาดูกันว่ามีอะไรรออยู่บ้าง
-            </p>
-
-            <div
-              className="rise"
-              style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 34, animationDelay: ".3s" }}
-            >
-              <a className="btn btn-primary" href="#activity">
+              </h1>
+              <a className="btn btn-orange" href="#activity" style={{ marginTop: 6 }}>
                 ดูข้อมูลกิจกรรม
               </a>
-              <a className="btn btn-ghost" href="#courses">
-                คอร์สอื่น ๆ
-              </a>
+            </div>
+
+            <p className="body-sm" style={{ margin: "18px 0 0", maxWidth: 500 }}>
+              การลงทะเบียนของคุณเสร็จสมบูรณ์แล้ว ทีมงานจะติดต่อกลับพร้อมรายละเอียดกิจกรรมให้เร็ว ๆ นี้
+              ระหว่างนี้เลื่อนลงไปดูกันได้เลยว่ามีอะไรรออยู่บ้าง
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ ข้อมูลกิจกรรม (การ์ดข่าว) ═══════════ */}
+      <section id="activity" style={{ padding: "0 28px 84px", marginTop: -40, position: "relative", zIndex: 5 }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 20 }}>
+            {ACTIVITY_CARDS.map((c, i) => (
+              <article key={c.title} className="framed lift" style={{ background: "rgba(7,38,57,.55)", border: "1px solid var(--line-soft)" }}>
+                <div className="slot" style={{ height: 168, backgroundImage: `url(${c.img})`, position: "relative" }}>
+                  <span className="tag" style={{ position: "absolute", top: 10, left: 10, background: c.tagColor, zIndex: 2 }}>
+                    {c.tag}
+                  </span>
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 40%,rgba(3,16,26,.9))", zIndex: 1 }} />
+                  <div style={{ position: "absolute", left: 16, right: 16, bottom: 12, zIndex: 2 }}>
+                    <p className="display-th" style={{ fontSize: 16, margin: 0 }}>{c.title}</p>
+                    <p className="eyebrow" style={{ margin: "4px 0 0", fontSize: 8.5 }}>{c.meta}</p>
+                  </div>
+                </div>
+                <p className="body-sm" style={{ margin: 0, padding: "16px 18px 20px" }}>{c.body}</p>
+                {i === ACTIVITY_CARDS.length - 1 && null}
+              </article>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 26, flexWrap: "wrap" }}>
+            <p className="body-sm" style={{ margin: 0, flex: 1, minWidth: 260 }}>
+              รอบ Specials จะย่นเวลาเหลือ 48 ชั่วโมง เร่งเครื่องกว่าเดิม — ทีมงานจะแจ้งวันเวลาที่แน่นอนทางอีเมลและ LINE อีกครั้ง
+            </p>
+            <a className="btn btn-orange" href="https://www.hamsterhub.co/gamejam" target="_blank" rel="noopener noreferrer">
+              ดูกิจกรรมทั้งหมด
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ ทำไมต้อง HamsterHub ═══════════ */}
+      <section style={{ padding: "40px 28px 90px", position: "relative" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,.85fr) minmax(0,1.15fr)", gap: 40, alignItems: "center" }} className="why-grid">
+          {/* ตัวละคร */}
+          <div className="slot float" style={{ minHeight: 340, backgroundImage: `url(${IMG.why})`, backgroundSize: "contain", backgroundColor: "transparent", borderRadius: 8 }}>
+            <span style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 50%, rgba(23,120,158,.35), transparent 70%)", zIndex: 0 }} />
+          </div>
+
+          <div>
+            <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 14px", textAlign: "center" }}>
+              ทำไมต้อง HamsterHub?
+            </h2>
+            <div className="rule" style={{ marginBottom: 24 }}>
+              <Diamond />
+            </div>
+
+            <p className="body-sm" style={{ margin: "0 0 14px" }}>
+              เราคือ<span style={{ color: "var(--gold)" }}>ชมรมเท่ ๆ สำหรับคนครีเอทีฟ</span> ที่เชื่อว่าการเรียนเขียนโค้ดและทำเกม
+              ควรได้ลงมือทำจริงตั้งแต่วันแรก ไม่ใช่แค่นั่งฟังทฤษฎี
+            </p>
+            <p className="body-sm" style={{ margin: "0 0 26px" }}>
+              ตั้งแต่ปูพื้นฐาน ไปจนถึงส่งผลงานขึ้นเวทีระดับประเทศ มีพี่ Mentor และเพื่อนร่วมทางที่สนใจเรื่องเดียวกันคอยดันตลอดทาง
+            </p>
+
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+              {WHY_POINTS.map((w) => (
+                <div key={w.l1} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", border: "1px solid var(--line-soft)", background: "rgba(7,38,57,.5)", flex: "1 1 200px" }}>
+                  <span style={{ flexShrink: 0 }}>{w.icon === "shield" ? <ShieldIcon /> : <TrophyIcon />}</span>
+                  <div>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "var(--gold-lit)" }}>{w.l1}</p>
+                    <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--muted)" }}>{w.l2}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ══════════ ข้อมูลกิจกรรม — ตั๋ว ══════════ */}
-        <section id="activity" style={{ background: "var(--bg-cream)", padding: "76px 24px 84px" }}>
-          <Wrap>
-            <Head eyebrow="The Event" title="ข้อมูลกิจกรรม" sub="รูปแบบการแข่งขัน Game Jam ที่คุณลงทะเบียนไว้" />
+      {/* ═══════════ คอร์สอื่น ๆ (ฟีเจอร์ + แท็บ) ═══════════ */}
+      <section style={{ padding: "0 28px 90px" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 12px" }}>
+            คอร์สอื่น ๆ ที่น่าสนใจ
+          </h2>
+          <div className="rule rule-left" style={{ marginBottom: 34, maxWidth: 320 }}>
+            <Diamond />
+          </div>
 
-            {/* ตั๋วเข้างาน */}
-            <div className="ticket" style={{ marginBottom: 22 }}>
-              <div style={{ padding: "34px 34px 32px" }}>
-                <span className="chip">Game Jam</span>
-                <h3 className="display" style={{ fontSize: "clamp(24px,3.4vw,32px)", margin: "14px 0 26px" }}>
-                  Hamster Hub Game Jam
-                </h3>
-
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(112px,1fr))", gap: 18 }}>
-                  {ACTIVITY.map((a) => (
-                    <div key={a.label}>
-                      <p style={{ margin: "0 0 6px", fontSize: 11.5, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--muted)" }}>
-                        {a.label}
-                      </p>
-                      <p style={{ margin: 0, fontSize: 26, fontWeight: 800, color: "var(--ink)", lineHeight: 1.15 }}>{a.value}</p>
-                      <p style={{ margin: "2px 0 0", fontSize: 13.5, color: "var(--muted)" }}>{a.unit}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="ticket-stub">
-                <div>
-                  <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-                    <div style={{ width: 46, height: 46, borderRadius: "50%", background: "rgba(255,255,255,.2)", display: "grid", placeItems: "center" }}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="2.7" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                  </div>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: ".18em", opacity: 0.8 }}>STATUS</p>
-                  <p style={{ margin: "6px 0 0", fontSize: 20, fontWeight: 800 }}>ยืนยันแล้ว</p>
-                </div>
-              </div>
-            </div>
-
-            {/* กติกา */}
-            <div className="card" style={{ padding: "30px 32px" }}>
-              <p className="display" style={{ fontSize: 19, margin: "0 0 20px" }}>
-                กติกาโดยสรุป
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(290px,1fr))", gap: 16 }}>
-                {RULES.map((r) => (
-                  <div key={r} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, marginTop: 1 }}>
-                      <CheckDot />
-                    </span>
-                    <span style={{ fontSize: 15, lineHeight: 1.75, color: "var(--body)" }}>{r}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Wrap>
-        </section>
-
-        {/* ══════════ คอร์สอื่น ๆ ══════════ */}
-        <section id="courses" style={{ padding: "80px 24px 84px" }}>
-          <Wrap>
-            <Head eyebrow="Keep Going" title="คอร์สอื่น ๆ ที่น่าสนใจ" sub="ต่อยอดความสนุกได้ที่ hamsterhub.co" />
-
-            {/* การ์ดเด่น */}
-            <a
-              href={FEATURED.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card card-hover feature"
-              style={{ marginBottom: 20, overflow: "hidden", textDecoration: "none" }}
-            >
-              <div style={{ padding: "38px 36px" }}>
-                <span className="chip">{FEATURED.tag}</span>
-                <h3 className="display" style={{ fontSize: "clamp(28px,3.8vw,40px)", margin: "14px 0 12px" }}>
-                  {FEATURED.title}
-                </h3>
-                <p style={{ margin: "0 0 20px", fontSize: 15.5, lineHeight: 1.8, color: "var(--body)", maxWidth: 460 }}>
-                  {FEATURED.desc}
-                </p>
-                <div style={{ display: "grid", gap: 10, marginBottom: 24 }}>
-                  {FEATURED.points.map((p) => (
-                    <div key={p} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      <CheckDot />
-                      <span style={{ fontSize: 14.5, color: "var(--body)" }}>{p}</span>
-                    </div>
-                  ))}
-                </div>
-                <span className="link-more">
-                  ดูรายละเอียด <Chevron />
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 34, alignItems: "start" }} className="feat-grid">
+            {/* ซ้าย: ภาพใหญ่ */}
+            <a href={COURSES[0].href} target="_blank" rel="noopener noreferrer" className="framed" style={{ display: "block", textDecoration: "none" }}>
+              <div className="slot" style={{ aspectRatio: "16/9", backgroundImage: `url(${IMG.trailer})`, position: "relative", display: "grid", placeItems: "center" }}>
+                <span className="tag" style={{ position: "absolute", top: 12, left: 12, background: "var(--tag-green)", zIndex: 3 }}>
+                  แนะนำ
                 </span>
-              </div>
-
-              <div
-                style={{
-                  position: "relative",
-                  minHeight: 240,
-                  background: "linear-gradient(150deg, #ffb457, var(--brand) 55%, var(--brand-deep))",
-                  display: "grid",
-                  placeItems: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <Rings />
-                <div className="bob" style={{ position: "relative" }}>
-                  <HamsterMark size={92} color="#fff" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(3,16,26,.2) 40%,rgba(3,16,26,.92))", zIndex: 1 }} />
+                <span className="play" style={{ zIndex: 2 }}>
+                  <PlayIcon />
+                </span>
+                <div style={{ position: "absolute", left: 18, right: 18, bottom: 14, zIndex: 2 }}>
+                  <p className="display-th" style={{ fontSize: 17, margin: 0 }}>[แนะนำคอร์ส] Starways</p>
+                  <p className="eyebrow" style={{ margin: "5px 0 0", fontSize: 8.5 }}>
+                    รายเดือน · ยกเลิกได้ทุกเมื่อ
+                  </p>
                 </div>
               </div>
             </a>
 
-            {/* การ์ดที่เหลือ */}
-            <div className="grid-3">
-              {COURSES.map((c) => (
-                <a
-                  key={c.title}
-                  href={c.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card card-hover"
-                  style={{ display: "flex", flexDirection: "column", textDecoration: "none", overflow: "hidden" }}
-                >
-                  <div
-                    style={{
-                      position: "relative",
-                      height: 92,
-                      background: `linear-gradient(135deg, ${c.from}, ${c.to})`,
-                      display: "flex",
-                      alignItems: "flex-end",
-                      padding: "0 18px 12px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <span className="wm">{c.n}</span>
-                    <span
-                      style={{
-                        position: "relative",
-                        padding: "5px 12px",
-                        borderRadius: 999,
-                        background: "rgba(255,255,255,.9)",
-                        color: "var(--brand-deep)",
-                        fontSize: 11.5,
-                        fontWeight: 800,
-                      }}
-                    >
-                      {c.tag}
-                    </span>
-                  </div>
+            {/* ขวา: รายละเอียด + แท็บ */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <StarIcon />
+                <h3 className="display" style={{ fontSize: 19, margin: 0, letterSpacing: ".1em" }}>
+                  {COURSES[0].title}
+                </h3>
+              </div>
 
-                  <div style={{ padding: "20px 22px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
-                    <h3 style={{ margin: "0 0 9px", fontSize: 18, fontWeight: 800, color: "var(--ink)" }}>{c.title}</h3>
-                    <p style={{ margin: "0 0 18px", fontSize: 14.5, lineHeight: 1.78, color: "var(--body)", flex: 1 }}>{c.desc}</p>
-                    <span className="link-more">
-                      ดูรายละเอียด <Chevron />
-                    </span>
-                  </div>
+              <p className="body-sm" style={{ margin: "0 0 24px" }}>{COURSES[0].body}</p>
+
+              {/* แท็บคอร์ส */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
+                <Arrow dir="left" />
+                <div className="tabs">
+                  {COURSES.map((c, i) => (
+                    <a key={c.key} href={c.href} target="_blank" rel="noopener noreferrer" className={`tab${i === 0 ? " on" : ""}`} style={{ textDecoration: "none" }}>
+                      <span style={{ display: "block", fontFamily: "var(--font-cinzel), serif", fontSize: 9.5, letterSpacing: ".12em" }}>{c.tab1}</span>
+                      <span style={{ display: "block", marginTop: 3 }}>{c.tab2}</span>
+                    </a>
+                  ))}
+                </div>
+                <Arrow dir="right" />
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+                <a className="btn btn-orange" href={COURSES[0].href} target="_blank" rel="noopener noreferrer">
+                  ดูรายละเอียด
                 </a>
-              ))}
-            </div>
-          </Wrap>
-        </section>
-
-        {/* ══════════ แถบมืด: เวที + เป้าหมาย ══════════ */}
-        <section className="band-dark" style={{ padding: "80px 0 88px" }}>
-          {/* marquee */}
-          <div style={{ marginBottom: 76 }}>
-            <p className="eyebrow" style={{ textAlign: "center", margin: "0 0 22px", color: "var(--brand-lit)" }}>
-              National Stages
-            </p>
-            <div className="marquee">
-              <div>
-                {[...STAGES, ...STAGES, ...STAGES].map((s, i) => (
-                  <span key={`${s}-${i}`} className="stage-pill">
-                    {s}
-                  </span>
-                ))}
-              </div>
-              <div aria-hidden="true">
-                {[...STAGES, ...STAGES, ...STAGES].map((s, i) => (
-                  <span key={`b-${s}-${i}`} className="stage-pill">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p style={{ textAlign: "center", margin: "22px 24px 0", fontSize: 14.5, color: "rgba(255,255,255,.55)" }}>
-              ชาว HamsterHub ไปลุยกันมาแล้วบนเวทีเหล่านี้
-            </p>
-          </div>
-
-          <div style={{ padding: "0 24px" }}>
-            <Wrap>
-              <div style={{ textAlign: "center", marginBottom: 44 }}>
-                <p className="eyebrow" style={{ margin: "0 0 12px", color: "var(--brand-lit)" }}>
-                  The Road Ahead
-                </p>
-                <h2 className="display on-dark" style={{ fontSize: "clamp(26px,4.4vw,42px)", margin: "0 0 12px" }}>
-                  เป้าหมายในอนาคต
-                </h2>
-                <p style={{ margin: 0, fontSize: 15.5, color: "rgba(255,255,255,.5)" }}>เส้นทางที่เราอยากพาคุณไปให้ถึง</p>
-              </div>
-
-              <div className="grid-2">
-                {ROADMAP.map((r) => (
-                  <div
-                    key={r.n}
-                    style={{
-                      position: "relative",
-                      padding: "28px 26px",
-                      borderRadius: 20,
-                      border: r.highlight ? "1px solid rgba(242,104,31,.55)" : "1px solid rgba(255,255,255,.1)",
-                      background: r.highlight
-                        ? "linear-gradient(150deg, rgba(242,104,31,.18), rgba(255,255,255,.03))"
-                        : "rgba(255,255,255,.035)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 13,
-                        display: "grid",
-                        placeItems: "center",
-                        marginBottom: 16,
-                        fontSize: 14,
-                        fontWeight: 800,
-                        color: "#fff",
-                        background: r.highlight
-                          ? "linear-gradient(135deg, var(--brand-lit), var(--brand-deep))"
-                          : "rgba(255,255,255,.1)",
-                        boxShadow: r.highlight ? "0 8px 22px rgba(242,104,31,.4)" : "none",
-                      }}
-                    >
-                      {r.n}
-                    </div>
-                    <h3 style={{ margin: "0 0 9px", fontSize: 18.5, fontWeight: 800, color: "#fff" }}>{r.title}</h3>
-                    <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.8, color: "rgba(255,255,255,.62)" }}>{r.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </Wrap>
-          </div>
-        </section>
-
-        {/* ══════════ CTA ══════════ */}
-        <section style={{ padding: "78px 24px" }}>
-          <Wrap
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              borderRadius: 30,
-              padding: "58px 32px",
-              textAlign: "center",
-              background: "linear-gradient(140deg, var(--brand-lit), var(--brand) 46%, var(--brand-deep))",
-              boxShadow: "var(--shadow-lg)",
-            }}
-          >
-            <Rings />
-            <div style={{ position: "relative" }}>
-              <div className="bob" style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
-                <HamsterMark size={58} color="#fff" />
-              </div>
-              <h2 className="display" style={{ fontSize: "clamp(26px,4vw,38px)", margin: "0 0 12px", color: "#fff" }}>
-                พร้อมลุยต่อหรือยัง?
-              </h2>
-              <p style={{ margin: "0 auto 28px", maxWidth: 440, fontSize: 16, lineHeight: 1.8, color: "rgba(255,255,255,.9)" }}>
-                เข้าไปดูคอร์สและกิจกรรมทั้งหมด แล้วเลือกเส้นทางที่ใช่สำหรับคุณ
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-                <a className="btn btn-light" href="https://www.hamsterhub.co/" target="_blank" rel="noopener noreferrer">
-                  ไปที่ HamsterHub.co
-                </a>
-                <a
-                  className="btn"
-                  href="https://page.line.me/jkm4247u"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "#fff", border: "1.5px solid rgba(255,255,255,.55)" }}
-                >
+                <a className="eyebrow" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "var(--gold)" }}>
                   ทักแชทสอบถาม
                 </a>
               </div>
             </div>
-          </Wrap>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        {/* ══════════ FOOTER ══════════ */}
-        <footer style={{ borderTop: "1px solid var(--line-soft)", padding: "40px 24px 54px" }}>
-          <Wrap style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-              <HamsterMark size={32} />
-              <div>
-                <p style={{ margin: 0, fontWeight: 800, fontSize: 15, color: "var(--ink)" }}>HamsterHub</p>
-                <p style={{ margin: "1px 0 0", fontSize: 13, color: "var(--muted)" }}>ชมรมเท่ ๆ สำหรับคนครีเอทีฟ</p>
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ fontSize: 13.5, fontWeight: 600, color: "var(--body)", textDecoration: "none" }}
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          </Wrap>
-          <p style={{ maxWidth: 1120, margin: "26px auto 0", fontSize: 12.5, color: "var(--muted)", textAlign: "center" }}>
+      {/* ═══════════ เป้าหมายในอนาคต (แถวการ์ดล่าง) ═══════════ */}
+      <section style={{ padding: "0 28px 90px" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          <h2 className="display-th" style={{ fontSize: "clamp(24px,3.4vw,34px)", margin: "0 0 12px" }}>
+            เป้าหมายในอนาคต
+          </h2>
+          <div className="rule rule-left" style={{ marginBottom: 34, maxWidth: 320 }}>
+            <Diamond />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(272px,1fr))", gap: 20 }}>
+            {GOALS.map((g) => (
+              <article
+                key={g.title}
+                className="framed lift"
+                style={{
+                  background: "rgba(7,38,57,.55)",
+                  border: g.highlight ? "1px solid rgba(240,145,63,.5)" : "1px solid var(--line-soft)",
+                }}
+              >
+                <div className="slot" style={{ height: 176, backgroundImage: `url(${g.img})`, position: "relative", display: "grid", placeItems: "center" }}>
+                  <span className="tag" style={{ position: "absolute", top: 10, left: 10, background: g.highlight ? "var(--orange)" : "var(--tag-blue)", zIndex: 3 }}>
+                    {g.tag}
+                  </span>
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 45%,rgba(3,16,26,.92))", zIndex: 1 }} />
+                  <span className="play" style={{ zIndex: 2, width: 46, height: 46 }}>
+                    <PlusIcon />
+                  </span>
+                  <div style={{ position: "absolute", left: 16, right: 16, bottom: 12, zIndex: 2 }}>
+                    <p className="display-th" style={{ fontSize: 16, margin: 0 }}>{g.title}</p>
+                  </div>
+                </div>
+                <p className="body-sm" style={{ margin: 0, padding: "16px 18px 20px" }}>{g.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ FOOTER NAV ═══════════ */}
+      <div style={{ padding: "0 28px" }}>
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            borderTop: "1px solid var(--line-soft)",
+            padding: "26px 0",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px 8px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {FOOTER_NAV.map((f, i) => (
+            <span key={f} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <a className="navlink" href="https://www.hamsterhub.co/" style={{ fontSize: 12.5, color: i === 1 ? "var(--gold)" : undefined }}>
+                {f}
+              </a>
+              {i < FOOTER_NAV.length - 1 && <Diamond size={8} />}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════ FOOTER ═══════════ */}
+      <footer style={{ padding: "34px 28px 46px" }}>
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "flex",
+            gap: 28,
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+            <Crest size={38} />
+            <p className="display" style={{ fontSize: 21, margin: 0 }}>HamsterHub</p>
+          </div>
+
+          <p className="body-sm" style={{ margin: 0, flex: 1, minWidth: 260, fontSize: 12.5, borderLeft: "1px solid var(--line-soft)", paddingLeft: 24 }}>
+            ชมรมเท่ ๆ สำหรับคนครีเอทีฟ — เรียนเขียนโค้ดและสร้างเกมแบบลงมือทำจริง
+            ตั้งแต่<span style={{ color: "var(--gold)" }}>ปูพื้นฐาน</span>จนถึงส่งผลงานขึ้นเวทีระดับประเทศ
+          </p>
+
+          <span className="eyebrow" style={{ fontSize: 10 }}>TH</span>
+
+          <a className="btn btn-orange" href="https://page.line.me/jkm4247u" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", fontSize: 12.5 }}>
+            <ChatIcon /> ทักแชท
+          </a>
+        </div>
+
+        <div
+          style={{
+            maxWidth: 1240,
+            margin: "26px auto 0",
+            paddingTop: 18,
+            borderTop: "1px solid var(--line-soft)",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
+          <p style={{ margin: 0, fontSize: 11.5, color: "rgba(125,148,166,.7)" }}>
             © 2026 Hamster Hub · All rights reserved.
           </p>
-        </footer>
-      </main>
-    </>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            {[
+              { l: "Facebook", h: "https://www.facebook.com/HamsterHubThailand/" },
+              { l: "Instagram", h: "https://www.instagram.com/hamsterhub_ig/" },
+              { l: "LINE", h: "https://page.line.me/jkm4247u" },
+              { l: "X", h: "https://x.com/HamsterHub_" },
+            ].map((s) => (
+              <a key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11.5, color: "rgba(125,148,166,.7)", textDecoration: "none" }}>
+                {s.l}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+
+      {/* responsive collapses that need media queries */}
+      <style>{`
+        @media (max-width: 900px) {
+          .why-grid { grid-template-columns: 1fr !important; }
+          .feat-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </div>
   );
 }
 
 /* ─────────────────────────────────────────────
-   Building blocks
+   Marks & icons
    ───────────────────────────────────────────── */
 
-function Wrap({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  return <div style={{ maxWidth: 1120, margin: "0 auto", ...style }}>{children}</div>;
-}
-
-function Head({ eyebrow, title, sub }: { eyebrow: string; title: string; sub: string }) {
+/** โลโก้แฮมสเตอร์ในกรอบโล่ */
+function Crest({ size = 40 }: { size?: number }) {
   return (
-    <header style={{ textAlign: "center", marginBottom: 40 }}>
-      <p className="eyebrow" style={{ margin: "0 0 12px" }}>
-        {eyebrow}
-      </p>
-      <h2 className="display" style={{ fontSize: "clamp(26px,4.4vw,42px)", margin: "0 0 12px" }}>
-        {title}
-      </h2>
-      <p style={{ margin: 0, fontSize: 15.5, color: "var(--muted)" }}>{sub}</p>
-    </header>
-  );
-}
-
-/** concentric rings used behind gradient panels */
-function Rings() {
-  return (
-    <svg
-      viewBox="0 0 400 400"
-      aria-hidden="true"
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.22 }}
-      preserveAspectRatio="xMidYMid slice"
-    >
-      {[60, 110, 160, 210, 260].map((r) => (
-        <circle key={r} cx="200" cy="200" r={r} fill="none" stroke="#fff" strokeWidth="1.4" />
-      ))}
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 3 L58 13 v22 c0 14-11 22-26 26 C17 57 6 49 6 35 V13 Z" fill="rgba(4,22,35,.85)" stroke="var(--gold)" strokeWidth="1.6" />
+      <circle cx="23" cy="24" r="5" stroke="var(--gold)" strokeWidth="2" />
+      <circle cx="41" cy="24" r="5" stroke="var(--gold)" strokeWidth="2" />
+      <circle cx="32" cy="35" r="12" stroke="var(--gold)" strokeWidth="2" />
+      <circle cx="27.6" cy="33" r="1.9" fill="var(--gold)" />
+      <circle cx="36.4" cy="33" r="1.9" fill="var(--gold)" />
+      <path d="M32 38v1.8" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M28.6 41.6c1 1 2.1 1.5 3.4 1.5s2.4-.5 3.4-1.5" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
 
-function Chevron() {
+function Diamond({ size = 12 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M12 2 L22 12 L12 22 L2 12 Z" stroke="var(--gold)" strokeWidth="1.4" opacity=".85" />
+      <path d="M12 7 L17 12 L12 17 L7 12 Z" fill="var(--gold)" opacity=".5" />
+    </svg>
+  );
+}
+
+function Arrow({ dir }: { dir: "left" | "right" }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0, opacity: 0.6 }}>
+      <path
+        d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
+        stroke="var(--gold)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2.5l8 3v6.5c0 4.6-3.4 7.4-8 9.5-4.6-2.1-8-4.9-8-9.5V5.5z" stroke="var(--gold)" strokeWidth="1.5" />
+      <path d="M8.6 12.2l2.4 2.4 4.4-4.8" stroke="var(--orange)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TrophyIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 4h10v5a5 5 0 0 1-10 0z" stroke="var(--gold)" strokeWidth="1.5" />
+      <path d="M7 5.5H4.5V8a3 3 0 0 0 3 3M17 5.5h2.5V8a3 3 0 0 1-3 3" stroke="var(--gold)" strokeWidth="1.5" />
+      <path d="M12 14v3.5M8.5 20.5h7" stroke="var(--orange)" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 3l2.4 6.1L21 9.8l-4.9 4.2L17.6 21 12 17.4 6.4 21l1.5-7L3 9.8l6.6-.7z" stroke="var(--orange)" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ChatIcon() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function CheckDot() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-      <circle cx="12" cy="12" r="11" fill="var(--brand-soft)" />
-      <path d="M7.5 12.4l3.1 3.1 6-6.4" stroke="var(--brand)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function HamsterMark({ size = 30, color = "var(--brand)" }: { size?: number; color?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <circle cx="11" cy="10.5" r="5.2" stroke={color} strokeWidth="2.4" />
-      <circle cx="29" cy="10.5" r="5.2" stroke={color} strokeWidth="2.4" />
-      <circle cx="20" cy="22" r="12.5" stroke={color} strokeWidth="2.4" />
-      <circle cx="15.4" cy="20" r="1.9" fill={color} />
-      <circle cx="24.6" cy="20" r="1.9" fill={color} />
-      <path d="M20 25v1.6" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M16.6 28.4c1 1 2.1 1.5 3.4 1.5s2.4-.5 3.4-1.5" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M21 11.5a8 8 0 0 1-8 8H7l-3.5 2.5V11.5a8 8 0 0 1 8-8h1a8 8 0 0 1 8 8z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
     </svg>
   );
 }

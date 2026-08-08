@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Thai } from "next/font/google";
+import { Cinzel, Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const cinzel = Cinzel({
+  weight: ["400", "700", "900"],
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="th" className={`${inter.variable} ${notoThai.variable}`}>
+    <html lang="th" className={`${cinzel.variable} ${notoThai.variable}`}>
       <body style={{ fontFamily: "var(--font-thai), system-ui, sans-serif" }}>{children}</body>
     </html>
   );
