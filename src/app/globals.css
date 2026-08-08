@@ -6,10 +6,8 @@
 :root {
   --page:       #f4f1ee;
   --card:       #ffffff;
-  --cream:      #fdf8f4;
 
   --brand:      #f5731f;
-  --brand-lit:  #ff9a4d;
   --brand-deep: #dd5c0d;
   --brand-soft: #fdefe4;
 
@@ -122,18 +120,6 @@ body {
 .btn:hover { background: var(--brand-deep); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(245,115,31,.4); }
 .btn .dot { display: grid; place-items: center; width: 26px; height: 26px; }
 
-.linkmore {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14.5px;
-  font-weight: 800;
-  color: var(--brand);
-  text-decoration: none;
-  transition: gap .25s ease;
-}
-.linkmore:hover { gap: 11px; }
-
 /* circular arrow button on course cards */
 .round {
   display: grid;
@@ -160,26 +146,6 @@ a:hover .round { transform: translateX(3px); background: var(--brand-deep); }
   font-weight: 700;
 }
 
-.ring {
-  display: grid;
-  place-items: center;
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(245,115,31,.35);
-  color: var(--brand);
-  flex-shrink: 0;
-}
-
-.disc {
-  display: grid;
-  place-items: center;
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  background: var(--brand-soft);
-  color: var(--brand);
-  flex-shrink: 0;
-}
-
 .social {
   display: grid;
   place-items: center;
@@ -204,25 +170,9 @@ a:hover .round { transform: translateX(3px); background: var(--brand-deep); }
 .split      { display: grid; grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr); gap: 34px; align-items: center; }
 .split-nar  { display: grid; grid-template-columns: minmax(0,.72fr) minmax(0,1.28fr); gap: 34px; align-items: center; }
 .two        { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
-.four       { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 6px; }
-
-/* timeline rail behind the future steps */
-.rail { position: relative; }
-.rail::before {
-  content: "";
-  position: absolute;
-  top: 29px; left: 12%; right: 12%;
-  height: 1px;
-  background: rgba(245,115,31,.3);
-}
-
 @media (max-width: 900px) {
   .split, .split-nar { grid-template-columns: 1fr; gap: 26px; }
   .sec { padding: 30px 24px; }
-}
-@media (max-width: 700px) {
-  .four { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
-  .rail::before { display: none; }
 }
 @media (max-width: 520px) {
   .two { grid-template-columns: 1fr; }

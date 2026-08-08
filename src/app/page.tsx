@@ -12,41 +12,18 @@ const IMG = {
   courseMain: "/img/course-main.jpg", //   840×620  ภาพคอร์สที่สั่งซื้อ
   rec1: "/img/course-1.jpg", //            560×340  คอร์สแนะนำ 1
   rec2: "/img/course-2.jpg", //            560×340  คอร์สแนะนำ 2
-  footHamster: "/img/foot-hamster.png", // 340×340  แฮมสเตอร์โบกมือ (PNG พื้นใส)
 };
 
 /** คอร์สที่ลูกค้าเพิ่งซื้อ */
 const PURCHASED = {
   title: "วาดภาพดิจิทัล",
   subtitle: "สำหรับมือใหม่",
-  level: "ระดับเริ่มต้น",
-  perks: [
-    { icon: "play", label: "เข้าเรียนได้ทันที" },
-    { icon: "infinity", label: "เรียนได้ไม่จำกัด" },
-    { icon: "badge", label: "ใบประกาศนียบัตร" },
-  ],
 };
 
 /** คอร์สเรียนแนะนำ */
 const RECOMMENDED = [
   { img: IMG.rec1, title: "Procreate", desc: "วาดภาพบน iPad อย่างมืออาชีพ", level: "ระดับกลาง", price: "1,290.-" },
   { img: IMG.rec2, title: "พื้นฐานการถ่ายภาพ", desc: "สำหรับมือใหม่", level: "ระดับเริ่มต้น", price: "990.-" },
-];
-
-/** กิจกรรมสำหรับคุณ */
-const ACTIVITIES = [
-  { icon: "trophy", label: "CHALLENGE", l1: "ส่งผลงาน", l2: "ประจำเดือน" },
-  { icon: "people", label: "WORKSHOP", l1: "เวิร์กช็อปสด", l2: "จากผู้เชี่ยวชาญ" },
-  { icon: "chat", label: "COMMUNITY", l1: "แลกเปลี่ยนผลงาน", l2: "และไอเดีย" },
-  { icon: "gift", label: "SPECIAL EVENT", l1: "สิทธิพิเศษสำหรับ", l2: "สมาชิกเท่านั้น" },
-];
-
-/** Hamster Hub ในอนาคต */
-const FUTURE = [
-  { icon: "sprout", label: "NOW", l1: "คอร์สออนไลน์", l2: "และกิจกรรมสำหรับผู้เรียน", now: true },
-  { icon: "people", label: "NEXT", l1: "Community & Workshop", l2: "พื้นที่เรียนรู้และแลกเปลี่ยน" },
-  { icon: "gift", label: "COMING SOON", l1: "คอร์สใหม่", l2: "และกิจกรรมพิเศษ" },
-  { icon: "rocket", label: "THE FUTURE", l1: "Ecosystem การเรียนรู้", l2: "ที่ครบจบในที่เดียว" },
 ];
 
 const SOCIALS = [
@@ -71,10 +48,7 @@ export default function ThankYouPage() {
             </span>
           </a>
 
-          <a
-            href="https://www.hamsterhub.co/"
-            style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}
-          >
+          <a href="https://www.hamsterhub.co/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
             <span
               style={{
                 display: "grid",
@@ -138,26 +112,6 @@ export default function ThankYouPage() {
             <p style={{ margin: "4px 0 0", fontSize: "clamp(19px,2.4vw,24px)", fontWeight: 700, color: "var(--body)" }}>
               {PURCHASED.subtitle}
             </p>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "22px 0 0" }}>
-              <LevelIcon />
-              <span style={{ fontSize: 14, fontWeight: 600, color: "var(--body)" }}>{PURCHASED.level}</span>
-            </div>
-
-            <div style={{ display: "flex", gap: 26, marginTop: 26, flexWrap: "wrap" }}>
-              {PURCHASED.perks.map((p) => (
-                <div key={p.label} style={{ textAlign: "center", width: 86 }}>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <span className="ring">
-                      <Glyph name={p.icon} />
-                    </span>
-                  </div>
-                  <p className="tiny" style={{ marginTop: 9, fontSize: 12 }}>
-                    {p.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div
@@ -221,101 +175,6 @@ export default function ThankYouPage() {
         </div>
       </section>
 
-      {/* ═══════════ กิจกรรมสำหรับคุณ ═══════════ */}
-      <section className="wrap" style={{ marginBottom: 20 }}>
-        <div className="card sec split-nar">
-          <div>
-            <h2 className="h2">
-              กิจกรรม
-              <br />
-              สำหรับคุณ
-            </h2>
-            <p className="tiny" style={{ margin: "14px 0 0" }}>
-              อัปเดตกิจกรรมใหม่ ๆ
-              <br />
-              เพื่อการเรียนรู้และแลกเปลี่ยน
-            </p>
-            <a className="linkmore" href="https://www.hamsterhub.co/" style={{ marginTop: 16 }}>
-              ดูทั้งหมด <Chevron />
-            </a>
-          </div>
-
-          <div className="four">
-            {ACTIVITIES.map((a, i) => (
-              <div
-                key={a.label}
-                style={{
-                  textAlign: "center",
-                  padding: "0 10px",
-                  borderLeft: i === 0 ? "none" : "1px solid var(--line-soft)",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <span className="disc">
-                    <Glyph name={a.icon} size={26} />
-                  </span>
-                </div>
-                <p style={{ margin: "13px 0 0", fontSize: 13, fontWeight: 800, letterSpacing: ".04em", color: "var(--brand)" }}>
-                  {a.label}
-                </p>
-                <p className="tiny" style={{ margin: "7px 0 0", fontSize: 12.5 }}>
-                  {a.l1}
-                  <br />
-                  {a.l2}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════ Hamster Hub ในอนาคต ═══════════ */}
-      <section className="wrap" style={{ marginBottom: 20 }}>
-        <div className="card sec split-nar">
-          <div>
-            <h2 className="h2">
-              Hamster Hub
-              <br />
-              <span className="on-brand">ในอนาคต</span>
-            </h2>
-            <p className="tiny" style={{ margin: "14px 0 0" }}>
-              เรากำลังสร้างระบบนิเวศการเรียนรู้
-              <br />
-              ที่มากกว่าคอร์สออนไลน์
-              <br />
-              เพื่อให้คุณเติบโตได้ในทุกเส้นทาง
-            </p>
-          </div>
-
-          <div className="four rail">
-            {FUTURE.map((f) => (
-              <div key={f.label} style={{ textAlign: "center", padding: "0 6px" }}>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <span
-                    className="disc"
-                    style={{
-                      background: f.now ? "var(--card)" : "var(--brand-soft)",
-                      border: f.now ? "2px solid var(--brand)" : "2px solid transparent",
-                      boxShadow: f.now ? "0 6px 18px rgba(245,115,31,.26)" : "none",
-                    }}
-                  >
-                    <Glyph name={f.icon} size={26} />
-                  </span>
-                </div>
-                <p style={{ margin: "13px 0 0", fontSize: 13, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink)" }}>
-                  {f.label}
-                </p>
-                <p className="tiny" style={{ margin: "7px 0 0", fontSize: 12.5 }}>
-                  {f.l1}
-                  <br />
-                  {f.l2}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══════════ FOOTER ═══════════ */}
       <footer className="wrap">
         <div
@@ -328,11 +187,6 @@ export default function ThankYouPage() {
             flexWrap: "wrap",
           }}
         >
-          <div className="mascot" style={{ width: 104, height: 104, flexShrink: 0 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMG.footHamster} alt="" />
-          </div>
-
           <div style={{ flex: 1, minWidth: 240 }}>
             <p style={{ margin: 0, fontSize: 15.5, fontWeight: 600, color: "var(--body)" }}>
               ขอบคุณที่เป็นส่วนหนึ่งของครอบครัว
@@ -423,86 +277,7 @@ function LevelIcon({ size = 16 }: { size?: number }) {
 }
 
 function Glyph({ name, size = 20 }: { name: string; size?: number }) {
-  const s = {
-    width: size,
-    height: size,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.7,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true,
-  };
-
   switch (name) {
-    case "play":
-      return (
-        <svg {...s}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor" stroke="none" />
-        </svg>
-      );
-    case "infinity":
-      return (
-        <svg {...s}>
-          <path d="M6.8 8.5c2 0 3 1.6 5.2 3.5s3.2 3.5 5.2 3.5a3.5 3.5 0 1 0 0-7c-2 0-3 1.6-5.2 3.5s-3.2 3.5-5.2 3.5a3.5 3.5 0 1 1 0-7z" />
-        </svg>
-      );
-    case "badge":
-      return (
-        <svg {...s}>
-          <path d="M6 3h12v11l-6 3.5L6 14z" />
-          <path d="M9.5 8.8l1.9 1.9 3.3-3.4" />
-        </svg>
-      );
-    case "trophy":
-      return (
-        <svg {...s}>
-          <path d="M7 4h10v5a5 5 0 0 1-10 0z" />
-          <path d="M7 5.5H4.5V8a3 3 0 0 0 3 3M17 5.5h2.5V8a3 3 0 0 1-3 3" />
-          <path d="M12 14v3.5M8.5 20.5h7" />
-        </svg>
-      );
-    case "people":
-      return (
-        <svg {...s}>
-          <circle cx="9" cy="8" r="3" />
-          <circle cx="17" cy="9.5" r="2.3" />
-          <path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 19a4.6 4.6 0 0 1 4.5-4.4" />
-        </svg>
-      );
-    case "chat":
-      return (
-        <svg {...s}>
-          <path d="M20.5 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2.4V11.5A7.5 7.5 0 0 1 11 4h2a7.5 7.5 0 0 1 7.5 7.5z" />
-          <path d="M8.6 11h6.8M8.6 14.4h4.2" />
-        </svg>
-      );
-    case "gift":
-      return (
-        <svg {...s}>
-          <rect x="3" y="9" width="18" height="4" rx="1" />
-          <path d="M4.6 13v7.4h14.8V13M12 9v11.4" />
-          <path d="M12 9S10.6 4 8.2 4a2.1 2.1 0 0 0 0 5M12 9s1.4-5 3.8-5a2.1 2.1 0 0 1 0 5" />
-        </svg>
-      );
-    case "sprout":
-      return (
-        <svg {...s}>
-          <path d="M12 20v-7" />
-          <path d="M12 13c0-3.4-2.4-5.6-6-5.6 0 3.4 2.4 5.6 6 5.6z" />
-          <path d="M12 13c0-3.9 2.4-6.4 6-6.4 0 3.9-2.4 6.4-6 6.4z" />
-        </svg>
-      );
-    case "rocket":
-      return (
-        <svg {...s}>
-          <path d="M12 2.6c3.2 2.3 5 5.7 5 9.4l-2.4 3.4H9.4L7 12c0-3.7 1.8-7.1 5-9.4z" />
-          <circle cx="12" cy="10.4" r="1.9" />
-          <path d="M9.4 15.4L7 18.6l3-.6M14.6 15.4l2.4 3.2-3-.6M10.6 20.4h2.8" />
-        </svg>
-      );
     case "facebook":
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -517,7 +292,17 @@ function Glyph({ name, size = 20 }: { name: string; size?: number }) {
       );
     case "instagram":
       return (
-        <svg {...s} strokeWidth={1.9}>
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
           <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
           <circle cx="12" cy="12" r="4" />
           <circle cx="17.1" cy="6.9" r="1.1" fill="currentColor" stroke="none" />
