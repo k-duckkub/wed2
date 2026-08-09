@@ -18,6 +18,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th" className={notoThai.variable}>
+      <head>
+        {/* ไม่มี JS ก็ต้องอ่านได้ครบ — ปิดสถานะซ่อนของอนิเมชันทิ้ง */}
+        <noscript>
+          <style>{`.rv,.rv-fade,.rv-draw,.rv-wipe{opacity:1!important;transform:none!important;clip-path:none!important}
+.rv-draw path{stroke-dashoffset:0!important}.rv-draw circle{opacity:1!important}`}</style>
+        </noscript>
+      </head>
       <body>{children}</body>
     </html>
   );

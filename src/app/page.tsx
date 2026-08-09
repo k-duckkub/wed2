@@ -1,6 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+/**
+ * props สำหรับของที่ต้องเผยตัวตอนเลื่อนถึง
+ * cls   คลาสเดิมของ element
+ * delay หน่วงกี่ ms หลังจากตัวแรกของกลุ่มเริ่ม
+ * kind  "" จางพร้อมลอยขึ้น | "fade" จางเฉย ๆ | "draw" ลากเส้น | "wipe" กวาดซ้ายไปขวา
+ */
+function rv(
+  cls = "",
+  delay = 0,
+  kind: "" | "fade" | "draw" | "wipe" = "",
+  extra?: React.CSSProperties,
+) {
+  const k = kind ? ` rv-${kind}` : "";
+  return {
+    className: `${cls}${cls ? " " : ""}rv${k}`.trim(),
+    style: { transitionDelay: `${delay}ms`, ...extra },
+  };
+}
+
+/**
+ * เผยตัวทีละชิ้นตอนเลื่อนถึง แล้วเลิกเฝ้า — เลื่อนกลับขึ้นไปไม่เล่นซ้ำ
+ * ตั้ง rootMargin ล่าง -12% เพื่อให้เริ่มตอนโผล่พ้นขอบล่างมานิดหนึ่ง
+ * ไม่ใช้ threshold เพราะบล็อกที่สูงกว่าจอจะไม่มีวันถึงเกณฑ์
+ */
+function useReveal() {
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".rv"));
+    if (!els.length) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      els.forEach((el) => el.classList.add("in"));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
 
 /* ═════════════════════════════════════════════
    HamsterHub — หน้าขอบคุณ + คอมมูนิตี้
@@ -163,6 +213,7 @@ const FOOT = [
 ];
 
 export default function ThankYouPage() {
+  useReveal();
   return (
     <>
       <Nav />
@@ -186,24 +237,24 @@ function Nav() {
   return (
     <header className="nav">
       <div className="wrap nav-in">
-        <a className="brand" href="#top">
+        <a {...rv("brand", 0, "fade")} href="#top">
           <Slot k="logo" size={44} face="🐹" bg="var(--brand-soft)" plain />
           <b>HamsterHub</b>
         </a>
 
         <nav className="menu">
-          {MENU.map((m) => (
-            <a key={m} href="#top">
+          {MENU.map((m, i) => (
+            <a key={m} {...rv("", 540 + i * 55, "fade")} href="#top">
               {m}
             </a>
           ))}
         </nav>
 
         <div className="navbtns">
-          <a className="navlink" href="#top">
+          <a {...rv("navlink", 820, "fade")} href="#top">
             เข้าสู่ระบบ
           </a>
-          <a className="btn btn-sm" href="#top">
+          <a {...rv("btn btn-sm", 880, "fade")} href="#top">
             สมัครสมาชิก
           </a>
         </div>
@@ -241,7 +292,7 @@ function Hero() {
       <div className="hero">
         <Track />
 
-        <div className="finder">
+        <div {...rv("finder", 700)}>
           <div className="fcell">
             <p className="k">
               คอร์ส <Caret />
@@ -261,27 +312,35 @@ function Hero() {
 
         <div className="hero-grid">
           <div>
-            <span className="status">
+            <span {...rv("status", 0)}>
               <i /> ชำระเงินสำเร็จ · #{ORDER.id}
             </span>
 
-            <h1 className="h1" style={{ marginTop: 26 }}>
+            <h1 {...rv("h1", 70, "", { marginTop: 26 })}>
               ขอบคุณที่ขึ้นขบวน
               <br />
               เดียวกับพวกเรา
               <br />
               <span className="hdr-wrap">
                 <span className="on">แล้วเจอกันที่สถานีแรก</span>
-                <Swoosh />
+                {/* เส้นใต้มาทีหลังตัวหนังสือ ~0.6 วิ ตามคลิป */}
+                <Swoosh delay={680} />
               </span>
             </h1>
 
-            <p className="lead" style={{ marginTop: 22, maxWidth: 520 }}>
+            <p {...rv("lead", 150, "", { marginTop: 22, maxWidth: 520 })}>
               ที่นั่งของน้องเม่นถูกจองแล้ว รถไฟออกเดินทาง {ORDER.depart} ระหว่างนี้
               ไปทักทายเพื่อนร่วมรุ่นในคอมมูนิตี้ก่อนได้เลย
             </p>
 
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 32 }}>
+            <div
+              {...rv("", 220, "", {
+                display: "flex",
+                gap: 14,
+                flexWrap: "wrap",
+                marginTop: 32,
+              })}
+            >
               <a className="btn" href="#top">
                 เข้าคอมมูนิตี้ <span aria-hidden="true">→</span>
               </a>
@@ -301,14 +360,17 @@ function Hero() {
 /** เส้นทางประ ๆ ตกแต่งมุมบนซ้ายของฮีโร่ */
 function Track() {
   return (
-    <svg className="track" width="300" height="74" viewBox="0 0 300 74" fill="none" aria-hidden="true">
+    <svg
+      {...rv("track", 980, "wipe")}
+      width="300" height="74" viewBox="0 0 300 74" fill="none" aria-hidden="true"
+    >
       <path
         d="M6 62 C 62 62 66 14 136 14 S 214 52 294 22"
         stroke="var(--brand)"
         strokeWidth="3"
         strokeDasharray="2 11"
         strokeLinecap="round"
-        opacity=".55"
+        opacity=".47"
       />
       <circle cx="136" cy="14" r="7" fill="var(--brand)" />
     </svg>
@@ -319,33 +381,34 @@ function Track() {
 function Cluster() {
   return (
     <div className="cluster">
-      <span className="panel" style={{ left: "26%", top: "26%", width: "52%", height: "44%" }} />
-      <Squiggle />
+      <span {...rv("panel", 240, "", { left: "26%", top: "26%", width: "52%", height: "44%" })} />
+      <Squiggle delay={1080} />
 
-      <Slot k="main" size={132} bg="#cfe4ff" face="🧑" style={{ left: "34%", top: "31%" }} main />
-      <Slot k="a" size={80} bg="#dff2e3" face="🧒" style={{ left: "4%", top: "13%" }} />
-      <Slot k="b" size={86} bg="#ffdfe0" face="👧" style={{ left: "2%", top: "58%" }} />
-      <Slot k="c" size={74} bg="#e6e0ff" face="🧑‍🦱" style={{ right: "4%", top: "17%" }} />
-      <Slot k="d" size={80} bg="#ffe6cf" face="👦" style={{ right: "0%", top: "47%" }} />
-      <Slot k="e" size={66} bg="#d9f0f5" face="🧒" style={{ left: "44%", bottom: "2%" }} />
+      {/* คนกลางมาก่อน แล้วค่อยไล่ออกไปรอบ ๆ ทีละ 70ms */}
+      <Slot k="main" size={132} bg="#cfe4ff" face="🧑" style={{ left: "34%", top: "31%" }} main delay={280} />
+      <Slot k="a" size={80} bg="#dff2e3" face="🧒" style={{ left: "4%", top: "13%" }} delay={350} />
+      <Slot k="c" size={74} bg="#e6e0ff" face="🧑‍🦱" style={{ right: "4%", top: "17%" }} delay={420} />
+      <Slot k="b" size={86} bg="#ffdfe0" face="👧" style={{ left: "2%", top: "58%" }} delay={490} />
+      <Slot k="d" size={80} bg="#ffe6cf" face="👦" style={{ right: "0%", top: "47%" }} delay={560} />
+      <Slot k="e" size={66} bg="#d9f0f5" face="🧒" style={{ left: "44%", bottom: "2%" }} delay={630} />
 
-      <span className="bubble" style={{ left: "26%", top: "16%" }}>
+      <span {...rv("bubble", 720, "fade", { left: "26%", top: "16%" })}>
         ยินดีต้อนรับ!
       </span>
-      <span className="bubble b-brand tail-r" style={{ right: "2%", top: "36%", animationDelay: "1.3s" }}>
+      <span {...rv("bubble b-brand tail-r", 800, "fade", { right: "2%", top: "36%", animationDelay: "1.3s" })}>
         มาเล่นด้วยกัน!
       </span>
-      <span className="bubble tail-r" style={{ right: "20%", bottom: "14%", animationDelay: "2.2s" }}>
+      <span {...rv("bubble tail-r", 880, "fade", { right: "20%", bottom: "14%", animationDelay: "2.2s" })}>
         สวัสดี~
       </span>
 
-      <span className="soc-chip" style={{ left: "6%", top: "39%", animationDelay: ".7s" }}>
+      <span {...rv("soc-chip", 940, "fade", { left: "6%", top: "39%", animationDelay: ".7s" })}>
         <IgIcon />
       </span>
-      <span className="soc-chip" style={{ right: "24%", bottom: "1%", animationDelay: "1.9s" }}>
+      <span {...rv("soc-chip", 1000, "fade", { right: "24%", bottom: "1%", animationDelay: "1.9s" })}>
         <TtIcon />
       </span>
-      <span className="soc-chip" style={{ left: "62%", top: "19%", animationDelay: "2.7s" }}>
+      <span {...rv("soc-chip", 1060, "fade", { left: "62%", top: "19%", animationDelay: "2.7s" })}>
         <FbIcon />
       </span>
     </div>
@@ -361,6 +424,7 @@ function Slot({
   style,
   main,
   plain,
+  delay,
 }: {
   k: string;
   size: number;
@@ -369,20 +433,26 @@ function Slot({
   style?: React.CSSProperties;
   main?: boolean;
   plain?: boolean;
+  /** ใส่เมื่ออยากให้ช่องนี้เผยตัวตอนเลื่อนถึง ไม่ใส่ก็แสดงเลย (เช่นโลโก้ในเมนู) */
+  delay?: number;
 }) {
   const src = IMG[k];
+  const base = `slot${main ? " slot-main" : ""}`;
+  const look: React.CSSProperties = {
+    width: size,
+    height: size,
+    background: bg ?? "var(--brand-soft)",
+    fontSize: Math.round(size * 0.42),
+    ...(plain ? { position: "relative", boxShadow: "none" } : {}),
+    ...style,
+  };
+  const props =
+    delay === undefined
+      ? { className: base, style: look }
+      : rv(base, delay, "", look);
+
   return (
-    <span
-      className={`slot${main ? " slot-main" : ""}`}
-      style={{
-        width: size,
-        height: size,
-        background: bg ?? "var(--brand-soft)",
-        fontSize: Math.round(size * 0.42),
-        ...(plain ? { position: "relative", boxShadow: "none" } : {}),
-        ...style,
-      }}
-    >
+    <span {...props}>
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt="" />
@@ -399,8 +469,8 @@ function Stats() {
     <section className="statband">
       <div className="wrap">
         <div className="stats">
-          {STATS.map((s) => (
-            <div className="stat" key={s.l}>
+          {STATS.map((s, i) => (
+            <div {...rv("stat", i * 90)} key={s.l}>
               <b className="num">{s.n}</b>
               <span>{s.l}</span>
             </div>
@@ -416,15 +486,15 @@ function Agenda() {
   return (
     <section className="wrap" style={{ paddingTop: 82 }}>
       <div className="hdr-wrap">
-        <h2 className="h2">ตารางเดินรถของน้อง</h2>
+        <h2 {...rv("h2", 0)}>ตารางเดินรถของน้อง</h2>
       </div>
-      <p className="sub" style={{ marginTop: 12, marginBottom: 38, maxWidth: 560 }}>
+      <p {...rv("sub", 90, "", { marginTop: 12, marginBottom: 38, maxWidth: 560 })}>
         ทุกอย่างหลังจากนี้เรียงไว้ให้แล้ว ไม่ต้องเดาว่าต้องทำอะไรต่อ
       </p>
 
       <ol className="rail-list">
-        {AGENDA.map((a) => (
-          <li className={`stopitem${a.now ? " now" : ""}`} key={a.h}>
+        {AGENDA.map((a, i) => (
+          <li {...rv(`stopitem${a.now ? " now" : ""}`, i * 110)} key={a.h}>
             <span className="dotmark" aria-hidden="true" />
             <div className="stopbody">
               <div className="stophead">
@@ -451,24 +521,24 @@ function Courses() {
     <section className="wrap" style={{ paddingTop: 96 }}>
       <div className="sec-head">
         <div>
-          <h2 className="h2">
+          <h2 {...rv("h2", 0)}>
             ขึ้นรถขบวนถัดไป
             <br />
             <span className="on">ด้วยกันไหม</span>
           </h2>
-          <p className="sub" style={{ marginTop: 14, maxWidth: 470 }}>
+          <p {...rv("sub", 90, "", { marginTop: 14, maxWidth: 470 })}>
             สมาชิกที่จองที่นั่งแล้วได้สิทธิ์เลือกรอบก่อนเปิดขายทั่วไป
             ทักทีมงานในคอมมูนิตี้เพื่อขอรายละเอียดได้เลย
           </p>
         </div>
-        <a className="btn-w" href="#top">
+        <a {...rv("btn-w", 170)} href="#top">
           ดูคอร์สทั้งหมด <span aria-hidden="true">→</span>
         </a>
       </div>
 
       <div className="ccards">
-        {COURSES.map((c) => (
-          <article className="ccard" key={c.h}>
+        {COURSES.map((c, i) => (
+          <article {...rv("ccard", 220 + i * 110)} key={c.h}>
             <div className="cthumb" style={{ background: c.bg }}>
               {IMG[c.k] ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -503,18 +573,24 @@ function Roadmap() {
       <div className="wrap">
         <div className="sec-head">
           <div>
-            <h2 className="h2" style={{ color: "#fff" }}>
+            <h2 {...rv("h2", 0, "", { color: "#fff" })}>
               สถานีต่อไปที่เรากำลังสร้าง
             </h2>
-            <p className="sub" style={{ marginTop: 14, maxWidth: 520, color: "rgba(255,255,255,.78)" }}>
+            <p
+              {...rv("sub", 90, "", {
+                marginTop: 14,
+                maxWidth: 520,
+                color: "rgba(255,255,255,.78)",
+              })}
+            >
               เปิดให้ดูตรง ๆ ว่ากำลังทำอะไรอยู่ อยากได้อันไหนก่อน บอกเราได้ในคอมมูนิตี้
             </p>
           </div>
         </div>
 
         <div className="rcards">
-          {ROADMAP.map((r) => (
-            <article className={`rcard${r.on ? " live" : ""}`} key={r.h}>
+          {ROADMAP.map((r, i) => (
+            <article {...rv(`rcard${r.on ? " live" : ""}`, 160 + i * 90)} key={r.h}>
               <span className={`rstat${r.on ? " on" : ""}`}>
                 {r.on && <i aria-hidden="true" />}
                 {r.s}
@@ -535,14 +611,14 @@ function Roadmap() {
 function Perks() {
   return (
     <section className="wrap" style={{ paddingTop: 76 }}>
-      <h2 className="h2">สิ่งที่รออยู่บนเส้นทาง</h2>
-      <p className="sub" style={{ marginTop: 12, marginBottom: 34 }}>
+      <h2 {...rv("h2", 0)}>สิ่งที่รออยู่บนเส้นทาง</h2>
+      <p {...rv("sub", 90, "", { marginTop: 12, marginBottom: 34 })}>
         สิทธิ์ทั้งหมดเปิดให้น้องแล้วตั้งแต่วันนี้
       </p>
 
       <div className="cards">
-        {PERKS.map((p) => (
-          <article className={`bcard${p.dark ? " dark" : ""}`} key={p.label}>
+        {PERKS.map((p, i) => (
+          <article {...rv(`bcard${p.dark ? " dark" : ""}`, 160 + i * 90)} key={p.label}>
             <div className="ico" aria-hidden="true">
               {p.icon}
             </div>
@@ -560,17 +636,17 @@ function Voices() {
   return (
     <section className="wrap" style={{ paddingTop: 96 }}>
       <div className="hdr-wrap">
-        <h2 className="h2">
+        <h2 {...rv("h2", 0)}>
           เสียงจากน้อง ๆ
           <br />
           และผู้ปกครอง
         </h2>
-        <Sparks />
+        <Sparks delay={620} />
       </div>
 
       <div className="quotes">
-        {VOICES.map((v) => (
-          <figure className="quote" key={v.name} style={{ margin: 0 }}>
+        {VOICES.map((v, i) => (
+          <figure {...rv("quote", 140 + i * 110, "", { margin: 0 })} key={v.name}>
             <div className="mark" aria-hidden="true">
               &ldquo;
             </div>
@@ -615,16 +691,16 @@ function Faq() {
     <section className="wrap" style={{ paddingTop: 96 }}>
       <div className="faqgrid">
         <div>
-          <h2 className="h2">
+          <h2 {...rv("h2", 0)}>
             มีคำถามอยากถาม
             <br />
             เราตอบให้ทุกข้อ
           </h2>
-          <p className="sub" style={{ marginTop: 16, marginBottom: 28, maxWidth: 400 }}>
+          <p {...rv("sub", 90, "", { marginTop: 16, marginBottom: 28, maxWidth: 400 })}>
             หรือฝากอีเมลไว้ ทีมงานจะส่งข่าวสารและกิจกรรมดีๆ ไปให้
           </p>
 
-          <form className="mailbar" onSubmit={submit}>
+          <form {...rv("mailbar", 170)} onSubmit={submit}>
             <input
               type="email"
               value={mail}
@@ -651,7 +727,7 @@ function Faq() {
           {FAQ.map((f, i) => {
             const on = open === i;
             return (
-              <div className="faqrow" key={f.q}>
+              <div {...rv("faqrow", i * 90)} key={f.q}>
                 <button
                   className="faqq"
                   type="button"
@@ -685,7 +761,7 @@ function Footer() {
   return (
     <footer className="foot">
       <div className="wrap foot-in">
-        <div>
+        <div {...rv("", 0)}>
           <p style={{ margin: 0, fontSize: 23, fontWeight: 800, color: "#fff" }}>HamsterHub</p>
           <p className="blurb">
             เรียนรู้ • สนุก • สร้างสรรค์ ไปด้วยกัน กับคอมมูนิตี้นักสร้างรุ่นเล็กที่ใหญ่ที่สุดในไทย
@@ -698,8 +774,8 @@ function Footer() {
           </div>
         </div>
 
-        {FOOT.map((col) => (
-          <div key={col.h}>
+        {FOOT.map((col, i) => (
+          <div {...rv("", 90 + i * 90)} key={col.h}>
             <h4>{col.h}</h4>
             <ul>
               {col.items.map((it) => (
@@ -721,31 +797,42 @@ function Footer() {
 
 /* ─────────── ไอคอน ─────────── */
 /** ขีดใต้วาดมือ */
-function Swoosh() {
+function Swoosh({ delay = 0 }: { delay?: number }) {
   return (
-    <svg className="doodle" width="100%" height="14" viewBox="0 0 300 14" preserveAspectRatio="none"
-      style={{ left: 0, bottom: -6 }} fill="none" aria-hidden="true">
-      <path d="M4 9 C 70 2 150 2 210 6 S 280 11 296 5" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" opacity=".65" />
+    <svg
+      {...rv("doodle", delay, "draw", { left: 0, bottom: -6 })}
+      width="100%" height="14" viewBox="0 0 300 14" preserveAspectRatio="none"
+      fill="none" aria-hidden="true"
+    >
+      <path d="M4 9 C 70 2 150 2 210 6 S 280 11 296 5" pathLength={1}
+        stroke="var(--brand)" strokeWidth="4" strokeLinecap="round" opacity=".65" />
     </svg>
   );
 }
 
 /** ประกายวาดมือ 3 ขีด */
-function Sparks() {
+function Sparks({ delay = 0 }: { delay?: number }) {
   return (
-    <svg className="doodle" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"
-      style={{ right: -34, top: -6 }}>
-      <path d="M4 20 L1 26M14 12 L12 3M23 16 L29 9" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" />
+    <svg
+      {...rv("doodle", delay, "draw", { right: -34, top: -6 })}
+      width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"
+    >
+      {/* แยกเป็นสามเส้น จะได้ลากพร้อมกันทั้งสามขีดเหมือนในคลิป */}
+      <path d="M4 20 L1 26" pathLength={1} stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M14 12 L12 3" pathLength={1} stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M23 16 L29 9" pathLength={1} stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
 
 /** เส้นหยักบาง ๆ ในกลุ่มอวตาร */
-function Squiggle() {
+function Squiggle({ delay = 0 }: { delay?: number }) {
   return (
-    <svg className="squiggle" width="150" height="150" viewBox="0 0 150 150" fill="none" aria-hidden="true"
-      style={{ right: "-4%", bottom: "4%" }}>
-      <path d="M6 140 C 60 132 96 108 92 78 S 44 44 56 22 S 118 8 144 30"
+    <svg
+      {...rv("squiggle", delay, "draw", { right: "-4%", bottom: "4%" })}
+      width="150" height="150" viewBox="0 0 150 150" fill="none" aria-hidden="true"
+    >
+      <path d="M6 140 C 60 132 96 108 92 78 S 44 44 56 22 S 118 8 144 30" pathLength={1}
         stroke="#b9b2aa" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
