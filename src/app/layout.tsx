@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo, Noto_Sans_Thai } from "next/font/google";
+import { Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
-
-/* หัวข้อ THANK YOU! ตัวหนามาก */
-const archivo = Archivo({
-  weight: ["800", "900"],
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 const notoThai = Noto_Sans_Thai({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -18,15 +10,15 @@ const notoThai = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "ขอบคุณที่เลือก Hamster Hub",
+  title: "ขอบคุณที่ขึ้นขบวนเดียวกับพวกเรา — HamsterHub",
   description:
-    "ขอบคุณที่สั่งซื้อคอร์สกับ Hamster Hub — ดูคอร์สที่คุณสั่งซื้อ คอร์สเรียนแนะนำ กิจกรรมสำหรับคุณ และ Hamster Hub ในอนาคต",
+    "ชำระเงินสำเร็จแล้ว มาเจอกันที่สถานีแรก — เข้าคอมมูนิตี้ ดูสิ่งที่รออยู่บนเส้นทาง และคำถามที่พบบ่อย",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="th" className={`${archivo.variable} ${notoThai.variable}`}>
-      <body style={{ fontFamily: "var(--font-thai), system-ui, sans-serif" }}>{children}</body>
+    <html lang="th" className={notoThai.variable}>
+      <body>{children}</body>
     </html>
   );
 }
