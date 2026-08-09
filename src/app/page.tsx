@@ -347,10 +347,11 @@ function MapArt({
 
       {/* ถนน */}
       <path d={ROAD} stroke="var(--road-edge)" strokeWidth="46" fill="none" strokeLinecap="round" />
-      <path ref={roadRef} d={ROAD} stroke="var(--road)" strokeWidth="36" fill="none" strokeLinecap="round" />
+      <path ref={roadRef} data-road="" d={ROAD} stroke="var(--road)" strokeWidth="36" fill="none" strokeLinecap="round" />
       <path d={ROAD} stroke="#fff" strokeWidth="3" strokeDasharray="16 20" fill="none" opacity=".8" strokeLinecap="round" />
       {/* ส่วนที่วิ่งผ่านมาแล้ว */}
       <path
+        data-progress=""
         d={ROAD}
         stroke="var(--brand)"
         strokeWidth="6"
@@ -373,6 +374,7 @@ function MapArt({
             <line x1="0" y1="0" x2="0" y2="-42" stroke="#9a7248" strokeWidth="6" strokeLinecap="round" />
             <g transform="translate(0 -62)">
               <rect
+                data-sign=""
                 x="-40"
                 y="-19"
                 width="80"
@@ -394,7 +396,7 @@ function MapArt({
                 #{i + 1}
               </text>
             </g>
-            {on && <circle cx="0" cy="0" r="9" fill="var(--brand)" stroke="#fff" strokeWidth="3" />}
+            <circle data-pin="" cx="0" cy="0" r="9" fill="var(--brand)" stroke="#fff" strokeWidth="3" opacity={on ? 1 : 0} />
           </g>
         );
       })}
