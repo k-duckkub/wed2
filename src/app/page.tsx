@@ -83,11 +83,14 @@ const STATS = [
 ];
 
 const PERKS = [
-  { icon: "🏆", label: "CHALLENGE", text: "ส่งผลงานประจำเดือน มีโค้ชคอมเมนต์ให้ทุกชิ้น", dark: false },
-  { icon: "🎓", label: "WORKSHOP", text: "เวิร์กช็อปสดจากผู้เชี่ยวชาญ ทุกเสาร์ 10:00 น.", dark: false },
-  { icon: "💬", label: "COMMUNITY", text: "แลกเปลี่ยนผลงานและไอเดียกับเพื่อนในรุ่น", dark: true },
-  { icon: "🎁", label: "SPECIAL EVENT", text: "กิจกรรมและสิทธิพิเศษสำหรับสมาชิกเท่านั้น", dark: false },
-];
+  { icon: "trophy", label: "CHALLENGE", text: "ส่งผลงานประจำเดือน มีโค้ชคอมเมนต์ให้ทุกชิ้น", dark: false },
+  { icon: "cap", label: "WORKSHOP", text: "เวิร์กช็อปสดจากผู้เชี่ยวชาญ ทุกเสาร์ 10:00 น.", dark: false },
+  { icon: "chat", label: "COMMUNITY", text: "แลกเปลี่ยนผลงานและไอเดียกับเพื่อนในรุ่น", dark: true },
+  { icon: "gift", label: "SPECIAL EVENT", text: "กิจกรรมและสิทธิพิเศษสำหรับสมาชิกเท่านั้น", dark: false },
+] as const;
+
+/** อีโมจิที่พุ่งออกมาตอนกดปุ่มเข้าคอมมูนิตี้ */
+const CONFETTI = ["🐹", "✨", "🎉", "🧡", "⭐", "🎈"];
 
 const FAQ = [
   {
@@ -244,8 +247,12 @@ function Nav() {
 
         <nav className="menu">
           {MENU.map((m, i) => (
-            <a key={m} {...rv("", 540 + i * 55, "fade")} href="#top">
-              {m}
+            <a key={m} {...rv("swap", 540 + i * 55, "fade")} href="#top">
+              {/* ตัวสำรองสีส้มเลื่อนเข้ามาจากขอบที่เมาส์เข้า — Direction Hover */}
+              <span className="swap-in">
+                <span>{m}</span>
+                <span aria-hidden="true">{m}</span>
+              </span>
             </a>
           ))}
         </nav>
@@ -261,6 +268,41 @@ function Nav() {
       </div>
     </header>
   );
+}
+
+/**
+ * อีโมจิพุ่งออกจากปุ่มตอนกด แล้วตกลงตามแรงโน้มถ่วง
+ * ยืมไอเดียมาจาก Emoji Burst ของ Originkit แต่เขียนเองด้วย CSS ล้วน
+ * ไม่ต้องพึ่งไลบรารีอนิเมชันใด ๆ
+ */
+function burst(e: React.MouseEvent<HTMLElement>) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const r = e.currentTarget.getBoundingClientRect();
+  const cx = r.left + r.width / 2;
+  const cy = r.top + r.height / 2;
+
+  const layer = document.createElement("div");
+  layer.className = "burst-layer";
+  document.body.appendChild(layer);
+
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement("span");
+    s.textContent = CONFETTI[i % CONFETTI.length];
+    // กระจายขึ้นบนเป็นรูปพัด แล้วปล่อยให้ตกเอง
+    const ang = -Math.PI / 2 + (Math.random() - 0.5) * 2.1;
+    const dist = 90 + Math.random() * 130;
+    s.style.left = `${cx}px`;
+    s.style.top = `${cy}px`;
+    s.style.setProperty("--dx", `${Math.cos(ang) * dist}px`);
+    s.style.setProperty("--dy", `${Math.sin(ang) * dist}px`);
+    s.style.setProperty("--rot", `${(Math.random() - 0.5) * 540}deg`);
+    s.style.setProperty("--sz", `${14 + Math.random() * 12}px`);
+    s.style.animationDelay = `${Math.random() * 90}ms`;
+    layer.appendChild(s);
+  }
+
+  window.setTimeout(() => layer.remove(), 1800);
 }
 
 /* ─────────── ฮีโร่ ─────────── */
@@ -312,7 +354,7 @@ function Hero() {
 
         <div className="hero-grid">
           <div>
-            <span {...rv("status", 0)}>
+            <span {...rv("status shiny", 0)}>
               <i /> ชำระเงินสำเร็จ · #{ORDER.id}
             </span>
 
@@ -341,7 +383,7 @@ function Hero() {
                 marginTop: 32,
               })}
             >
-              <a className="btn" href="#top">
+              <a className="btn btn-pop" href="#top" onClick={burst}>
                 เข้าคอมมูนิตี้ <span aria-hidden="true">→</span>
               </a>
               <button className="btn-w" type="button" onClick={receipt}>
@@ -617,15 +659,18 @@ function Perks() {
       </p>
 
       <div className="cards">
-        {PERKS.map((p, i) => (
+        {PERKS.map((p, i) => {
+          const Icon = PERK_ICON[p.icon];
+          return (
           <article {...rv(`bcard${p.dark ? " dark" : ""}`, 160 + i * 90)} key={p.label}>
             <div className="ico" aria-hidden="true">
-              {p.icon}
+              <Icon />
             </div>
             <p className="lb">{p.label}</p>
             <p>{p.text}</p>
           </article>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -837,6 +882,72 @@ function Squiggle({ delay = 0 }: { delay?: number }) {
     </svg>
   );
 }
+
+/* ─────────── ไอคอนขยับได้ในการ์ดสิทธิ์ ───────────
+   แนวเดียวกับไอคอน Lottie แต่วาดเป็น SVG + CSS เอง
+   ถ้าใช้ Lottie จริงต้องลากไลบรารีมาอีกราว 250KB เพื่อไอคอน 4 ตัว
+   แบบนี้หนักไม่ถึง 2KB และไม่ต้องโหลดไฟล์จากข้างนอกเลย            */
+
+/** ถ้วยรางวัล — มีแสงวาบพาดตอนโผล่และตอนชี้ */
+function TrophyIcon() {
+  return (
+    <svg className="ic ic-trophy" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path className="cup" d="M9 5h14v8a7 7 0 0 1-14 0z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d="M9 7H5.5v2A4.5 4.5 0 0 0 10 13.5M23 7h3.5v2a4.5 4.5 0 0 1-4.5 4.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M16 20v4M11 27h10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path className="shine" d="M12 7v6" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** หมวกรับปริญญา — พู่แกว่งตอนโผล่และตอนชี้ */
+function CapIcon() {
+  return (
+    <svg className="ic ic-cap" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M2 12 16 6l14 6-14 6z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d="M7 14.5V21c0 2.2 4 4 9 4s9-1.8 9-4v-6.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="tassel">
+        <path d="M29 12v6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        <circle cx="29" cy="20" r="2" fill="currentColor" />
+      </g>
+    </svg>
+  );
+}
+
+/** บับเบิลแชท — จุดสามจุดเด้งเป็นจังหวะเหมือนกำลังพิมพ์ */
+function ChatIcon() {
+  return (
+    <svg className="ic ic-chat" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M4 9a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v9a4 4 0 0 1-4 4H13l-6 5v-5a3 3 0 0 1-3-3z"
+        stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+      <circle className="d1" cx="11" cy="13.5" r="1.9" fill="currentColor" />
+      <circle className="d2" cx="16" cy="13.5" r="1.9" fill="currentColor" />
+      <circle className="d3" cx="21" cy="13.5" r="1.9" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** กล่องของขวัญ — ฝาเปิดแง้มตอนโผล่และตอนชี้ */
+function GiftIcon() {
+  return (
+    <svg className="ic ic-gift" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M6 15h20v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d="M16 15v13" stroke="currentColor" strokeWidth="2.2" />
+      <g className="lid">
+        <rect x="4" y="9" width="24" height="6" rx="1.6" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+        <path d="M16 9c-1-3-3-5-5-5a2.6 2.6 0 0 0 0 5zM16 9c1-3 3-5 5-5a2.6 2.6 0 0 1 0 5z"
+          stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+      </g>
+    </svg>
+  );
+}
+
+const PERK_ICON = {
+  trophy: TrophyIcon,
+  cap: CapIcon,
+  chat: ChatIcon,
+  gift: GiftIcon,
+} as const;
 
 function IgIcon() {
   return (
