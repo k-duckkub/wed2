@@ -1,0 +1,259 @@
+/* ═════════════════════════════════════════════
+   HamsterHub — หน้าชำระเงิน (ก่อนหน้า thank you)
+   โทนมืด ลึกลับ ต่างจากหน้า thank you (ส้ม-ขาว) โดยตั้งใจ
+   ตัวแปรสีทั้งหมดสโคปอยู่ใต้ .pay ตัวเดียว ไม่ไปแตะโทเค็นของหน้าอื่น
+   ═════════════════════════════════════════════ */
+.pay {
+  --pay-bg:     #0a0d18;
+  --pay-bg-2:   #12172a;
+  --pay-panel:  rgba(255,255,255,.045);
+  --pay-panel2: rgba(255,255,255,.07);
+  --pay-line:   rgba(255,255,255,.12);
+  --pay-line-soft: rgba(255,255,255,.07);
+  --pay-ink:    #f5f3ec;
+  --pay-body:   rgba(245,243,236,.68);
+  --pay-muted:  rgba(245,243,236,.48);
+  --pay-violet: #b28dff;
+  --pay-lime:   #d7f24e;
+  --pay-portal: #6d8dff;
+  --pay-line-green: #06c755;
+
+  background: var(--pay-bg);
+  color: var(--pay-body);
+  font-family: var(--font-thai), system-ui, sans-serif;
+  min-height: 100vh;
+  padding-bottom: 110px; /* กันแถบล่างที่ fixed ไว้บังเนื้อหา */
+  -webkit-font-smoothing: antialiased;
+}
+.pay * { box-sizing: border-box; }
+.pay a { color: inherit; }
+.pay-wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+
+/* ── ป้ายความปลอดภัยลอยมุมบนขวา ─────────── */
+.pay-secbar { display: flex; justify-content: flex-end; padding: 20px 22px 0; }
+.pay-sec {
+  display: inline-flex; align-items: center; gap: 11px;
+  padding: 11px 18px; border-radius: 16px;
+  background: rgba(10,13,24,.55); border: 1px solid var(--pay-line-soft);
+  backdrop-filter: blur(10px);
+}
+.pay-sec .lock {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  background: rgba(215,242,78,.14); color: var(--pay-lime);
+  display: grid; place-items: center;
+}
+.pay-sec b { display: block; font-size: 13.5px; font-weight: 700; color: var(--pay-ink); }
+.pay-sec span { display: block; font-size: 12px; color: var(--pay-muted); margin-top: 1px; }
+
+/* ── ฮีโร่: ประตูมิติ + การ์ดตั๋ว ─────────── */
+.pay-hero { position: relative; padding: 26px 22px 0; }
+.pay-scene {
+  position: relative; border-radius: 28px; overflow: hidden;
+  height: clamp(320px, 44vw, 460px);
+  background:
+    radial-gradient(60% 75% at 26% 40%, rgba(109,141,255,.30), transparent 70%),
+    linear-gradient(180deg, var(--pay-bg-2), var(--pay-bg) 85%);
+}
+.pay-scene svg.portal { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.pay-mascot {
+  position: absolute; left: 8%; bottom: 0; width: clamp(110px, 16vw, 170px);
+  display: flex; flex-direction: column; align-items: center;
+}
+.pay-mascot .face {
+  width: 100%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #ffe9c9, #f4c98a 62%, #e0a95f);
+  display: grid; place-items: center; font-size: clamp(46px, 7vw, 70px);
+  box-shadow: 0 0 0 6px rgba(255,255,255,.06), 0 22px 40px rgba(0,0,0,.5);
+  overflow: hidden;
+}
+.pay-mascot .face img { width: 100%; height: 100%; object-fit: cover; }
+.pay-mascot .pack {
+  margin-top: -14px; width: 46%; height: 30px; border-radius: 10px 10px 4px 4px;
+  background: #7a5a3a; box-shadow: 0 6px 14px rgba(0,0,0,.4);
+}
+
+/* การ์ดตั๋วกิจกรรม — ทับอยู่บนซีนมืด มุมขวาล่าง
+   ตำแหน่งอิง .pay-hero (พี่ของ .pay-scene) โดยตั้งใจ ไม่ใช่ .pay-scene เอง
+   เพราะ .pay-scene มี overflow:hidden ไว้ตัดขอบโค้ง ถ้าให้การ์ดนี้อิง/อยู่ใน
+   ซีนนั้น พอเลื่อนขึ้นทับขอบด้วย margin ติดลบ (ดูกฎ mobile ด้านล่าง) มันจะ
+   โดนตัดหายไปด้วย */
+.pay-ticket {
+  position: absolute; right: 5%; bottom: 8%; left: 5%;
+  max-width: 640px; margin-left: auto;
+  display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 20px;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: rgba(10,13,24,.72); border: 1px solid var(--pay-line);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 50px rgba(0,0,0,.45);
+}
+.pay-thumb {
+  width: 92px; height: 92px; border-radius: 14px; overflow: hidden; flex-shrink: 0;
+  background: linear-gradient(155deg, #7c3aed, #2563eb 55%, #0891b2);
+  display: grid; place-items: center; text-align: center;
+  font-size: 34px; color: #fff;
+}
+.pay-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.pay-pass { font-size: 12px; font-weight: 800; letter-spacing: .09em; color: var(--pay-violet); margin: 0; }
+.pay-title { font-size: clamp(17px, 2vw, 21px); font-weight: 800; color: var(--pay-ink); margin: 4px 0 10px; }
+.pay-meta { display: flex; flex-direction: column; gap: 5px; }
+.pay-meta li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--pay-body); list-style: none; }
+.pay-meta svg { flex-shrink: 0; color: var(--pay-muted); }
+
+.pay-price { text-align: right; padding-left: 16px; border-left: 1px solid var(--pay-line-soft); }
+.pay-price .lb { font-size: 11.5px; color: var(--pay-muted); margin: 0 0 4px; }
+.pay-price b { display: block; font-size: clamp(24px, 3vw, 32px); font-weight: 800; color: var(--pay-lime); letter-spacing: -.01em; }
+
+/* ── ส่วนชำระเงิน ───────────────────────── */
+.pay-section { padding: 46px 22px 0; }
+.pay-h2 { display: flex; align-items: center; gap: 13px; margin: 0; }
+.pay-h2 .chest {
+  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(215,242,78,.12); color: var(--pay-lime);
+  display: grid; place-items: center;
+}
+.pay-h2 b { font-size: clamp(19px, 2.4vw, 24px); font-weight: 800; color: var(--pay-ink); }
+.pay-h2sub { margin: 8px 0 0 55px; font-size: 14px; color: var(--pay-body); }
+.pay-h2sub b { color: var(--pay-lime); font-weight: 700; }
+
+.pay-grid {
+  margin-top: 30px;
+  display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
+  gap: 26px; align-items: stretch;
+}
+.pay-card {
+  border-radius: 22px; padding: 26px;
+  background: var(--pay-panel); border: 1px solid var(--pay-line-soft);
+}
+.pay-or {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13.5px; color: var(--pay-muted); font-weight: 700;
+  position: relative; width: 34px;
+}
+.pay-or::before, .pay-or::after {
+  content: ""; position: absolute; left: 50%; width: 1px; background: var(--pay-line-soft);
+  transform: translateX(-50%);
+}
+.pay-or::before { top: 0; bottom: calc(50% + 16px); }
+.pay-or::after { top: calc(50% + 16px); bottom: 0; }
+
+/* บัตรธนาคาร */
+.pay-bank-hd { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.pay-bank-hd .logo {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  background: #1a2540; display: grid; place-items: center; color: #6fb8ff; font-weight: 800; font-size: 15px;
+}
+.pay-bank-hd b { display: block; font-size: 15.5px; font-weight: 700; color: var(--pay-ink); }
+.pay-bank-hd span { display: block; font-size: 11.5px; letter-spacing: .06em; color: var(--pay-muted); margin-top: 1px; }
+
+.pay-row { padding: 14px 0; border-top: 1px solid var(--pay-line-soft); }
+.pay-row .lb { margin: 0 0 6px; font-size: 12.5px; color: var(--pay-muted); }
+.pay-row .val { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pay-row .val p { margin: 0; font-size: 15px; font-weight: 700; color: var(--pay-ink); }
+.pay-acct { font-size: clamp(19px, 2.2vw, 23px) !important; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+
+.pay-copy {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--pay-line);
+  background: rgba(255,255,255,.05); color: var(--pay-ink);
+  font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.pay-copy:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.22); }
+.pay-copy:active { transform: scale(.96); }
+.pay-copy.done { background: rgba(215,242,78,.16); border-color: rgba(215,242,78,.4); color: var(--pay-lime); }
+
+/* บัตร QR */
+.pay-qr-card { text-align: center; }
+.pay-qr-card h3 { margin: 0 0 18px; font-size: 15.5px; font-weight: 700; color: var(--pay-ink); }
+.pay-qr {
+  width: 190px; height: 190px; margin: 0 auto; border-radius: 16px; overflow: hidden;
+  background: #fff; display: grid; place-items: center; position: relative;
+}
+.pay-qr img { width: 100%; height: 100%; object-fit: contain; }
+.pay-qr .ph { color: #0a0d18; opacity: .82; }
+.pay-qr .badge {
+  position: absolute; inset: 0; margin: auto; width: 40px; height: 40px; border-radius: 10px;
+  background: var(--pay-portal); display: grid; place-items: center; color: #fff; font-size: 17px; font-weight: 800;
+}
+.pay-qr-cap { margin: 14px 0 0; font-size: 12.5px; color: var(--pay-muted); }
+
+/* ขั้นตอน 1-2-3 */
+.pay-steps { list-style: none; margin: 24px 0 0; padding: 0; }
+.pay-step { display: flex; align-items: flex-start; gap: 13px; position: relative; padding-bottom: 22px; }
+.pay-step:last-child { padding-bottom: 0; }
+.pay-step::before {
+  content: ""; position: absolute; left: 13px; top: 30px; bottom: -2px; width: 1px;
+  background: var(--pay-line-soft);
+}
+.pay-step:last-child::before { display: none; }
+.pay-step i {
+  width: 27px; height: 27px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,255,255,.08); border: 1px solid var(--pay-line);
+  display: grid; place-items: center; font-style: normal; font-size: 12.5px; font-weight: 800; color: var(--pay-ink);
+}
+.pay-step p { margin: 3px 0 0; font-size: 14px; color: var(--pay-body); }
+
+/* ── แถบล่างค้างที่จอ ───────────────────── */
+.pay-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: flex; gap: 12px; padding: 14px 22px;
+  background: rgba(8,10,18,.86); border-top: 1px solid var(--pay-line-soft);
+  backdrop-filter: blur(14px);
+}
+.pay-bar-inner { max-width: 1080px; margin: 0 auto; display: flex; gap: 12px; width: 100%; }
+.pay-notify, .pay-friend {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  border: 0; border-radius: 16px; cursor: pointer; text-decoration: none;
+  font-family: inherit; transition: transform .2s ease, box-shadow .2s ease;
+}
+.pay-notify {
+  flex: 1; padding: 13px 20px;
+  background: linear-gradient(100deg, #6a4cff, #b28dff 45%, var(--pay-lime));
+  color: #14102b;
+}
+.pay-notify .ic {
+  width: 30px; height: 30px; border-radius: 50%; background: rgba(20,16,43,.16);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.pay-notify .tx { text-align: left; }
+.pay-notify b { display: block; font-size: 14.5px; font-weight: 800; }
+.pay-notify span { display: block; font-size: 11.5px; opacity: .82; margin-top: 1px; }
+
+.pay-friend {
+  padding: 13px 22px; background: var(--pay-line-green); color: #fff; font-weight: 800; font-size: 14.5px;
+  white-space: nowrap;
+}
+.pay-notify:hover, .pay-friend:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.35); }
+
+/* ── responsive ─────────────────────────── */
+@media (max-width: 860px) {
+  /* ต้องรีเซ็ต right/bottom/left เป็น auto — กฎ desktop ตั้งไว้สำหรับ
+     position:absolute (right:5%; bottom:8%; left:5%) ค่าพวกนี้ไม่หายไปเฉย ๆ
+     ตอนเปลี่ยนเป็น relative มันยังมีผลเป็นระยะเลื่อนซ้อนกับ margin-top ทำให้
+     การ์ดขยับตำแหน่งผิดไปจากที่ตั้งใจ (position:relative ยังใช้ top/right/
+     bottom/left เป็นค่า offset จากตำแหน่งปกติได้เหมือน absolute) */
+  .pay-ticket {
+    position: relative; inset: auto;
+    margin: -60px 16px 0; grid-template-columns: auto 1fr;
+  }
+  .pay-price { grid-column: 1 / -1; text-align: left; border-left: 0; border-top: 1px solid var(--pay-line-soft); padding: 12px 0 0; margin-top: 4px; }
+  .pay-scene { height: clamp(260px, 60vw, 340px); }
+  .pay-grid { grid-template-columns: 1fr; }
+  .pay-or { width: auto; height: 34px; }
+  .pay-or::before, .pay-or::after { left: 0; right: 0; top: 50%; bottom: auto; height: 1px; width: auto; transform: translateY(-50%); }
+  .pay-or::before { right: calc(50% + 16px); }
+  .pay-or::after { left: calc(50% + 16px); }
+}
+@media (max-width: 560px) {
+  .pay-bar-inner { flex-direction: column; }
+  .pay-notify .tx { text-align: center; }
+  .pay-mascot { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pay-copy, .pay-notify, .pay-friend { transition: none; }
+}
